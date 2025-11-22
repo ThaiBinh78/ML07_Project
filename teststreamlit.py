@@ -11,18 +11,14 @@ import io
 # ----------------------
 # CONFIG
 # ----------------------
-BASE_DIR = Path(__file__).resolve().parent
-# If you want to use the uploaded models in /mnt/data, use those paths:
-DEFAULT_RF_PATH = BASE_DIR / "rf_pipeline.pkl"
-DEFAULT_ISO_PATH = BASE_DIR / "isolation_forest.pkl"
-DEFAULT_SAMPLE = BASE_DIR / "sample_data.csv"
+MODEL_PATH = "rf_pipeline.pkl"
+ISO_PATH = "isolation_forest.pkl"
+SAMPLE_PATH = "sample_data.csv"
+FI_CSV = "feature_importances.csv"
 
+PENDING_PATH = "pending_listings.csv"
+LOG_PATH = "prediction_logs.csv"
 
-PENDING_PATH = BASE_DIR / "pending_listings.csv"
-
-MODEL_PATH = DEFAULT_RF_PATH
-ISO_PATH = DEFAULT_ISO_PATH
-SAMPLE_PATH = DEFAULT_SAMPLE
 
 PENDING_PATH = BASE_DIR / "pending_listings.csv"
 LOG_PATH = BASE_DIR / "prediction_logs.csv"
@@ -489,3 +485,4 @@ else:
     st.markdown("- Email: thaibinh782k1@gmail.com")
     st.markdown("- Repo: https://github.com/ThaiBinh78/ML07_Project")
     st.markdown("- Ngày report: 22/11/2025")
+
