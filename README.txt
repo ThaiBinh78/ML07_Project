@@ -1,0 +1,1 @@
+Run: python train_model_optionA.py after placing the Excel file in the same folder.

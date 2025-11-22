@@ -1,0 +1,5 @@
+timestamp,mode,title,pred,price_input,anomaly_score,verdict
+2025-11-22 18:43:30,single,Bán SH Mode 125 chính chủ,111.08172222222215,,34.64110947157278,Bình thường
+2025-11-22 18:43:22,single,Bán SH Mode 125 chính chủ,23.53417222222224,,6.156150990515984,Bình thường
+2025-11-22 18:42:23,single,Bán vision chính chủ,18.542867721904774,,7.594547540530449,Bình thường
+2025-11-22 18:41:27,single,Bán SH Mode 125 chính chủ,23.53417222222224,,6.156150990515984,Bình thường
