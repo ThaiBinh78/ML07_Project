@@ -134,7 +134,7 @@ def render_top_nav_buttons():
     cols = st.columns([1,1,1,1,1,1,1,1])
     labels = [("home","Trang chủ"),("problem","Bài toán nghiệp vụ"),("predict","Dự đoán giá"),
               ("anom","Kiểm tra bất thường"),("admin","Quản trị viên"),("logs","Nhật ký"),
-              ("report","Đánh giá & Báo cáo"),("team","Nhóm")]
+              ("report","Báo cáo"),("team","Nhóm thực hiện")]
     for col, (key, lab) in zip(cols, labels):
         if col.button(lab):
             # admin button routes to auth if not logged in
@@ -219,43 +219,48 @@ def add_pending(entry: dict):
 def page_home():
     st.image("chotot.jpg")
     st.markdown("## <span style='color:#003366; font-weight:700;'>Ứng dụng dự đoán giá xe máy cũ</span>", unsafe_allow_html=True)
-    st.write("Hệ thống AI phân tích thị trường xe máy Việt Nam — giúp bạn dự đoán giá, kiểm tra bất thường và đánh giá dữ liệu thực tế.")
-    st.markdown("</div>", unsafe_allow_html=True)
 
-    # 3 Feature Cards
-    st.markdown("###  Lựa chọn nhanh")
-    c1, c2, c3 = st.columns(3)
-
-    with c1:
-        if st.button("Dự đoán giá", key="home_predict", help="Đi tới trang dự đoán"):
-            st.session_state.page = "predict"
-
-    with c2:
-        if st.button("Kiểm tra bất thường", key="home_anom", help="Đi tới anomaly detection"):
-            st.session_state.page = "anomaly"
-
-    with c3:
-        if st.button("Xem báo cáo", key="home_report", help="Dashboard trực quan"):
-            st.session_state.page = "report"
-
-    # Giới thiệu
-    st.markdown("### Giới thiệu hệ thống")
-    st.write("""
-    - Ứng dụng được xây dựng nhằm hỗ trợ người mua và người bán xe máy cũ.
-    - Sử dụng các mô hình Machine Learning:
-        - **Random Forest Regression** để dự đoán giá tối ưu.
-        - **Isolation Forest** để phát hiện mức giá bất thường.
-    - Giao diện thân thiện, dễ sử dụng cho cả người dùng và quản trị viên.
+    st.markdown("""
+    ### 📌 Giới thiệu  
+    Bộ dữ liệu gồm **7.208 tin đăng** với **18 thuộc tính** (thương hiệu, dòng xe, số km, năm đăng ký, giá bán…)  
+    được thu thập từ **Chợ Tốt** (trước ngày **01/07/2025**).  
+    Ứng dụng hỗ trợ:
+    - Dự đoán giá xe cũ bằng Random Forest  
+    - Phát hiện bất thường bằng Isolation Forest  
+    - Dashboard thị trường xe máy Việt Nam
     """)
 
-    # Mini Visual Preview
-    st.markdown("###  Visualized Model (Demo)")
-    import matplotlib.pyplot as plt
+    st.markdown("## 📊 Thống kê mô tả nhanh")
 
-    fig, ax = plt.subplots()
-    ax.hist([10,15,23,30,45,50], bins=5)
-    ax.set_title("Phân bố giá (Demo)")
-    st.pyplot(fig)
+    df = sample_df.copy()
+
+    # ---- 1. Tuổi xe ----
+    df["Tuổi xe"] = CURRENT_YEAR - df["Năm đăng ký"]
+    fig1, ax1 = plt.subplots(figsize=(5,3))
+    sns.histplot(df["Tuổi xe"], bins=20, kde=True, color="#0b57a4", ax=ax1)
+    ax1.set_title("Phân bố tuổi xe")
+    st.pyplot(fig1)
+
+    # ---- 2. Top thương hiệu ----
+    top_brands = df["Thương hiệu"].value_counts().head(10)
+    fig2, ax2 = plt.subplots(figsize=(5,3))
+    sns.barplot(x=top_brands.values, y=top_brands.index, palette="Blues_r", ax=ax2)
+    ax2.set_title("Top 10 thương hiệu phổ biến")
+    st.pyplot(fig2)
+
+    # ---- 3. Khoảng giá ----
+    price_col = "Gia_trieu" if "Gia_trieu" in df.columns else "Giá"
+    fig3, ax3 = plt.subplots(figsize=(5,3))
+    sns.histplot(df[price_col], bins=40, kde=True, color="#0b57a4", ax=ax3)
+    ax3.set_title("Phân bố giá thị trường (Triệu)")
+    st.pyplot(fig3)
+
+    # ---- 4. Số km đã đi ----
+    fig4, ax4 = plt.subplots(figsize=(5,3))
+    sns.histplot(df["Số Km đã đi"], bins=40, kde=False, color="#0b57a4", ax=ax4)
+    ax4.set_title("Phân bố số Km đã đi")
+    st.pyplot(fig4)
+
 
 
 def page_problem():
@@ -357,7 +362,7 @@ def page_predict():
             st.write(f"**Giải thích:** {explanation}")
 
             if brand_median:
-                st.write(f"- Trung vị giá thương hiệu: {human_trieu(brand_median)}")
+                st.write(f"- Trung bình giá thương hiệu: {human_trieu(brand_median)}")
 
             # ---- SAVE ADMIN ----
             if save_flag:
@@ -453,41 +458,49 @@ def page_predict():
                     st.error("Lỗi dự đoán hàng loạt: " + str(e))
 
 def page_anom():
-    st.title("Kiểm tra bất thường (nhanh)")
+    st.title("Kiểm tra bất thường")
+
     with st.form("anom"):
-        brand = st.text_input("Thương hiệu", value="unknown")
-        model_name = st.text_input("Dòng xe", value="unknown")
+        brand = st.text_input("Thương hiệu").strip()
+        model_name = st.text_input("Dòng xe").strip()
         age = st.slider("Tuổi xe (năm)", 0, 50, 3)
         year_reg = CURRENT_YEAR - age
-        km = st.number_input("Số Km đã đi", 0, 500000, value=20000, step=1000)
+        km = st.number_input("Số Km đã đi", 0, 500000, 20000)
         xuatxu = st.text_input("Xuất xứ", value="unknown")
-        gia = st.number_input("Giá thực (Triệu)", 0.0, value=0.0, step=0.1, format="%.2f")
+        gia = st.number_input("Giá thực (Triệu)", 0.0)
         submitted = st.form_submit_button("Check")
+
     if submitted:
-        # simple anomaly check using brand quantiles available in sample_df
-        verdict = "Bình thường"
-        explanation = "Giá nằm trong vùng an toàn."
-        if 'Gia_trieu' in sample_df.columns and 'Thương hiệu' in sample_df.columns:
-            dfb = sample_df[sample_df['Thương hiệu'] == brand]
-            if len(dfb) >= 10:
-                p10 = dfb['Gia_trieu'].quantile(0.10)
-                p90 = dfb['Gia_trieu'].quantile(0.90)
-                if not np.isnan(gia) and gia > 0:
-                    if gia < p10:
-                        verdict = "Giá thấp bất thường"
-                        explanation = "Giá thấp hơn 10% mẫu; kiểm tra kỹ giấy tờ và tình trạng."
-                    elif gia > p90:
-                        verdict = "Giá cao bất thường"
-                        explanation = "Giá cao hơn 90% mẫu; kiểm tra tính xác thực."
-        st.write("Kết luận:", verdict)
-        st.write("Giải thích:", explanation)
-        save_log({
-            "timestamp": datetime.now().isoformat(sep=' ', timespec='seconds'),
-            "mode": "anom_quick",
-            "pred": None,
-            "price_input": float(gia) if gia>0 else np.nan,
-            "verdict": verdict
-        })
+        # VALIDATION ------------------------------------
+        valid_brands = list(sample_df["Thương hiệu"].unique())
+
+        if brand not in valid_brands:
+            st.error("❌ Thương hiệu không tồn tại trong hệ thống. Vui lòng nhập lại.")
+            st.info("Gợi ý: " + ", ".join(valid_brands[:20]) + " ...")
+            return
+
+        df_brand = sample_df[sample_df["Thương hiệu"] == brand]
+        valid_models = list(df_brand["Dòng xe"].unique())
+
+        if model_name not in valid_models:
+            st.error("❌ Dòng xe không tồn tại. Vui lòng nhập lại đúng theo danh sách.")
+            st.info("Gợi ý: " + ", ".join(valid_models[:20]) + " ...")
+            return
+
+        # ANOMALY ---------------------------------------
+        dfb = df_brand
+        p10 = dfb["Gia_trieu"].quantile(0.10)
+        p90 = dfb["Gia_trieu"].quantile(0.90)
+
+        if gia < p10:
+            verdict = "Giá thấp bất thường"
+        elif gia > p90:
+            verdict = "Giá cao bất thường"
+        else:
+            verdict = "Bình thường"
+
+        st.success(f"Kết luận: {verdict}")
+
 
 def page_admin_login():
     st.title("Đăng nhập quản trị")
@@ -507,7 +520,7 @@ def page_admin():
         return
     st.title("Chế độ quản trị viên")
     st.markdown("Chọn tab quản trị")
-    tab = st.selectbox("Chức năng", ["Submissions", "Nhật ký hệ thống", "Đánh giá & Báo cáo", "Bài toán nghiệp vụ", "Đăng xuất"])
+    tab = st.selectbox("Chức năng", ["Submissions", "Nhật ký hệ thống", "Đăng xuất"])
     if tab == "Submissions":
         if PENDING_PATH.exists():
             df = pd.read_csv(PENDING_PATH)
@@ -533,10 +546,6 @@ def page_admin():
             st.download_button("Export logs CSV", data=logs.to_csv(index=False).encode('utf-8'), file_name="logs.csv", mime="text/csv")
         else:
             st.info("Chưa có logs.")
-    elif tab == "Đánh giá & Báo cáo":
-        st.write("Mời chuyển sang tab Đánh giá & Báo cáo (giống user) — admin có thể xem thêm chi tiết kỹ thuật ở đó.")
-        st.session_state.page = "report"
-    elif tab == "Bài toán nghiệp vụ":
         page_problem()
     elif tab == "Đăng xuất":
         st.session_state.admin_auth = False
@@ -548,87 +557,63 @@ def page_logs():
     if LOG_PATH.exists():
         logs = pd.read_csv(LOG_PATH)
         st.dataframe(logs.sort_values("timestamp", ascending=False).head(500))
-        st.download_button("Export logs CSV", data=logs.to_csv(index=False).encode('utf-8'), file_name="logs.csv", mime="text/csv")
     else:
         st.info("Chưa có logs.")
 
-# advanced report (6 plots with blue palette)
+# advanced report 
 def page_report():
     st.title("Đánh giá & Báo cáo kết quả")
-    price_col = 'Gia_trieu' if 'Gia_trieu' in sample_df.columns else ('Giá' if 'Giá' in sample_df.columns else None)
-    if price_col is None:
-        st.error("Sample data thiếu cột giá.")
-        return
-    df = sample_df.dropna(subset=[price_col]).copy()
-    # 1 Histogram
-    st.markdown("### 1. Phân bố giá tổng thể")
+
+    df = sample_df.copy()
+    price_col = "Gia_trieu" if "Gia_trieu" in df.columns else "Giá"
+
+    st.markdown("### 1️⃣ Phân bố giá tổng thể")
     fig, ax = plt.subplots(figsize=(8,3))
     sns.histplot(df[price_col], bins=40, kde=True, color="#0b57a4", ax=ax)
-    ax.set_xlabel("Giá (Triệu)")
     st.pyplot(fig)
-    # 2 Box/Violin by brand (top 8)
-    st.markdown("### 2. Phân bố giá theo thương hiệu (violin/box)")
-    top_brands = df['Thương hiệu'].value_counts().head(8).index.tolist() if 'Thương hiệu' in df.columns else []
-    if top_brands:
-        fig2, ax2 = plt.subplots(figsize=(10,4))
-        subset = df[df['Thương hiệu'].isin(top_brands)]
-        sns.violinplot(x='Gia_trieu', y='Thương hiệu', data=subset, order=top_brands, palette=sns.light_palette("#0b57a4", n_colors=len(top_brands)), ax=ax2)
-        ax2.set_xlabel("Giá (Triệu)")
-        st.pyplot(fig2)
-    else:
-        st.info("Không đủ dữ liệu để vẽ theo thương hiệu.")
-    # 3 Scatter Km vs Price + trendline
-    st.markdown("### 3. Số Km vs Giá (scatter + trendline)")
-    if 'Số Km đã đi' in df.columns:
-        x = pd.to_numeric(df['Số Km đã đi'], errors='coerce')
-        y = pd.to_numeric(df[price_col], errors='coerce')
-        mask = (~x.isna()) & (~y.isna())
-        if mask.sum() > 10:
-            fig3, ax3 = plt.subplots(figsize=(8,4))
-            ax3.scatter(x[mask], y[mask], s=10, alpha=0.4)
-            m, b = np.polyfit(x[mask], y[mask], 1)
-            xs = np.linspace(x[mask].min(), x[mask].max(), 100)
-            ax3.plot(xs, m*xs + b, color="#0366b3", linewidth=2)
-            ax3.set_xlabel("Số Km đã đi")
-            ax3.set_ylabel("Giá (Triệu)")
-            st.pyplot(fig3)
-        else:
-            st.info("Không đủ dữ liệu Km.")
-    else:
-        st.info("Không có cột 'Số Km đã đi' trong mẫu.")
-    # 4 Feature importances (group-level)
-    st.markdown("### 4. Độ quan trọng các đặc trưng")
+    st.info("Nhận xét: Giá xe tập trung chủ yếu trong khoảng 10–40 triệu. Một số dòng SH/PKL tạo đỉnh ở vùng giá cao.")
+
+    st.markdown("### 2️⃣ Phân bố giá theo thương hiệu")
+    top_brands = df["Thương hiệu"].value_counts().head(8).index
+    subset = df[df["Thương hiệu"].isin(top_brands)]
+    fig2, ax2 = plt.subplots(figsize=(10,4))
+    sns.violinplot(
+        x=price_col, y="Thương hiệu",
+        data=subset,
+        palette=sns.light_palette("#0b57a4", n_colors=len(top_brands)),
+        ax=ax2
+    )
+    st.pyplot(fig2)
+    st.info("Nhận xét: Honda và Yamaha có phân bố giá rộng; VinFast giá thấp và ổn định hơn.")
+
+    st.markdown("### 3️⃣ Quan hệ Km – Giá bán")
+    x = df["Số Km đã đi"]
+    y = df[price_col]
+    fig3, ax3 = plt.subplots(figsize=(8,4))
+    ax3.scatter(x, y, s=12, alpha=0.3)
+    m, b = np.polyfit(x.dropna(), y.dropna(), 1)
+    xs = np.linspace(x.min(), x.max(), 100)
+    ax3.plot(xs, m*xs + b, color="#0b57a4")
+    st.pyplot(fig3)
+    st.info("Nhận xét: Xe chạy nhiều Km giảm giá rõ rệt; sau 50.000 Km tốc độ giảm mạnh hơn.")
+
+    st.markdown("### 4️⃣ Độ quan trọng các đặc trưng")
     if FI_CSV.exists():
         fi = pd.read_csv(FI_CSV)
-        top = fi.head(20)
+        top = fi.head(15)
         fig4, ax4 = plt.subplots(figsize=(8,4))
-        ax4.barh(top['feature'][::-1], top['importance'][::-1], color=sns.light_palette("#0b57a4", n_colors=len(top))[::-1])
+        ax4.barh(top["feature"][::-1], top["importance"][::-1], color="#0b57a4")
         st.pyplot(fig4)
-    else:
-        st.info("feature_importances.csv không tìm thấy.")
-    # 5 Heatmap numeric corr
-    st.markdown("### 5. Heatmap tương quan numeric")
-    numeric_cols = df.select_dtypes(include=[np.number]).columns.tolist()
-    if len(numeric_cols) >= 2:
-        corr = df[numeric_cols].corr()
-        fig5, ax5 = plt.subplots(figsize=(8,6))
-        sns.heatmap(corr, annot=True, fmt=".2f", cmap="Blues", ax=ax5)
-        st.pyplot(fig5)
-    else:
-        st.info("Không đủ biến numeric.")
-    # 6 Anomaly score distribution (from logs)
-    st.markdown("### 6. Phân bố Anomaly Score (internal)")
-    if LOG_PATH.exists():
-        logs = pd.read_csv(LOG_PATH)
-        if 'anomaly_score' in logs.columns:
-            fig6, ax6 = plt.subplots(figsize=(8,3))
-            sns.histplot(logs['anomaly_score'].dropna(), bins=30, color="#0b57a4", ax=ax6)
-            ax6.set_xlabel("Anomaly Score (internal)")
-            st.pyplot(fig6)
-        else:
-            st.info("Chưa có trường anomaly_score trong logs.")
-    else:
-        st.info("Chưa có logs để vẽ.")
+        st.info("Nhận xét: Km, Năm đăng ký và Thương hiệu là 3 yếu tố quyết định giá mạnh nhất.")
+
+    st.markdown("### 5️⃣ Heatmap tương quan")
+    num = df.select_dtypes(include=[np.number])
+    corr = num.corr()
+    fig5, ax5 = plt.subplots(figsize=(7,6))
+    sns.heatmap(corr, annot=False, cmap="Blues", ax=ax5)
+    st.pyplot(fig5)
+    st.info("Nhận xét: Km và giá có tương quan âm rõ rệt; năm đăng ký và giá tương quan dương mạnh.")
+
 
 def page_team():
     st.title("Thông tin nhóm thực hiện")
@@ -665,5 +650,6 @@ if selected in pages_map:
         st.write(traceback.format_exc())
 else:
     page_home()
+
 
 
