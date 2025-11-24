@@ -12,7 +12,7 @@ import traceback
 # ----------------------
 # CONFIG
 # ----------------------
-# Paths to models/data (put these files in same folder)
+# Paths to models/data
 MODEL_PATH = Path("rf_pipeline.pkl")
 ISO_PATH = Path("isolation_forest.pkl")
 SAMPLE_PATH = Path("sample_data.csv")
@@ -24,7 +24,7 @@ LOGO_PATH = "/mnt/data/cf757764-11bb-473e-a093-e6e70fa0bf21.png"
 PENDING_PATH = Path("pending_listings.csv")
 LOG_PATH = Path("prediction_logs.csv")
 
-ADMIN_PASSWORD = "123@"  # per your request
+ADMIN_PASSWORD = "123@"  
 
 CURRENT_YEAR = datetime.now().year
 
@@ -32,7 +32,7 @@ CURRENT_YEAR = datetime.now().year
 st.set_page_config(page_title="Dự đoán giá - Xe máy cũ", layout="wide", initial_sidebar_state="collapsed")
 
 # ----------------------
-# CUSTOM CSS (top navbar, colors)
+# CUSTOM CSS 
 # ----------------------
 st.markdown("""
 <style>
@@ -93,6 +93,7 @@ st.markdown("""
 # top navigation helper
 def top_nav(selected_page: str = None):
     # pages and labels
+    st.image("Logoct.jpg")
     pages = [
         ("home", "Trang chủ"),
         ("problem", "Bài toán nghiệp vụ"),
@@ -128,7 +129,7 @@ if "admin_auth" not in st.session_state:
 if "admin_user" not in st.session_state:
     st.session_state.admin_user = None
 
-# Simple top nav using columns and buttons (reliable in Streamlit)
+# Simple top nav using columns and buttons 
 def render_top_nav_buttons():
     cols = st.columns([1,1,1,1,1,1,1,1])
     labels = [("home","Trang chủ"),("problem","Bài toán nghiệp vụ"),("predict","Dự đoán giá"),
@@ -216,9 +217,9 @@ def add_pending(entry: dict):
 # PAGES
 # ----------------------
 def page_home():
-    st.markdown('<div class="header-box">', unsafe_allow_html=True)
-    st.markdown("## <span style='color:#003366; font-weight:700;'>Chào mừng — Ứng dụng dự đoán giá xe máy cũ</span>", unsafe_allow_html=True)
-    st.write("Hệ thống AI phân tích thị trường xe máy Việt Nam — sử dụng Random Forest và Isolation Forest để giúp bạn dự đoán giá, kiểm tra bất thường và đánh giá dữ liệu thực tế.")
+    st.image("chotot.jpg")
+    st.markdown("## <span style='color:#003366; font-weight:700;'>Ứng dụng dự đoán giá xe máy cũ</span>", unsafe_allow_html=True)
+    st.write("Hệ thống AI phân tích thị trường xe máy Việt Nam — giúp bạn dự đoán giá, kiểm tra bất thường và đánh giá dữ liệu thực tế.")
     st.markdown("</div>", unsafe_allow_html=True)
 
     # 3 Feature Cards
@@ -258,6 +259,7 @@ def page_home():
 
 
 def page_problem():
+    st.image("xe_may.jpg")
     st.title("Bài toán nghiệp vụ")
     st.markdown("""
 - **Mục tiêu:** Dự đoán giá bán hợp lý cho xe máy cũ và phát hiện tin đăng có giá bất thường.
@@ -266,122 +268,189 @@ def page_problem():
 - **Phương pháp:** RandomForest cho regression; IsolationForest + thống kê cho anomaly detection.
     """)
 
+
 def page_predict():
-    st.title("Dự đoán giá — Nhập tay (User)")
-    with st.form("predict_form"):
-        col1, col2 = st.columns([2,1])
-        with col1:
-            title = st.text_input("Tiêu đề tin đăng", value="Bán SH Mode 125 chính chủ")
-            desc = st.text_area("Mô tả chi tiết", value="Xe đẹp, bao test, biển số TP, giá có thương lượng.")
-            brand = st.selectbox("Thương hiệu", options=sorted(sample_df['Thương hiệu'].dropna().unique()) if 'Thương hiệu' in sample_df.columns else ["unknown"])
-            model_name = st.text_input("Dòng xe", value="")
-            loai = st.selectbox("Loại xe", options=sorted(sample_df['Loại xe'].dropna().unique()) if 'Loại xe' in sample_df.columns else ["unknown"])
-        with col2:
-            dungtich = st.text_input("Dung tích", value="125")
-            xuatxu = st.text_input("Xuất xứ", value="unknown")
-            age = st.slider("Tuổi xe (năm)", 0, 50, 3)
-            year_reg = CURRENT_YEAR - age
-            km = st.number_input("Số Km đã đi", 0, 500000, value=20000, step=1000)
-            price_input = st.number_input("Giá thực (Triệu, tùy chọn)", 0.0, value=0.0, step=0.1, format="%.2f")
-            min_p = st.number_input("Khoảng_giá_min (Triệu)", 0.0, value=0.0, step=0.1, format="%.2f")
-            max_p = st.number_input("Khoảng_giá_max (Triệu)", 0.0, value=0.0, step=0.1, format="%.2f")
-        save_flag = st.checkbox("Lưu để admin duyệt")
-        submitted = st.form_submit_button("Dự đoán & Kiểm tra")
-    if submitted:
-        input_df = pd.DataFrame([{
-            "Thương hiệu": brand,
-            "Dòng xe": model_name or "unknown",
-            "Năm đăng ký": int(year_reg),
-            "Số Km đã đi": int(km),
-            "Tình trạng": "Đã sử dụng",
-            "Loại xe": loai,
-            "Dung tích xe": dungtich,
-            "Xuất xứ": xuatxu
-        }])
-        # try predict
-        if model is None:
-            st.warning("Model chưa có — ứng dụng hoạt động ở chế độ demo (trả về giá trung bình).")
-            demo_pred = sample_df['Gia_trieu'].median() if 'Gia_trieu' in sample_df.columns else 0.0
-            pred = float(demo_pred)
-        else:
-            try:
-                pred = float(model.predict(input_df)[0])
-            except Exception as e:
-                st.error("Lỗi predict: " + str(e))
-                pred = 0.0
+    st.image("xe_may_cu.jpg")
+    st.title("Dự đoán giá")
 
-        # compute simplistic anomaly reasoning for user-friendly explanation (no numeric score shown)
-        # We'll derive residual vs brand median and produce human guidance.
-        brand_median = None
-        if 'Thương hiệu' in sample_df.columns and 'Gia_trieu' in sample_df.columns:
-            dfb = sample_df[sample_df['Thương hiệu'] == brand]
-            if len(dfb) > 0:
-                brand_median = float(dfb['Gia_trieu'].median())
+    st.markdown("## 🔹 Chọn chế độ dự đoán")
+    mode = st.radio(
+        "Chọn phương thức dự đoán:",
+        ["Nhập thủ công 1 xe", "Tải lên file CSV/XLSX (dự đoán hàng loạt)"],
+        horizontal=True
+    )
 
-        # verdict & explanation
-        if price_input > 0:
-            resid = price_input - pred
-            if abs(resid) / (pred+1e-6) < 0.15:
-                verdict = "Bình thường"
-                explanation = "Giá bạn nhập nằm trong vùng an toàn cho dòng xe này. Có thể đăng bán hoặc thương lượng."
-            elif resid < 0:
-                verdict = "Giá thấp bất thường"
-                explanation = ("Giá này thấp hơn nhiều so với dự đoán. Nếu bạn là người bán, kiểm tra: "
-                               "đơn vị nhập, biển số tỉnh, tình trạng sửa chữa/đã thay máy. Nếu mua: đề phòng lừa đảo.")
-            else:
-                verdict = "Giá cao bất thường"
-                explanation = ("Giá cao hơn nhiều so với dự đoán. Kiểm tra tính xác thực, giấy tờ, hình ảnh thực tế.")
-        else:
-            verdict = "Không có giá thực để so sánh"
-            explanation = "Bạn chưa nhập giá thực — hệ thống chỉ đưa ra giá dự đoán để tham khảo."
+    # ==============================================================
+    # 1) ---- MODE 1: MANUAL PREDICT ----
+    # ==============================================================
+    if mode == "Nhập thủ công 1 xe":
+        with st.form("predict_form"):
+            col1, col2 = st.columns([2,1])
+            with col1:
+                title = st.text_input("Tiêu đề tin đăng", value="Bán SH Mode 125 chính chủ")
+                desc = st.text_area("Mô tả chi tiết", value="Xe đẹp, bao test, biển số TP.")
+                brand = st.selectbox("Thương hiệu", options=sorted(sample_df['Thương hiệu'].dropna().unique()))
+                model_name = st.text_input("Dòng xe", value="")
+                loai = st.selectbox("Loại xe", options=sorted(sample_df['Loại xe'].dropna().unique()))
+            with col2:
+                dungtich = st.text_input("Dung tích", value="125")
+                xuatxu = st.text_input("Xuất xứ", value="unknown")
+                age = st.slider("Tuổi xe (năm)", 0, 50, 3)
+                year_reg = CURRENT_YEAR - age
+                km = st.number_input("Số Km đã đi", 0, 500000, value=20000, step=1000)
+                price_input = st.number_input("Giá thực (Triệu, tùy chọn)", 0.0, value=0.0)
+                min_p = st.number_input("Khoảng_giá_min (Triệu)", 0.0, value=0.0)
+                max_p = st.number_input("Khoảng_giá_max (Triệu)", 0.0, value=0.0)
 
-        # show results (user-friendly)
-        st.markdown("### Kết quả")
-        st.write(f"**Giá dự đoán:** {human_trieu(pred)}")
-        st.write(f"**Kết luận:** {verdict}")
-        st.write("**Giải thích:**")
-        st.write(explanation)
-        # more detailed reasons
-        reasons = []
-        if brand_median is not None:
-            reasons.append(f"- Trung vị giá thương hiệu ({brand}) ≈ {human_trieu(brand_median)}")
-        if price_input>0:
-            reasons.append(f"- Chênh lệch so với giá bạn nhập: {human_trieu(price_input - pred)}")
-        if not reasons:
-            reasons.append("- Không đủ dữ liệu mẫu để phân tích thêm.")
-        for r in reasons:
-            st.write(r)
+            save_flag = st.checkbox("Lưu để admin duyệt")
+            submitted = st.form_submit_button("Dự đoán & Kiểm tra")
 
-        # Save for admin if requested
-        if save_flag:
-            entry = {
-                "timestamp": datetime.now().isoformat(sep=' ', timespec='seconds'),
-                "Tiêu_đề": title,
-                "Mô_tả_chi_tiết": desc,
-                "Địa_chỉ": "",
+        if submitted:
+            input_df = pd.DataFrame([{
                 "Thương hiệu": brand,
-                "Dòng xe": model_name,
-                "Năm đăng ký": year_reg,
-                "Số Km đã đi": km,
+                "Dòng xe": model_name or "unknown",
+                "Năm đăng ký": int(year_reg),
+                "Số Km đã đi": int(km),
+                "Tình trạng": "Đã sử dụng",
                 "Loại xe": loai,
                 "Dung tích xe": dungtich,
-                "Xuất xứ": xuatxu,
-                "Giá_thực": (price_input if price_input>0 else np.nan),
-                "Giá_dự_đoán": float(pred),
-                "verdict": verdict,
-                "notes": ""
-            }
-            pid = add_pending(entry)
-            st.success(f"Đã lưu submission (id={pid}) để admin duyệt.")
+                "Xuất xứ": xuatxu
+            }])
 
-        # Log
-        save_log({
-            "timestamp": datetime.now().isoformat(sep=' ', timespec='seconds'),
-            "mode": "single",
-            "pred": float(pred),
-            "price_input": float(price_input) if price_input>0 else np.nan,
-            "verdict": verdict
-        })
+            # ---- MODEL PREDICT ----
+            if model is None:
+                st.warning("Model chưa có — dùng giá trung vị mẫu.")
+                pred = float(sample_df['Gia_trieu'].median())
+            else:
+                try:
+                    pred = float(model.predict(input_df)[0])
+                except Exception as e:
+                    st.error("Lỗi predict: " + str(e))
+                    pred = 0.0
+
+            # ---- Anomaly reasoning ----
+            brand_median = None
+            if 'Thương hiệu' in sample_df.columns:
+                dfb = sample_df[sample_df['Thương hiệu'] == brand]
+                if not dfb.empty:
+                    brand_median = float(dfb['Gia_trieu'].median())
+
+            if price_input > 0:
+                resid = price_input - pred
+                if abs(resid) / (pred + 1e-6) < 0.15:
+                    verdict = "Bình thường"
+                    explanation = "Giá hợp lý, trong vùng an toàn."
+                elif resid < 0:
+                    verdict = "Giá thấp bất thường"
+                    explanation = "Thấp hơn nhiều so với dự đoán — kiểm tra giấy tờ / tình trạng."
+                else:
+                    verdict = "Giá cao bất thường"
+                    explanation = "Cao hơn thị trường — cân nhắc kiểm tra kỹ."
+            else:
+                verdict = "Không có giá thực"
+                explanation = "Hệ thống chỉ dự đoán, không thể so sánh."
+
+            # ---- OUTPUT ----
+            st.markdown("### ✅ Kết quả dự đoán")
+            st.write(f"**Giá dự đoán:** {human_trieu(pred)}")
+            st.write(f"**Kết luận:** {verdict}")
+            st.write(f"**Giải thích:** {explanation}")
+
+            if brand_median:
+                st.write(f"- Trung vị giá thương hiệu: {human_trieu(brand_median)}")
+
+            # ---- SAVE ADMIN ----
+            if save_flag:
+                entry = {
+                    "timestamp": datetime.now().isoformat(sep=' ', timespec='seconds'),
+                    "Tiêu_đề": title,
+                    "Mô_tả_chi_tiết": desc,
+                    "Thương hiệu": brand,
+                    "Dòng xe": model_name,
+                    "Năm đăng ký": year_reg,
+                    "Số Km đã đi": km,
+                    "Loại xe": loai,
+                    "Dung tích xe": dungtich,
+                    "Xuất xứ": xuatxu,
+                    "Giá_thực": price_input,
+                    "Giá_dự_đoán": pred,
+                    "verdict": verdict
+                }
+                pid = add_pending(entry)
+                st.success(f"Đã lưu submission (id={pid}) để admin duyệt.")
+
+            save_log({
+                "timestamp": datetime.now().isoformat(" ", "seconds"),
+                "mode": "single",
+                "pred": pred,
+                "price_input": price_input,
+                "verdict": verdict
+            })
+
+    # ==============================================================
+    # 2) ---- MODE 2: BULK CSV/XLSX ----
+    # ==============================================================
+    else:
+        st.markdown("### 📤 Tải lên file CSV hoặc XLSX để dự đoán hàng loạt")
+
+        uploaded = st.file_uploader("Chọn file:", type=["csv", "xlsx"])
+
+        if uploaded:
+            # ---- READ INPUT FILE ----
+            try:
+                if uploaded.name.endswith(".csv"):
+                    df = pd.read_csv(uploaded)
+                else:
+                    df = pd.read_excel(uploaded)
+            except Exception as e:
+                st.error("Không đọc được file: " + str(e))
+                return
+
+            st.success(f"Đã tải file: {uploaded.name}")
+            st.write("**Preview dữ liệu:**")
+            st.dataframe(df.head(20))
+
+            # ---- REQUIRED FIELDS ----
+            required_cols = [
+                "Thương hiệu","Dòng xe","Năm đăng ký","Số Km đã đi",
+                "Loại xe","Dung tích xe","Xuất xứ"
+            ]
+
+            missing = [c for c in required_cols if c not in df.columns]
+            if missing:
+                st.error("Thiếu cột bắt buộc: " + ", ".join(missing))
+                st.info("Bạn cần chuẩn hoá file trước khi dự đoán.")
+                return
+
+            if st.button("🚀 Chạy dự đoán cho toàn bộ file"):
+                try:
+                    if model is None:
+                        df["Giá_dự_đoán"] = sample_df["Gia_trieu"].median()
+                    else:
+                        df["Giá_dự_đoán"] = model.predict(df[required_cols])
+
+                    st.success("Hoàn tất dự đoán!")
+
+                    st.write("### 🔎 Kết quả (20 dòng đầu):")
+                    st.dataframe(df.head(20))
+
+                    # --- ALLOW DOWNLOAD ---
+                    csv_out = df.to_csv(index=False).encode("utf-8")
+                    st.download_button(
+                        "⬇ Tải về file kết quả (CSV)",
+                        csv_out,
+                        file_name="du_doan_gia_xe.csv",
+                        mime="text/csv"
+                    )
+
+                    save_log({
+                        "timestamp": datetime.now().isoformat(" ", "seconds"),
+                        "mode": "bulk",
+                        "rows": len(df)
+                    })
+
+                except Exception as e:
+                    st.error("Lỗi dự đoán hàng loạt: " + str(e))
 
 def page_anom():
     st.title("Kiểm tra bất thường (nhanh)")
@@ -563,11 +632,14 @@ def page_report():
 
 def page_team():
     st.title("Thông tin nhóm thực hiện")
-    st.markdown("- Họ tên: Nguyen Thai Binh")
-    st.markdown("- Email: thaibinh782k1@gmail.com")
+    st.markdown("- THÀNH VIÊN 1:")
+    st.markdown(" Họ tên: Nguyen Thai Binh")
+    st.markdown(" Email: thaibinh782k1@gmail.com")
+    st.markdown("- THÀNH VIÊN 2:")
+    st.markdown(" Họ tên: Nguyen Duy Thanh")
+    st.markdown(" Email: duythanh200620@gmail.com")
     st.markdown("- Repo: https://github.com/ThaiBinh78/ML07_Project")
     st.markdown("- Ngày báo cáo: 22/11/2025")
-
 # ----------------------
 # Router: display page based on session_state.page
 # ----------------------
@@ -593,4 +665,5 @@ if selected in pages_map:
         st.write(traceback.format_exc())
 else:
     page_home()
+
 
