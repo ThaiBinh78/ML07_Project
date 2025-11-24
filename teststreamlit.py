@@ -31,130 +31,95 @@ CURRENT_YEAR = datetime.now().year
 # Streamlit page config
 st.set_page_config(page_title="Dự đoán giá - Xe máy cũ", layout="wide", initial_sidebar_state="collapsed")
 
-# =============================================================
-# 1. CSS giao diện xanh – giống IFB2025
-# =============================================================
-st.markdown("""
-<style>
+# ----------------------
+# CUSTOM CSS (top navbar, colors)
+# ----------------------
+st.markdown(
+    f"""
+    <style>
+    /* Layout */
+    .top-nav {{
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        gap:48px;
+        padding:18px 24px;
+        background: linear-gradient(90deg, #ffffff 0%, #f6fbff 100%);
+        border-bottom: 1px solid #e6f0fb;
+        position: sticky;
+        top: 0;
+        z-index: 999;
+    }}
+    .nav-item {{
+        font-size:16px;
+        color: #0b57a4;
+        font-weight:600;
+        cursor:pointer;
+        padding:6px 12px;
+        border-radius:6px;
+    }}
+    .nav-item:hover {{ background: rgba(11,87,164,0.06); }}
+    .brand {{
+        position:absolute;
+        left:24px;
+        top:8px;
+        display:flex;
+        align-items:center;
+        gap:12px;
+    }}
+    .brand img {{ height:44px; border-radius:6px; }}
+    .hero {{
+        background: linear-gradient(90deg, rgba(6,82,180,0.06), rgba(255,255,255,0));
+        padding:18px;
+        margin-bottom:12px;
+    }}
+    /* body fonts and colors */
+    .stApp {{
+        background-color: #ffffff;
+        color: #033e66;
+    }}
+    /* card style */
+    .card {{
+        background: white;
+        border: 1px solid #e6f0fb;
+        padding: 14px;
+        border-radius: 8px;
+        box-shadow: 0 2px 6px rgba(6,82,180,0.04);
+    }}
+    /* make sidebar hidden (we rely on top nav) */
+    .css-1d391kg {{}}
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
 
-.navbar {
-    display: flex;
-    justify-content: center;
-    gap: 25px;
-    padding: 15px 0px;
-}
+# top navigation helper
+def top_nav(selected_page: str = None):
+    # pages and labels
+    pages = [
+        ("home", "Trang chủ"),
+        ("problem", "Bài toán nghiệp vụ"),
+        ("predict", "Dự đoán giá"),
+        ("anom", "Kiểm tra bất thường"),
+        ("admin", "Chế độ quản trị viên"),
+        ("logs", "Nhật ký hệ thống"),
+        ("report", "Đánh giá & Báo cáo"),
+        ("team", "Thông tin nhóm thực hiện"),
+    ]
+    # render brand left
+    brand_html = ""
+    if Path(LOGO_PATH).exists():
+        brand_html = f'<div class="brand"><img src="{LOGO_PATH}"/> <div style="font-weight:700;color:#0b57a4">XeMáy - Dự đoán giá</div></div>'
+    st.markdown(f'<div class="top-nav">{brand_html}', unsafe_allow_html=True)
+    # render items centered
+    nav_html = ""
+    for key, label in pages:
+        style = "background: rgba(11,87,164,0.08);" if key == selected_page else ""
+        nav_html += f'<div class="nav-item" onclick="window.streamlit.setComponentValue(\'{key}\')" style="{style}">{label}</div>'
+    st.markdown(nav_html + "</div>", unsafe_allow_html=True)
 
-.navbtn {
-    background: #0d1b2a;
-    color: white;
-    padding: 12px 18px;
-    border-radius: 10px;
-    font-size: 17px;
-    border: 2px solid #0d1b2a;
-    transition: 0.2s;
-}
-
-.navbtn:hover {
-    border-color: #1b6ca8;
-    background: #1b263b;
-    cursor: pointer;
-}
-
-.headerbox {
-    padding: 25px;
-    background: linear-gradient(to right, #f5f9ff, #ffffff);
-    border-radius: 12px;
-    margin-top: 15px;
-}
-
-</style>
-""", unsafe_allow_html=True)
-
-# =============================================================
-# 2. SESSION STATE điều hướng
-# =============================================================
-if "page" not in st.session_state:
-    st.session_state.page = "home"
-
-
-# =============================================================
-# 3. NAVBAR – Có key cho mọi button (KHÔNG BAO GIỜ LỖI)
-# =============================================================
-col = st.container()
-with col:
-    st.markdown('<div class="navbar">', unsafe_allow_html=True)
-
-    if st.button("Trang chủ", key="nav_home"):
-        st.session_state.page = "home"
-
-    if st.button("Bài toán nghiệp vụ", key="nav_btv"):
-        st.session_state.page = "business"
-
-    if st.button("Dự đoán giá", key="nav_predict"):
-        st.session_state.page = "predict"
-
-    if st.button("Kiểm tra bất thường", key="nav_anom"):
-        st.session_state.page = "anomaly"
-
-    if st.button("Quản trị viên", key="nav_admin"):
-        st.session_state.page = "admin"
-
-    if st.button("Nhật ký", key="nav_log"):
-        st.session_state.page = "log"
-
-    if st.button("Đánh giá & Báo cáo", key="nav_report"):
-        st.session_state.page = "report"
-
-    if st.button("Nhóm", key="nav_team"):
-        st.session_state.page = "team"
-
-    st.markdown('</div>', unsafe_allow_html=True)
-
-
-# =============================================================
-# 4. Render Page
-# =============================================================
-def page_home():
-    st.markdown('<div class="headerbox">', unsafe_allow_html=True)
-    st.markdown("## **Chào mừng — Ứng dụng dự đoán giá xe máy cũ**")
-    st.write("Chọn một mục trên thanh menu để bắt đầu.")
-    st.markdown("</div>", unsafe_allow_html=True)
-
-def page_business():
-    st.write("### Bài toán nghiệp vụ")
-
-def page_predict():
-    st.write("### Trang dự đoán giá")
-
-def page_anomaly():
-    st.write("### Kiểm tra bất thường")
-
-def page_admin():
-    st.write("### Chế độ quản trị viên")
-
-def page_log():
-    st.write("### Nhật ký hệ thống")
-
-def page_report():
-    st.write("### Đánh giá & Báo cáo")
-
-def page_team():
-    st.write("### Nhóm thực hiện")
-
-
-# Router
-pages = {
-    "home": page_home,
-    "business": page_business,
-    "predict": page_predict,
-    "anomaly": page_anom,
-    "admin": page_admin,
-    "log": page_log,
-    "report": page_report,
-    "team": page_team,
-}
-
-pages[st.session_state.page]()
+# Provide a tiny JS bridge using components to catch clicks (fallback: use st.button)
+# We'll implement navigation via session state buttons instead of JS for reliability.
 
 # ----------------------
 # Session state & navigation
@@ -605,4 +570,3 @@ if selected in pages_map:
         st.write(traceback.format_exc())
 else:
     page_home()
-
