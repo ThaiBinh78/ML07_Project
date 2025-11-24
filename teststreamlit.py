@@ -23,54 +23,6 @@ CURRENT_YEAR = datetime.now().year
 
 st.set_page_config(page_title="Dự đoán giá - Xe máy cũ", layout="wide")
 
-# ===========================
-# CUSTOM GLOBAL CSS (HEADER MENU)
-# ===========================
-st.markdown("""
-    <style>
-        /* Reset body */
-        body {
-            background-color: #ffffff;
-            font-family: 'Helvetica', sans-serif;
-        }
-
-        /* Menu container */
-        .top-menu {
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            gap: 40px;
-            background: #0b72e7;
-            padding: 18px 0px;
-            border-radius: 8px;
-            margin-bottom: 25px;
-        }
-
-        /* Each menu item */
-        .top-menu a {
-            color: white !important;
-            font-size: 17px;
-            font-weight: 600;
-            text-decoration: none;
-            padding: 10px 16px;
-            border-radius: 8px;
-            background: rgba(255,255,255,0.12);
-            transition: 0.25s;
-        }
-
-        /* Hover effect */
-        .top-menu a:hover {
-            background: white;
-            color: #0b72e7 !important;
-        }
-
-        /* Active page styling */
-        .active-menu {
-            background: white !important;
-            color: #0b72e7 !important;
-        }
-    </style>
-""", unsafe_allow_html=True)
 
 # ----------------------
 # Helpers
@@ -228,31 +180,6 @@ st.sidebar.title("Menu")
 if Path("xe_may_cu.jpg").exists():
     st.sidebar.image("xe_may_cu.jpg", use_column_width=True)
 page = st.sidebar.radio("Chọn mục", ["Bài toán nghiệp vụ ", "Dự đoán giá", "Kiểm tra bất thường", "Chế độ quản trị viên", "Nhật ký hệ thống", "Đánh giá & Báo cáo kết quả", "Thông tin nhóm thực hiện"])
-
-# MENU ITEMS
-menu_items = {
-    "Bài toán nghiệp vụ ": "business",
-    "Dự đoán giá": "predict",
-    "Kiểm tra bất thường": "anom",
-    "Chế độ quản trị viên": "admin",
-    "Nhật ký hệ thống": "logs",
-    "Đánh giá & Báo cáo kết quả": "report",
-    "Thông tin nhóm thực hiện": "team"
-}
-
-# Query param (để menu hoạt động như SPA)
-query_params = st.experimental_get_query_params()
-current_page = query_params.get("page", ["business"])[0]
-
-# Render MENU HORIZONTAL
-menu_html = '<div class="top-menu">'
-for title, key in menu_items.items():
-    active = "active-menu" if key == current_page else ""
-    menu_html += f'<a class="{active}" href="/?page={key}">{title}</a>'
-menu_html += '</div>'
-
-st.markdown(menu_html, unsafe_allow_html=True)
-
 
 # ----------------------
 # Bài toán nghiệp vụ 
@@ -842,33 +769,4 @@ if page == "Thông tin nhóm thực hiện":
     st.markdown("- Email: thaibinh782k1@gmail.com")
     st.markdown("- Repo: https://github.com/ThaiBinh78/ML07_Project")
     st.markdown("- Ngày report: 22/11/2025")
-
-
-st.markdown("""
-    <style>
-        h1, h2, h3, h4, h5 {
-            color: #0b72e7;
-        }
-
-        .stButton>button {
-            background-color: #0b72e7;
-            color: white;
-            border-radius: 10px;
-            padding: 10px 20px;
-            font-weight: 600;
-            transition: 0.25s;
-        }
-
-        .stButton>button:hover {
-            background-color: #095ac0;
-            transform: translateY(-2px);
-        }
-
-        .stDataFrame {
-            border-radius: 12px;
-            overflow: hidden;
-            border: 1px solid #e0e0e0;
-        }
-    </style>
-""", unsafe_allow_html=True)
 
