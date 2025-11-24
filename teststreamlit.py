@@ -34,64 +34,61 @@ st.set_page_config(page_title="Dự đoán giá - Xe máy cũ", layout="wide", i
 # ----------------------
 # CUSTOM CSS (top navbar, colors)
 # ----------------------
-st.markdown(
-    f"""
-    <style>
-    /* Layout */
-    .top-nav {{
-        display:flex;
-        align-items:center;
-        justify-content:center;
-        gap:48px;
-        padding:18px 24px;
-        background: linear-gradient(90deg, #ffffff 0%, #f6fbff 100%);
-        border-bottom: 1px solid #e6f0fb;
-        position: sticky;
-        top: 0;
-        z-index: 999;
-    }}
-    .nav-item {{
-        font-size:16px;
-        color: #0b57a4;
-        font-weight:600;
-        cursor:pointer;
-        padding:6px 12px;
-        border-radius:6px;
-    }}
-    .nav-item:hover {{ background: rgba(11,87,164,0.06); }}
-    .brand {{
-        position:absolute;
-        left:24px;
-        top:8px;
-        display:flex;
-        align-items:center;
-        gap:12px;
-    }}
-    .brand img {{ height:44px; border-radius:6px; }}
-    .hero {{
-        background: linear-gradient(90deg, rgba(6,82,180,0.06), rgba(255,255,255,0));
-        padding:18px;
-        margin-bottom:12px;
-    }}
-    /* body fonts and colors */
-    .stApp {{
-        background-color: #ffffff;
-        color: #033e66;
-    }}
-    /* card style */
-    .card {{
-        background: white;
-        border: 1px solid #e6f0fb;
-        padding: 14px;
-        border-radius: 8px;
-        box-shadow: 0 2px 6px rgba(6,82,180,0.04);
-    }}
-    /* make sidebar hidden (we rely on top nav) */
-    .css-1d391kg {{}}
-    </style>
-    """,
-    unsafe_allow_html=True,
-)
+st.markdown("""
+<style>
+
+.navbar {
+    display: flex;
+    justify-content: center;
+    gap: 18px;
+    padding: 10px 0 25px 0;
+}
+
+.nav-item {
+    background: #e8f0fc;
+    color: #003366 !important;
+    padding: 12px 24px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 16px;
+    min-width: 160px;
+    text-align: center;
+    border: 1px solid #bcd2f0;
+    transition: 0.25s;
+}
+
+.nav-item:hover {
+    background: #cfe2ff;
+    border-color: #6da2f7;
+    cursor: pointer;
+}
+
+.header-box {
+    padding: 35px;
+    background: linear-gradient(to right, #eef5ff, #ffffff);
+    border-radius: 18px;
+    margin-top: 5px;
+}
+
+.feature-card {
+    background: #ffffff;
+    border: 1px solid #d7e3f5;
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+    transition: 0.25s;
+    height: 170px;
+}
+
+.feature-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+    cursor: pointer;
+}
+
+</style>
+""", unsafe_allow_html=True)
+
 
 # top navigation helper
 def top_nav(selected_page: str = None):
@@ -219,20 +216,46 @@ def add_pending(entry: dict):
 # PAGES
 # ----------------------
 def page_home():
-    st.markdown("<div class='hero'><h2 style='color:#0b57a4'>Chào mừng — Ứng dụng dự đoán giá xe máy cũ</h2><p>Chọn một mục trên thanh menu để bắt đầu.</p></div>", unsafe_allow_html=True)
-    if loader_errors:
-        st.warning("Một số file model/data chưa có hoặc chưa load được. Kiểm tra: " + ", ".join(loader_errors))
-    st.markdown("### Lựa chọn nhanh")
+    st.markdown('<div class="header-box">', unsafe_allow_html=True)
+    st.markdown("## <span style='color:#003366; font-weight:700;'>Chào mừng — Ứng dụng dự đoán giá xe máy cũ</span>", unsafe_allow_html=True)
+    st.write("Hệ thống AI phân tích thị trường xe máy Việt Nam — sử dụng Random Forest và Isolation Forest để giúp bạn dự đoán giá, kiểm tra bất thường và đánh giá dữ liệu thực tế.")
+    st.markdown("</div>", unsafe_allow_html=True)
+
+    # 3 Feature Cards
+    st.markdown("###  Lựa chọn nhanh")
     c1, c2, c3 = st.columns(3)
+
     with c1:
-        if st.button("Dự đoán nhanh"):
+        if st.button("Dự đoán giá", key="home_predict", help="Đi tới trang dự đoán"):
             st.session_state.page = "predict"
+
     with c2:
-        if st.button("Kiểm tra bất thường"):
-            st.session_state.page = "anom"
+        if st.button("Kiểm tra bất thường", key="home_anom", help="Đi tới anomaly detection"):
+            st.session_state.page = "anomaly"
+
     with c3:
-        if st.button("Đánh giá & Báo cáo"):
+        if st.button("Xem báo cáo", key="home_report", help="Dashboard trực quan"):
             st.session_state.page = "report"
+
+    # Giới thiệu
+    st.markdown("### Giới thiệu hệ thống")
+    st.write("""
+    - Ứng dụng được xây dựng nhằm hỗ trợ người mua và người bán xe máy cũ.
+    - Sử dụng các mô hình Machine Learning:
+        - **Random Forest Regression** để dự đoán giá tối ưu.
+        - **Isolation Forest** để phát hiện mức giá bất thường.
+    - Giao diện thân thiện, dễ sử dụng cho cả người dùng và quản trị viên.
+    """)
+
+    # Mini Visual Preview
+    st.markdown("###  Visualized Model (Demo)")
+    import matplotlib.pyplot as plt
+
+    fig, ax = plt.subplots()
+    ax.hist([10,15,23,30,45,50], bins=5)
+    ax.set_title("Phân bố giá (Demo)")
+    st.pyplot(fig)
+
 
 def page_problem():
     st.title("Bài toán nghiệp vụ")
@@ -570,3 +593,4 @@ if selected in pages_map:
         st.write(traceback.format_exc())
 else:
     page_home()
+
