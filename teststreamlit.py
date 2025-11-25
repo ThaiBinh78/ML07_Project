@@ -211,6 +211,14 @@ st.markdown("""
         opacity: 0.95;
     }
 
+    /* Custom container for team page */
+    .custom-container {
+        background: white;
+        padding: 30px;
+        border-radius: 20px;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    }
+
     /* Dark mode adjustments */
     @media (prefers-color-scheme: dark) {
         .stApp {
@@ -270,6 +278,41 @@ st.markdown("""
 
         [data-testid="stMarkdownContainer"] p {
             color: #bdc3c7 !important;
+        }
+
+        .custom-container {
+            background: #34495e !important;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+
+        /* Override inline styles for dark mode */
+        div[style*="background: #f8f9fa"] {
+            background: #2c3e50 !important;
+        }
+
+        h3[style*="color: #2c3e50"], h4[style*="color: #2c3e50"] {
+            color: #ffffff !important;
+        }
+
+        p[style*="color: #5a6c7d"] {
+            color: #bdc3c7 !important;
+        }
+
+        div[style*="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%)"] {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%) !important;
+        }
+
+        div[style*="background: linear-gradient(135deg, #00b09b 0%, #96c93d 100%)"] {
+            background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%) !important;
+        }
+
+        div[style*="background: #667eea"] {
+            background: #3498db !important;
+        }
+
+        /* Timeline text */
+        div[style*="text-align: center; flex: 1;"] p {
+            color: #ffffff !important;
         }
     }
 </style>
@@ -1240,9 +1283,9 @@ elif st.session_state.current_page == "team":
 # ----------------------
 # FOOTER
 # ----------------------
-    st.markdown("""
-    <div style="text-align: center; color: #7f8c8d; padding: 40px 0 20px 0;">
-        <hr style="border-color: #e0e6ed; margin-bottom: 20px;">
-        <p>MotorPrice Pro - Hệ thống dự đoán giá xe máy cũ sử dụng AI | Phiên bản 1.0</p>
-    </div>
-    """, unsafe_allow_html=True)
+st.markdown("""
+<div style="text-align: center; color: #7f8c8d; padding: 40px 0 20px 0;">
+    <hr style="border-color: #e0e6ed; margin-bottom: 20px;">
+    <p>MotorPrice Pro - Hệ thống dự đoán giá xe máy cũ sử dụng AI | Phiên bản 1.0</p>
+</div>
+""", unsafe_allow_html=True)
