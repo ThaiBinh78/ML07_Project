@@ -259,15 +259,21 @@ def page_home():
     # TITLE GRADIENT
     # ----------------------
     st.markdown("""
-    <h2 style="
-        font-weight:700;
+    <div style="
         background: linear-gradient(to right, #4fc3f7, #186C91);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
-        display: inline-block;
-    ">Ứng dụng dự đoán giá xe máy cũ</h2>
+        background-clip: text;
+        color: transparent;
+    ">
+        <h2 style="
+            font-weight: 700;
+            text-align: center;
+            margin: 20px 0;
+            display: inline-block;
+        ">Ứng dụng dự đoán giá xe máy cũ</h2>
+    </div>
     """, unsafe_allow_html=True)
-
 
     # ----------------------
     # 4 PLOTS ĐẦU TRANG
@@ -941,6 +947,7 @@ if selected in pages_map:
         st.write(traceback.format_exc())
 else:
     page_home()
+
 
 
 
