@@ -254,20 +254,20 @@ def page_home():
     # HEADER IMAGE
     # ----------------------
     st.markdown(
-    """
-    <style>
-    .custom-image {
-        width: 200px !important;
-        height: 200px !important;
-        object-fit: cover;
-        border-radius: 10px;
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
-
-st.markdown('<img src="chotot.jpg.jpg" class="custom-image">', unsafe_allow_html=True)
+        """
+        <style>
+        .custom-image {
+            width: 200px !important;
+            height: 200px !important;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
+    
+    st.markdown('<img src="chotot.jpg" class="custom-image">', unsafe_allow_html=True)
 
     # ----------------------
     # TITLE GRADIENT
@@ -959,6 +959,7 @@ if selected in pages_map:
         st.write(traceback.format_exc())
 else:
     page_home()
+
 
 
 
