@@ -254,13 +254,28 @@ def page_home():
     # NHẠC NỀN
     # ----------------------
     st.markdown("""
-<div style="text-align:center; margin-bottom:20px;">
+<style>
+.audio-topright {
+    position: fixed;
+    top: 10px;
+    right: 20px;
+    z-index: 9999;
+    background: #f0f4f8;
+    border: 1px solid #cfd9e6;
+    border-radius: 12px;
+    padding: 5px 10px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+</style>
+
+<div class="audio-topright">
     <audio controls>
-        <source src="https://github.com/ThaiBinh78/ML07_Project/blob/main/Chill_Guy.mp3" type="audio/mpeg">
+        <source src="https://raw.githubusercontent.com/ThaiBinh78/ML07_Project/main/Chill_Guy.mp3" type="audio/mpeg">
         Trình duyệt của bạn không hỗ trợ audio.
     </audio>
 </div>
 """, unsafe_allow_html=True)
+
 
     # ----------------------
     # TITLE
@@ -278,23 +293,23 @@ def page_home():
 
 <b>1. Dự đoán giá xe nhanh chóng</b><br>
 Bạn chỉ cần nhập vài thông tin như thương hiệu, dòng xe, năm đăng ký, số km đã đi...
-- ✔️ Biết được giá trị thật của chiếc xe
-- ✔️ Tránh bị ép giá khi mua
-- ✔️ Tránh đăng tin quá cao hoặc quá thấp khi bán
+✔️ Biết được giá trị thật của chiếc xe
+✔️ Tránh bị ép giá khi mua
+✔️ Tránh đăng tin quá cao hoặc quá thấp khi bán
 
 <b>2. Phát hiện bất thường về giá</b><br>
 Hệ thống đánh giá xem mức giá nhập có hợp lý không, có thấp bất thường hoặc cao hơn thị trường.
-- ✔️ Nhận biết rủi ro
-- ✔️ Kiểm tra độ tin cậy tin đăng
-- ✔️ Tránh mất thời gian
+✔️ Nhận biết rủi ro
+✔️ Kiểm tra độ tin cậy tin đăng
+✔️ Tránh mất thời gian
 
 <b>3. Dashboard thị trường xe máy Việt Nam</b><br>
 Trang tổng hợp trực quan giúp bạn hiểu tổng thể thị trường:
-- ✔️ Phân bố giá theo thương hiệu
-- ✔️ Tuổi xe và mức độ phổ biến
-- ✔️ Phân bố số km đã đi
-- ✔️ Giá trung bình theo loại xe
-- ✔️ Top thương hiệu được rao bán nhiều nhất
+✔️ Phân bố giá theo thương hiệu
+✔️ Tuổi xe và mức độ phổ biến
+✔️ Phân bố số km đã đi
+✔️ Giá trung bình theo loại xe
+✔️ Top thương hiệu được rao bán nhiều nhất
 
 </div>
 """, unsafe_allow_html=True)
@@ -862,6 +877,7 @@ if selected in pages_map:
         st.write(traceback.format_exc())
 else:
     page_home()
+
 
 
 
