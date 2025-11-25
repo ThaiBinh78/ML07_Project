@@ -1128,7 +1128,7 @@ elif st.session_state.current_page == "team":
     col1, col2 = st.columns([2, 1])
     
     with col1:
-        st.markdown("""
+        st.html("""
         <div class="custom-container">
             <h3 style="color: #2c3e50; margin-top: 0;">📋 Thông Tin Dự Án</h3>
             
@@ -1160,10 +1160,10 @@ elif st.session_state.current_page == "team":
                 </div>
             </div>
         </div>
-        """, unsafe_allow_html=True)
+        """)
     
     with col2:
-        st.markdown("""
+        st.html("""
         <div class="custom-container">
             <h3 style="color: #2c3e50; margin-top: 0;">🔗 Liên Kết</h3>
             
@@ -1191,7 +1191,7 @@ elif st.session_state.current_page == "team":
                 <p>• 5+ ML Models</p>
             </div>
         </div>
-        """, unsafe_allow_html=True)
+        """)
     
     # Timeline dự án
     st.markdown("""
@@ -1246,4 +1246,5 @@ elif st.session_state.current_page == "team":
         <p>MotorPrice Pro - Hệ thống dự đoán giá xe máy cũ sử dụng AI | Phiên bản 1.0</p>
     </div>
     """, unsafe_allow_html=True)
+
 
