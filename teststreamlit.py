@@ -891,6 +891,7 @@ elif st.session_state.current_page == "anomaly":
                 <h3 style="color: #2c3e50; margin-top: 0;">📊 Thống kê thị trường</h3>
             """, unsafe_allow_html=True)
             
+                        # Thêm CSS để cải thiện giao diện metrics
             st.markdown("""
             <style>
                 .custom-metric {
@@ -947,7 +948,51 @@ elif st.session_state.current_page == "anomaly":
                 
                 # Highlight giá của người dùng
                 delta_value = ((actual_price - median_price) / median_price * 100) if median_price > 0 else 0
-                delta_color = "normal" if abs(delta_value) < 15 else "in
+                
+                with st.container():
+                    st.markdown(f"""
+                    <div class="price-highlight">
+                        <h3 style="color: white; margin: 0 0 10px 0; font-size: 1.2rem;">💰 Giá của bạn</h3>
+                        <p style="font-size: 1.8rem; font-weight: bold; color: white; margin: 0;">{actual_price:.1f} Triệu</p>
+                        <p style="color: rgba(255,255,255,0.9); font-size: 1rem; margin: 10px 0 0 0;">
+                            {f"{delta_value:+.1f}%" if median_price > 0 else "N/A"} so với trung vị
+                        </p>
+                    </div>
+                    """, unsafe_allow_html=True)
+            
+            # ---------- Cột 3 ----------
+            with col3:
+                with st.container():
+                    st.markdown(f"""
+                    <div class="custom-metric">
+                        <h3 style="color: #2c3e50; margin: 0 0 10px 0; font-size: 1.1rem;">⬇️ Phân vị 10% (P10)</h3>
+                        <p style="font-size: 1.5rem; font-weight: bold; color: #2c3e50; margin: 0;">{p10:.1f} Triệu</p>
+                        <p style="color: #7f8c8d; font-size: 0.9rem; margin: 10px 0 0 0;">Nhóm xe rẻ nhất thị trường, chỉ 10% xe rẻ hơn mức giá này.</p>
+                    </div>
+                    """, unsafe_allow_html=True)
+                
+                with st.container():
+                    st.markdown(f"""
+                    <div class="custom-metric">
+                        <h3 style="color: #2c3e50; margin: 0 0 10px 0; font-size: 1.1rem;">⬆️ Phân vị 90% (P90)</h3>
+                        <p style="font-size: 1.5rem; font-weight: bold; color: #2c3e50; margin: 0;">{p90:.1f} Triệu</p>
+                        <p style="color: #7f8c8d; font-size: 0.9rem; margin: 10px 0 0 0;">Giới hạn của nhóm xe rất đắt, chỉ còn 10% xe cao hơn mức giá này.</p>
+                    </div>
+                    """, unsafe_allow_html=True)
+            
+            # Thêm phần giải thích ngắn
+            st.markdown("---")
+            st.markdown("""
+            <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin-top: 20px;">
+                <h4 style="color: #2c3e50; margin-top: 0;">📖 Giải thích về phân vị giá:</h4>
+                <p style="color: #5a6c7d; margin: 5px 0;">
+                    • <strong>Phân vị 25% (P25):</strong> 25% xe có giá thấp hơn mức này<br>
+                    • <strong>Phân vị 50% (Median):</strong> Giá trung bình - 50% xe rẻ hơn, 50% xe đắt hơn<br>
+                    • <strong>Phân vị 75% (P75):</strong> 75% xe có giá thấp hơn mức này<br>
+                    • <strong>Phân vị 10%/90%:</strong> Giới hạn dưới/trên của thị trường
+                </p>
+            </div>
+            """, unsafe_allow_html=True)
                        
             st.markdown("</div>", unsafe_allow_html=True)
            
@@ -1338,6 +1383,7 @@ st.markdown("""
     ĐỒ ÁN TỐT NGHIỆP DATA SCIENCE - MACHINE LEARNING<br>
 </div>
 """, unsafe_allow_html=True)
+
 
 
 
