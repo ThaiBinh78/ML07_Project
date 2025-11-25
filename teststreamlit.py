@@ -647,7 +647,6 @@ def page_predict():
     show_footer()
 
 def page_anom():
-    show_footer()
     st.image("batthuong.jpg")
     st.title("Kiểm tra bất thường")
 
@@ -712,8 +711,7 @@ def page_anom():
 
         st.success(f"**Kết luận:** {verdict}")
         st.write("**Giải thích:**", reason)
-
-
+    show_footer()
 
 def page_admin_login():
     st.title("Đăng nhập quản trị")
@@ -876,6 +874,7 @@ if selected in pages_map:
         st.write(traceback.format_exc())
 else:
     page_home()
+
 
 
 
