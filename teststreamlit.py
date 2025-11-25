@@ -331,29 +331,28 @@ def page_home():
 
     </div>
     """, unsafe_allow_html=True)
-
- # ----------------------
-    # FOOTER
-    # ----------------------
-    st.markdown("""
-    <style>
-    .footer {
-        border-top: 1px solid #ddd;
-        margin-top: 30px;
-        padding-top: 20px;
-        color: #555;
-        font-size: 14px;
-        line-height: 1.6;
-    }
-    </style>
-    <div class="footer">
-        <b> DATA SCIENCE AND MACHINE LEARNING COURSE</b><br>
-        ĐỒ ÁN TỐT NGHIỆP DATA SCIENCE - MACHINE LEARNING<br>
-        © DL07_K308 2025<br>
-        Email HV1: thaibinh782k1@gmail.com<br>
-        Email HV2: duythanh200620@gmail.com<br>
-    </div>
-    """, unsafe_allow_html=True)
+# ----------------------
+# FOOTER
+# ----------------------
+st.markdown("""
+<style>
+.footer {
+    border-top: 1px solid #ddd;
+    margin-top: 30px;
+    padding-top: 20px;
+    color: #555;
+    font-size: 14px;
+    line-height: 1.6;
+}
+</style>
+<div class="footer">
+    <b> DATA SCIENCE AND MACHINE LEARNING COURSE</b><br>
+    ĐỒ ÁN TỐT NGHIỆP DATA SCIENCE - MACHINE LEARNING<br>
+    © DL07_K308 2025<br>
+    Email HV1: thaibinh782k1@gmail.com<br>
+    Email HV2: duythanh200620@gmail.com<br>
+</div>
+""", unsafe_allow_html=True)
 
 
 
@@ -855,6 +854,7 @@ if selected in pages_map:
         st.write(traceback.format_exc())
 else:
     page_home()
+
 
 
 
