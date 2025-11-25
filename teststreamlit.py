@@ -629,7 +629,7 @@ elif st.session_state.current_page == "prediction":
                 age = st.slider("Tuổi xe (năm)", 0, 50, 3)
                 year_reg = int(CURRENT_YEAR - age)
                 km = st.number_input("Số Km đã đi", min_value=0, max_value=500000, value=20000, step=1000)
-                price_input = st.number_input("Giá thực (Triệu VNĐ) — tùy chọn", min_value=0.0, value=0.0, step=1.0)
+                price_input = st.number_input("Giá dự tính (Triệu VNĐ)", min_value=0.0, value=0.0, step=1.0)
            
             st.markdown("</div>", unsafe_allow_html=True)
            
@@ -1201,7 +1201,7 @@ elif st.session_state.current_page == "team":
             # Fallback nếu không có hình
             st.markdown("""
             <div class="member-container">
-                <div class="circle-placeholder" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                <div class="circle-placeholder" style="background: linear-gradient(135deg, #667eea 40%, #764ba2 60%);">
                     👨‍💻
                 </div>
                 <div class="member-name">Nguyen Thai Binh</div>
@@ -1236,7 +1236,7 @@ elif st.session_state.current_page == "team":
         except Exception as e:
             st.markdown("""
             <div class="member-container">
-                <div class="circle-placeholder" style="background: linear-gradient(135deg, #00b09b 0%, #96c93d 100%);">
+                <div class="circle-placeholder" style="background: linear-gradient(135deg, #00b09b 40%, #96c93d 60%);">
                     👨‍💻
                 </div>
                 <div class="member-name">Nguyen Duy Thanh</div>
@@ -1302,6 +1302,7 @@ st.markdown("""
     ĐỒ ÁN TỐT NGHIỆP DATA SCIENCE - MACHINE LEARNING<br>
 </div>
 """, unsafe_allow_html=True)
+
 
 
 
