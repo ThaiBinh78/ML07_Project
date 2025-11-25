@@ -115,9 +115,6 @@ def top_nav(selected_page: str = None):
         nav_html += f'<div class="nav-item" onclick="window.streamlit.setComponentValue(\'{key}\')" style="{style}">{label}</div>'
     st.markdown(nav_html + "</div>", unsafe_allow_html=True)
 
-# Provide a tiny JS bridge using components to catch clicks (fallback: use st.button)
-# We'll implement navigation via session state buttons instead of JS for reliability.
-
 # ----------------------
 # Session state & navigation
 # ----------------------
@@ -278,7 +275,7 @@ def page_home():
     </style>
     """, unsafe_allow_html=True)
     
-    st.markdown('<h1 class="gradient-title">Ứng dụng dự đoán giá xe máy cũ</h1>', unsafe_allow_html=True)
+    st.markdown('<h1 class="gradient-title">ỨNG DỤNG DỰ ĐOÁN XE MÁY CŨ</h1>', unsafe_allow_html=True)
     # ----------------------
     # 4 PLOTS ĐẦU TRANG
     # ----------------------
@@ -350,7 +347,7 @@ def page_home():
 
     </div>
     """, unsafe_allow_html=True)
-
+    show_footer()
 
 
 # ==============================
@@ -947,6 +944,7 @@ if selected in pages_map:
         st.write(traceback.format_exc())
 else:
     page_home()
+
 
 
 
