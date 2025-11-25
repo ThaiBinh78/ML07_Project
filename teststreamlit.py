@@ -267,7 +267,7 @@ def page_home():
         unsafe_allow_html=True
     )
     
-    st.markdown('<img src="chotot.jpg" class="custom-image">', unsafe_allow_html=True)
+    st.markdown('<img src="https://github.com/ThaiBinh78/ML07_Project/edit/main/teststreamlit.py" class="custom-image">', unsafe_allow_html=True)
 
     # ----------------------
     # TITLE GRADIENT
@@ -959,6 +959,7 @@ if selected in pages_map:
         st.write(traceback.format_exc())
 else:
     page_home()
+
 
 
 
