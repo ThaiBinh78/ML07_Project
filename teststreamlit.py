@@ -212,10 +212,10 @@ def add_pending(entry: dict):
     df.to_csv(PENDING_PATH, index=False)
     return entry["id"]
 
-# ----------------------
-# HEADER
-# ----------------------
-def page_header():
+def page_home():
+    # ----------------------
+    # HEADER + NAVIGATION
+    # ----------------------
     st.markdown("""
     <style>
     .header-container {
@@ -239,6 +239,7 @@ def page_header():
         background-color: #d3e3ff;
     }
     </style>
+
     <div class="header-container">
         <img src="chotot.jpg" width="150">
         <div class="tabs-container">
@@ -249,6 +250,98 @@ def page_header():
     </div>
     """, unsafe_allow_html=True)
 
+    # ----------------------
+    # NHẠC NỀN
+    # ----------------------
+    st.markdown("""
+    <div style="text-align:center; margin-bottom:20px;">
+        <iframe width="400" height="80"
+            src="https://www.youtube.com/embed/JO334h_PhuU?autoplay=0&loop=1&playlist=JO334h_PhuU"
+            title="Nhạc nền" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen>
+        </iframe>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # ----------------------
+    # TITLE
+    # ----------------------
+    st.markdown("## <span style='color:#003366; font-weight:700;'>Ứng dụng dự đoán giá xe máy cũ</span>", unsafe_allow_html=True)
+
+    # ----------------------
+    # FEATURE BOX
+    # ----------------------
+    st.markdown("""
+    <style>
+    .feature-box {
+        background: linear-gradient(to right, #f5f9ff, #ffffff);
+        border: 1px solid #d3e3ff;
+        padding: 28px;
+        border-radius: 14px;
+        margin-top: 25px;
+        margin-bottom: 10px;
+        color: #003366;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+    }
+    .feature-title {
+        font-size: 24px;
+        font-weight: 700;
+        color: #0a4da3;
+        margin-bottom: 15px;
+    }
+    .feature-subtitle {
+        font-size: 20px;
+        font-weight: 600;
+        color: #0a4da3;
+        margin-top: 18px;
+    }
+    .feature-text {
+        font-size: 16px;
+        line-height: 1.55;
+        color: #003366;
+    }
+    .feature-list li {
+        padding: 4px 0;
+    }
+    </style>
+
+    <div class="feature-box">
+        <div class="feature-title">Ứng dụng hỗ trợ những gì?</div>
+
+        <div class="feature-subtitle">1. Dự đoán giá xe nhanh chóng</div>
+        <div class="feature-text">
+            Bạn chỉ cần nhập vài thông tin như thương hiệu, dòng xe, năm đăng ký, số km đã đi...
+            <br>→ Hệ thống sẽ phân tích dữ liệu thị trường và gợi ý mức giá hợp lý nhất.
+        </div>
+        <ul class="feature-list">
+            <li>✔️ Biết được giá trị thật của chiếc xe</li>
+            <li>✔️ Tránh bị ép giá khi mua</li>
+            <li>✔️ Tránh đăng tin quá cao hoặc quá thấp khi bán</li>
+        </ul>
+
+        <div class="feature-subtitle">2. Phát hiện bất thường về giá</div>
+        <div class="feature-text">
+            Hệ thống sẽ đánh giá xem mức giá bạn nhập có hợp lý không, có thấp bất thường (nguy cơ lừa đảo),
+            hoặc cao hơn nhiều so với thị trường.
+        </div>
+        <ul class="feature-list">
+            <li>✔️ Nhận biết rủi ro</li>
+            <li>✔️ Kiểm tra độ tin cậy của tin đăng</li>
+            <li>✔️ Tránh mất thời gian và công sức</li>
+        </ul>
+
+        <div class="feature-subtitle">3. Dashboard thị trường xe máy Việt Nam</div>
+        <div class="feature-text">
+            Trang tổng hợp trực quan giúp bạn hiểu tổng thể thị trường:
+        </div>
+        <ul class="feature-list">
+            <li>✔️ Phân bố giá theo thương hiệu</li>
+            <li>✔️ Tuổi xe và mức độ phổ biến</li>
+            <li>✔️ Phân bố số km đã đi</li>
+            <li>✔️ Giá trung bình theo từng loại xe</li>
+            <li>✔️ Top thương hiệu được rao bán nhiều nhất</li>
+        </ul>
+    </div>
+    """, unsafe_allow_html=True)
 
 # ----------------------
 # FOOTER
@@ -274,105 +367,6 @@ def page_footer():
     </div>
     """, unsafe_allow_html=True)
 
-
-# ----------------------
-# PAGES
-# ----------------------
-def page_home():
-    page_header()
-    st.markdown("""
-    <div style="text-align:center; margin-bottom:20px;">
-    <iframe width="400" height="80"
-    src="https://www.youtube.com/embed/JO334h_PhuU?autoplay=0&loop=1&playlist=JO334h_PhuU"
-    title="Nhạc nền" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen>
-    </iframe>
-    </div>
-    """, unsafe_allow_html=True)
-    st.markdown("## <span style='color:#003366; font-weight:700;'>Ứng dụng dự đoán giá xe máy cũ</span>", unsafe_allow_html=True)
-
-    st.markdown("""
-# ====== SECTION: Tính năng nổi bật (IFB2025 style) ======
-st.markdown("""
-<style>
-/* Box chính */
-.feature-box {
-    background: linear-gradient(to right, #f5f9ff, #ffffff);
-    border: 1px solid #d3e3ff;
-    padding: 28px;
-    border-radius: 14px;
-    margin-top: 25px;
-    margin-bottom: 10px;
-    color: #003366;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.06);
-}
-
-/* Tiêu đề chính */
-.feature-title {
-    font-size: 24px;
-    font-weight: 700;
-    color: #0a4da3;
-    margin-bottom: 15px;
-}
-
-/* Tiêu đề phụ */
-.feature-subtitle {
-    font-size: 20px;
-    font-weight: 600;
-    color: #0a4da3;
-    margin-top: 18px;
-}
-
-/* Nội dung mô tả */
-.feature-text {
-    font-size: 16px;
-    line-height: 1.55;
-    color: #003366;
-}
-
-/* List */
-.feature-list li {
-    padding: 4px 0;
-}
-</style>
-
-<div class="feature-box">
-    <div class="feature-title">Ứng dụng hỗ trợ những gì?</div>
-
-    <div class="feature-subtitle">1. Dự đoán giá xe nhanh chóng</div>
-    <div class="feature-text">
-        Bạn chỉ cần nhập vài thông tin như thương hiệu, dòng xe, năm đăng ký, số km đã đi...
-        <br>→ Hệ thống sẽ phân tích dữ liệu thị trường và gợi ý mức giá hợp lý nhất.
-    </div>
-    <ul class="feature-list">
-        <li>✔️ Biết được giá trị thật của chiếc xe</li>
-        <li>✔️ Tránh bị ép giá khi mua</li>
-        <li>✔️ Tránh đăng tin quá cao hoặc quá thấp khi bán</li>
-    </ul>
-
-    <div class="feature-subtitle">2. Phát hiện bất thường về giá</div>
-    <div class="feature-text">
-        Hệ thống sẽ đánh giá xem mức giá bạn nhập có hợp lý không, có thấp bất thường (nguy cơ lừa đảo),
-        hoặc cao hơn nhiều so với thị trường.
-    </div>
-    <ul class="feature-list">
-        <li>✔️ Nhận biết rủi ro</li>
-        <li>✔️ Kiểm tra độ tin cậy của tin đăng</li>
-        <li>✔️ Tránh mất thời gian và công sức</li>
-    </ul>
-
-    <div class="feature-subtitle">3. Dashboard thị trường xe máy Việt Nam</div>
-    <div class="feature-text">
-        Trang tổng hợp trực quan giúp bạn hiểu tổng thể thị trường:
-    </div>
-    <ul class="feature-list">
-        <li>✔️ Phân bố giá theo thương hiệu</li>
-        <li>✔️ Tuổi xe và mức độ phổ biến</li>
-        <li>✔️ Phân bố số km đã đi</li>
-        <li>✔️ Giá trung bình theo từng loại xe</li>
-        <li>✔️ Top thương hiệu được rao bán nhiều nhất</li>
-    </ul>
-</div>
-""", unsafe_allow_html=True)
 
 
 # ==============================
@@ -932,6 +926,7 @@ if selected in pages_map:
         st.write(traceback.format_exc())
 else:
     page_home()
+
 
 
 
