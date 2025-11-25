@@ -895,7 +895,7 @@ elif st.session_state.current_page == "anomaly":
             st.markdown("""
             <style>
                 .custom-metric {
-                    background: white;
+                    background: #5E0DB5;
                     padding: 20px;
                     border-radius: 15px;
                     box-shadow: 0 5px 15px rgba(0,0,0,0.08);
@@ -940,7 +940,7 @@ elif st.session_state.current_page == "anomaly":
                 with st.container():
                     st.markdown(f"""
                     <div class="custom-metric">
-                        <h3 style="color: #2c3e50; margin: 0 0 10px 0; font-size: 1.1rem;">📈 Phân vị 75% (P75)</h3>
+                        <h3 style="color: #2c3e50; margin: 0 0 10px 0; font-size: 1.1rem;">📈 Phân vị 75% (P75)</h3> 
                         <p style="font-size: 1.5rem; font-weight: bold; color: #2c3e50; margin: 0;">{p75:.1f} Triệu</p>
                         <p style="color: #7f8c8d; font-size: 0.9rem; margin: 10px 0 0 0;">75% xe rẻ hơn mức giá này, chỉ 25% xe đắt hơn.</p>
                     </div>
@@ -983,7 +983,7 @@ elif st.session_state.current_page == "anomaly":
             # Thêm phần giải thích ngắn
             st.markdown("---")
             st.markdown("""
-            <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin-top: 20px;">
+            <div style="background: #5E0DB5; padding: 20px; border-radius: 10px; margin-top: 20px;">
                 <h4 style="color: #2c3e50; margin-top: 0;">📖 Giải thích về phân vị giá:</h4>
                 <p style="color: #5a6c7d; margin: 5px 0;">
                     • <strong>Phân vị 25% (P25):</strong> 25% xe có giá thấp hơn mức này<br>
@@ -1383,6 +1383,7 @@ st.markdown("""
     ĐỒ ÁN TỐT NGHIỆP DATA SCIENCE - MACHINE LEARNING<br>
 </div>
 """, unsafe_allow_html=True)
+
 
 
 
