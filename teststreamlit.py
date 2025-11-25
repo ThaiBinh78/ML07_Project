@@ -219,9 +219,9 @@ st.markdown(f"""
 <style>
 #fixed-audio {{
     position: fixed;
-    top: 60px;          /* hạ xuống để nút play dễ bấm */
-    right: 20px;        /* cách mép phải 20px */
-    width: 280px;       /* rộng hơn để nút play hiển thị */
+    top: 60px;         
+    right: 20px;       
+    width: 280px;       
     z-index: 9999;
     background: rgba(255,255,255,0.9);
     padding: 8px 12px;
@@ -232,7 +232,7 @@ st.markdown(f"""
 }}
 #fixed-audio audio {{
     width: 100%;
-    height: 30px;       /* cao hơn để dễ nhấn */
+    height: 30px;      
 }}
 </style>
 
@@ -250,28 +250,6 @@ st.markdown(f"""
 # HOME PAGE
 # ==============================
 def page_home():
-    # ----------------------
-    # HEADER IMAGE
-    # ----------------------
-    st.markdown(
-        """
-        <style>
-        .custom-image {
-            width: 200px !important;
-            height: 200px !important;
-            object-fit: cover;
-            border-radius: 10px;
-        }
-        </style>
-        """,
-        unsafe_allow_html=True
-    )
-    
-    # CHỈ dùng st.markdown, KHÔNG dùng st.image
-    st.markdown('<img src="https://raw.githubusercontent.com/ThaiBinh78/ML07_Project/main/chotot.jpg" class="custom-image">', unsafe_allow_html=True)
-        # ----------------------
-    # TITLE GRADIENT
-    # ----------------------
     st.markdown(
         """
         <style>
@@ -286,7 +264,6 @@ def page_home():
         """,
         unsafe_allow_html=True
     )
-    
     st.markdown('<img src="https://raw.githubusercontent.com/ThaiBinh78/ML07_Project/main/chotot.jpg" class="full-width-image">', unsafe_allow_html=True)
     # ----------------------
     # 4 PLOTS ĐẦU TRANG
@@ -960,6 +937,7 @@ if selected in pages_map:
         st.write(traceback.format_exc())
 else:
     page_home()
+
 
 
 
