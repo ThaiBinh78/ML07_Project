@@ -544,8 +544,33 @@ def page_predict():
                 explanation = "Hệ thống chỉ dự đoán, không thể so sánh."
 
             # ---- OUTPUT ----
-            st.markdown("### ✅ Kết quả dự đoán")
-            st.write(f"**Giá dự đoán:** {human_trieu(pred)}")
+            # Hiển thị kết quả theo format giống ảnh
+            st.markdown("# Kết Quả Dự Đoán")
+            
+            # Định dạng giá ước tính với dấu chấm phân cách hàng nghìn
+            pred_vnd = f"{pred * 1000000:,.0f}".replace(",", ".") + " VND"
+            st.markdown(f"**Giá Ước Tính Thị Trường**  \n{pred_vnd}")
+            
+            # Hiển thị thông số đầu vào dạng bảng
+            st.markdown("**Thông số đầu vào:**")
+            
+            # Tạo bảng thông số đầu vào với tên cột tiếng Việt giống ảnh
+            input_params = {
+                "brand": brand,
+                "model": model_name or "unknown",
+                "reg_year": int(year_reg),
+                "mileage": int(km),
+                "condition": "Đã sử dụng",
+                "type": loai,
+                "engine_capacity": dungtich,
+                "origin": xuatxu
+            }
+            
+            # Tạo DataFrame để hiển thị bảng đẹp hơn
+            df_display = pd.DataFrame(list(input_params.items()), columns=["Thuộc tính", "Giá trị"])
+            st.table(df_display)
+            
+            # Hiển thị kết luận và giải thích
             st.write(f"**Kết luận:** {verdict}")
             st.write(f"**Giải thích:** {explanation}")
 
@@ -584,6 +609,7 @@ def page_predict():
     # 2) ---- MODE 2: BULK CSV/XLSX ----
     # ==============================================================
     else:
+        # ... (giữ nguyên phần bulk prediction)
         st.markdown("###  Tải lên file CSV hoặc XLSX để dự đoán hàng loạt")
 
         uploaded = st.file_uploader("Chọn file:", type=["csv", "xlsx"])
@@ -874,6 +900,7 @@ if selected in pages_map:
         st.write(traceback.format_exc())
 else:
     page_home()
+
 
 
 
