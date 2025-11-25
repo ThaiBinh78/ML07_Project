@@ -32,18 +32,13 @@ st.set_page_config(
 )
 
 # ----------------------
-# CUSTOM CSS - FIXED COLOR ISSUES
+# CUSTOM CSS - FIXED FOR LIGHT/DARK MODE
 # ----------------------
 st.markdown("""
 <style>
-    /* Main background - Lighter for better contrast */
-    .stApp {
-        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-    }
-    
-    /* Sidebar styling */
-    .css-1d391kg {
-        background: linear-gradient(180deg, #2c3e50 0%, #3498db 100%);
+    /* Main background - compatible with both modes */
+    .main-container {
+        background: transparent;
     }
     
     /* Header styling */
@@ -74,15 +69,16 @@ st.markdown("""
         color: white;
     }
     
-    /* Card styling - Fixed text colors */
+    /* Card styling - compatible with both modes */
     .feature-card {
-        background: white;
+        background: var(--background-color, white);
         padding: 30px 25px;
         border-radius: 20px;
         box-shadow: 0 8px 25px rgba(0,0,0,0.1);
         border-left: 5px solid #667eea;
         height: 100%;
         transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border: 1px solid var(--border-color, #e0e6ed);
     }
     
     .feature-card:hover {
@@ -91,22 +87,35 @@ st.markdown("""
     }
     
     .feature-card h3 {
-        color: #2c3e50 !important;
+        color: var(--text-color, #2c3e50);
         font-size: 1.4rem;
         font-weight: 700;
         margin-bottom: 15px;
     }
     
     .feature-card p {
-        color: #5a6c7d !important;
+        color: var(--secondary-text-color, #7f8c8d);
         font-size: 1rem;
         line-height: 1.6;
+    }
+    
+    /* Text colors that work in both modes */
+    .text-primary {
+        color: var(--text-color, #2c3e50) !important;
+    }
+    
+    .text-secondary {
+        color: var(--secondary-text-color, #7f8c8d) !important;
+    }
+    
+    .text-white {
+        color: white !important;
     }
     
     /* Button styling */
     .stButton>button {
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white !important;
+        color: white;
         border: none;
         border-radius: 12px;
         padding: 12px 25px;
@@ -119,50 +128,32 @@ st.markdown("""
     .stButton>button:hover {
         transform: translateY(-2px);
         box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
-        color: white !important;
+        color: white;
     }
     
-    /* Metric cards - Fixed text colors */
+    /* Metric cards */
     .stMetric {
-        background: white;
+        background: var(--background-color, white);
         padding: 20px;
         border-radius: 15px;
         box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-        border: 1px solid #e0e6ed;
-    }
-    
-    .stMetric label {
-        color: #2c3e50 !important;
-        font-weight: 600;
-    }
-    
-    .stMetric div {
-        color: #2c3e50 !important;
-        font-weight: 700;
+        border: 1px solid var(--border-color, #e0e6ed);
     }
     
     /* Dataframe styling */
     .dataframe {
         border-radius: 15px;
         box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-        background: white;
+        background: var(--background-color, white);
     }
     
     /* Form styling */
-    .stForm {
-        background: white;
+    .custom-form {
+        background: var(--background-color, white);
         padding: 30px;
         border-radius: 20px;
         box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-    }
-    
-    /* Fix Streamlit default text colors */
-    .stMarkdown h1, .stMarkdown h2, .stMarkdown h3, .stMarkdown h4, .stMarkdown h5, .stMarkdown h6 {
-        color: #2c3e50 !important;
-    }
-    
-    .stMarkdown p {
-        color: #5a6c7d !important;
+        border: 1px solid var(--border-color, #e0e6ed);
     }
     
     /* Sidebar menu items */
@@ -171,7 +162,7 @@ st.markdown("""
         margin: 8px 0;
         border-radius: 12px;
         background: rgba(255,255,255,0.1);
-        color: white !important;
+        color: white;
         font-weight: 500;
         transition: all 0.3s ease;
         cursor: pointer;
@@ -183,13 +174,19 @@ st.markdown("""
     .sidebar-menu-item:hover {
         background: rgba(255,255,255,0.2);
         transform: translateX(5px);
-        color: white !important;
+        color: white;
+    }
+    
+    .sidebar-menu-item.active {
+        background: rgba(255,255,255,0.25);
+        border-left: 4px solid #e74c3c;
+        color: white;
     }
     
     /* Price display card */
     .price-card {
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white !important;
+        color: white;
         padding: 30px;
         border-radius: 20px;
         text-align: center;
@@ -199,109 +196,110 @@ st.markdown("""
     
     .price-card.normal {
         background: linear-gradient(135deg, #00b09b 0%, #96c93d 100%);
-        color: white !important;
     }
     
     .price-card.warning {
         background: linear-gradient(135deg, #f46b45 0%, #eea849 100%);
-        color: white !important;
     }
     
     .price-card.danger {
         background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%);
-        color: white !important;
     }
     
     .price-card h2 {
         font-size: 1.8rem;
         margin: 0 0 15px 0;
         font-weight: 600;
-        color: white !important;
+        color: white;
     }
     
     .price-card h1 {
         font-size: 2.8rem;
         margin: 10px 0;
         font-weight: 800;
-        color: white !important;
+        color: white;
     }
     
     .price-card p {
         font-size: 1.2rem;
         margin: 0;
         opacity: 0.95;
-        color: white !important;
+        color: white;
     }
     
-    /* Fix input labels and text */
-    .stTextInput label, .stNumberInput label, .stSelectbox label, .stSlider label, .stTextArea label {
-        color: #2c3e50 !important;
-        font-weight: 600;
-    }
-    
-    .stRadio label {
-        color: #2c3e50 !important;
-        font-weight: 600;
-    }
-    
-    /* Fix dataframe text colors */
-    .dataframe th {
-        color: #2c3e50 !important;
-        background-color: #f8f9fa !important;
-    }
-    
-    .dataframe td {
-        color: #5a6c7d !important;
-    }
-    
-    /* Tab styling */
-    .stTabs [data-baseweb="tab-list"] {
-        gap: 8px;
-    }
-    
-    .stTabs [data-baseweb="tab"] {
-        height: 50px;
-        white-space: pre-wrap;
-        background-color: #f8f9fa;
-        border-radius: 10px 10px 0px 0px;
-        gap: 8px;
-        padding-top: 10px;
-        padding-bottom: 10px;
-        color: #5a6c7d !important;
-    }
-    
-    .stTabs [aria-selected="true"] {
-        background-color: #667eea !important;
-        color: white !important;
-    }
-    
-    /* Success, Warning, Error messages */
-    .stAlert {
-        border-radius: 12px;
-    }
-    
-    /* Custom container for better text visibility */
-    .custom-container {
-        background: white;
+    /* Info boxes */
+    .info-box {
+        background: var(--background-color, white);
         padding: 25px;
         border-radius: 15px;
         box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        border: 1px solid var(--border-color, #e0e6ed);
         margin: 15px 0;
     }
     
-    .custom-container h3, .custom-container h4 {
-        color: #2c3e50 !important;
+    .info-box h3, .info-box h4 {
+        color: var(--text-color, #2c3e50);
         margin-top: 0;
     }
     
-    .custom-container p {
-        color: #5a6c7d !important;
+    .info-box p {
+        color: var(--secondary-text-color, #7f8c8d);
+    }
+    
+    /* Custom container */
+    .custom-container {
+        background: var(--background-color, white);
+        padding: 25px;
+        border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        border: 1px solid var(--border-color, #e0e6ed);
+        margin: 15px 0;
+    }
+    
+    /* Fix Streamlit default text colors */
+    .stMarkdown h1, .stMarkdown h2, .stMarkdown h3, .stMarkdown h4, .stMarkdown h5, .stMarkdown h6 {
+        color: var(--text-color, #2c3e50) !important;
+    }
+    
+    .stMarkdown p {
+        color: var(--text-color, #2c3e50) !important;
+    }
+    
+    .stTextInput>div>div>input, .stTextArea>div>div>textarea {
+        color: var(--text-color, #2c3e50) !important;
+        background-color: var(--background-color, white) !important;
+    }
+    
+    .stSelectbox>div>div>select {
+        color: var(--text-color, #2c3e50) !important;
+        background-color: var(--background-color, white) !important;
+    }
+    
+    /* Table styling */
+    .custom-table {
+        background: var(--background-color, white);
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    }
+    
+    /* Section headers */
+    .section-header {
+        color: var(--text-color, #2c3e50);
+        text-align: center;
+        margin-bottom: 30px;
+    }
+    
+    .section-subheader {
+        color: var(--secondary-text-color, #7f8c8d);
+        text-align: center;
+        margin-bottom: 20px;
     }
 </style>
 """, unsafe_allow_html=True)
 
 # ----------------------
-# Helpers (giữ nguyên)
+# Helpers
 # ----------------------
 @st.cache_resource
 def load_models_and_sample(rf_path, iso_path, sample_path):
@@ -427,7 +425,7 @@ with st.sidebar:
         <h1 style="color: white; font-size: 1.8rem; margin-bottom: 0;">🏍️ MotorPrice Pro</h1>
         <p style="color: rgba(255,255,255,0.8); font-size: 0.9rem;">AI-Powered Motorcycle Valuation</p>
     </div>
-    <hr style="border-color: rgba(255,255,255,0.2); margin-bottom: 20px;">
+    <hr style="border-color: rgba(255,255,255,0.2);">
     """, unsafe_allow_html=True)
     
     # Navigation menu
@@ -454,8 +452,8 @@ with st.sidebar:
 # ----------------------
 st.markdown("""
 <div class="main-header">
-    <h1>🏍️ MotorPrice Pro</h1>
-    <p>Hệ Thống Dự Đoán Giá Xe Máy Cũ Thông Minh Sử dụng AI</p>
+    <h1 class="text-white">🏍️ MotorPrice Pro</h1>
+    <p class="text-white">Hệ Thống Dự Đoán Giá Xe Máy Cũ Thông Minh Sử dụng AI</p>
 </div>
 """, unsafe_allow_html=True)
 
@@ -464,11 +462,9 @@ st.markdown("""
 # ----------------------
 if st.session_state.current_page == "home":
     st.markdown("""
-    <div style="text-align: center; margin-bottom: 40px;">
-        <h2 style="color: #2c3e50; font-size: 2.2rem; margin-bottom: 15px;">Chào mừng đến với MotorPrice Pro</h2>
-        <p style="color: #5a6c7d; font-size: 1.2rem; max-width: 800px; margin: 0 auto;">
-            Công nghệ AI tiên tiến giúp bạn dự đoán giá xe máy cũ chính xác và phát hiện các giao dịch bất thường
-        </p>
+    <div class="section-header">
+        <h2>Chào mừng đến với MotorPrice Pro</h2>
+        <p class="section-subheader">Công nghệ AI tiên tiến giúp bạn dự đoán giá xe máy cũ chính xác và phát hiện các giao dịch bất thường</p>
     </div>
     """, unsafe_allow_html=True)
     
@@ -478,32 +474,32 @@ if st.session_state.current_page == "home":
     with col1:
         st.markdown("""
         <div class="feature-card">
-            <h3>📊 Dự Đoán Giá Thông Minh</h3>
-            <p>Sử dụng machine learning và AI để dự đoán giá xe chính xác dựa trên đặc điểm và tình trạng xe</p>
+            <h3 class="text-primary">📊 Dự Đoán Giá Thông Minh</h3>
+            <p class="text-secondary">Sử dụng machine learning và AI để dự đoán giá xe chính xác dựa trên đặc điểm và tình trạng xe</p>
         </div>
         """, unsafe_allow_html=True)
     
     with col2:
         st.markdown("""
         <div class="feature-card">
-            <h3>🔍 Phát Hiện Bất Thường</h3>
-            <p>Hệ thống cảnh báo thông minh giúp phát hiện giá bất thường và nghi ngờ gian lận</p>
+            <h3 class="text-primary">🔍 Phát Hiện Bất Thường</h3>
+            <p class="text-secondary">Hệ thống cảnh báo thông minh giúp phát hiện giá bất thường và nghi ngờ gian lận</p>
         </div>
         """, unsafe_allow_html=True)
     
     with col3:
         st.markdown("""
         <div class="feature-card">
-            <h3>📈 Phân Tích Thị Trường</h3>
-            <p>Theo dõi xu hướng giá và phân tích thị trường xe máy cũ toàn diện</p>
+            <h3 class="text-primary">📈 Phân Tích Thị Trường</h3>
+            <p class="text-secondary">Theo dõi xu hướng giá và phân tích thị trường xe máy cũ toàn diện</p>
         </div>
         """, unsafe_allow_html=True)
     
     # Statistics Section
     st.markdown("---")
     st.markdown("""
-    <div style="text-align: center; margin: 40px 0;">
-        <h2 style="color: #2c3e50; font-size: 2rem;">Thống Kê Hệ Thống</h2>
+    <div class="section-header">
+        <h2 class="text-primary">Thống Kê Hệ Thống</h2>
     </div>
     """, unsafe_allow_html=True)
     
@@ -540,9 +536,9 @@ if st.session_state.current_page == "home":
 # ----------------------
 elif st.session_state.current_page == "prediction":
     st.markdown("""
-    <div style="text-align: center; margin-bottom: 30px;">
-        <h2 style="color: #2c3e50; font-size: 2.2rem;">📊 Dự Đoán Giá Xe</h2>
-        <p style="color: #5a6c7d; font-size: 1.1rem;">Chọn phương thức nhập liệu phù hợp với nhu cầu của bạn</p>
+    <div class="section-header">
+        <h2 class="text-primary">📊 Dự Đoán Giá Xe</h2>
+        <p class="section-subheader">Chọn phương thức nhập liệu phù hợp với nhu cầu của bạn</p>
     </div>
     """, unsafe_allow_html=True)
     
@@ -555,14 +551,14 @@ elif st.session_state.current_page == "prediction":
     if mode == "Nhập thông tin thủ công":
         with st.form("predict_form", clear_on_submit=False):
             st.markdown("""
-            <div style="background: white; padding: 30px; border-radius: 20px; box-shadow: 0 8px 25px rgba(0,0,0,0.1);">
+            <div class="custom-form">
             """, unsafe_allow_html=True)
             
-            st.markdown("### 🚗 Thông Tin Xe")
+            st.markdown('<h3 class="text-primary">🚗 Thông Tin Xe</h3>', unsafe_allow_html=True)
             col1, col2 = st.columns([2, 1])
             
             with col1:
-                st.markdown("**📝 Thông tin cơ bản**")
+                st.markdown('<p class="text-secondary">📝 Thông tin cơ bản</p>', unsafe_allow_html=True)
                 title = st.text_input("Tiêu đề tin đăng", value="Bán SH Mode 125 chính chủ")
                 description = st.text_area("Mô tả chi tiết", value="Xe đẹp, bao test, biển số TP, giá có thương lượng.")
                 brand = st.selectbox("Thương hiệu", options=sorted(sample_df['Thương hiệu'].dropna().unique().tolist()))
@@ -570,7 +566,7 @@ elif st.session_state.current_page == "prediction":
                 loai = st.selectbox("Loại xe", options=sorted(sample_df['Loại xe'].dropna().unique().tolist()))
             
             with col2:
-                st.markdown("**🔧 Thông số kỹ thuật**")
+                st.markdown('<p class="text-secondary">🔧 Thông số kỹ thuật</p>', unsafe_allow_html=True)
                 dungtich = st.text_input("Dung tích xe", value="125", placeholder="Ví dụ: 125, 150, etc.")
                 age = st.slider("Tuổi xe (năm)", 0, 50, 3)
                 year_reg = int(CURRENT_YEAR - age)
@@ -635,16 +631,16 @@ elif st.session_state.current_page == "prediction":
             
             st.markdown(f"""
             <div class="price-card {card_class}">
-                <h2>Giá Ước Tính Thị Trường</h2>
-                <h1>{pred_vnd} VND</h1>
-                <p>{verdict}</p>
+                <h2 class="text-white">Giá Ước Tính Thị Trường</h2>
+                <h1 class="text-white">{pred_vnd} VND</h1>
+                <p class="text-white">{verdict}</p>
             </div>
             """, unsafe_allow_html=True)
             
             # Display input parameters
             st.markdown("""
             <div class="custom-container">
-                <h3>📋 Thông số đầu vào</h3>
+                <h4 class="text-primary">📋 Thông số đầu vào</h4>
             """, unsafe_allow_html=True)
             
             input_params = {
@@ -664,9 +660,9 @@ elif st.session_state.current_page == "prediction":
             
             # Explanation
             st.markdown(f"""
-            <div class="custom-container">
-                <h4>📝 Giải thích</h4>
-                <p>{explanation}</p>
+            <div class="info-box">
+                <h4 class="text-primary">📝 Giải thích</h4>
+                <p class="text-secondary">{explanation}</p>
             </div>
             """, unsafe_allow_html=True)
             
@@ -691,9 +687,9 @@ elif st.session_state.current_page == "prediction":
     
     else:  # Batch prediction mode
         st.markdown("""
-        <div class="custom-container">
-            <h3>📁 Upload File Dự Đoán Hàng Loạt</h3>
-            <p>File cần có các cột: Thương_hiệu, Dòng_xe, Loại_xe, Dung_tích_xe, Năm_đăng_ký, Số_Km_đã_đi, Giá (tùy chọn)</p>
+        <div class="custom-form">
+            <h3 class="text-primary">📁 Upload File Dự Đoán Hàng Loạt</h3>
+            <p class="text-secondary">File cần có các cột: Thương_hiệu, Dòng_xe, Loại_xe, Dung_tích_xe, Năm_đăng_ký, Số_Km_đã_đi, Giá (tùy chọn)</p>
         </div>
         """, unsafe_allow_html=True)
         
@@ -762,21 +758,21 @@ elif st.session_state.current_page == "prediction":
 # ----------------------
 elif st.session_state.current_page == "anomaly":
     st.markdown("""
-    <div style="text-align: center; margin-bottom: 30px;">
-        <h2 style="color: #2c3e50; font-size: 2.2rem;">🔍 Kiểm Tra Bất Thường</h2>
-        <p style="color: #5a6c7d; font-size: 1.1rem;">Phát hiện giá xe bất thường so với thị trường</p>
+    <div class="section-header">
+        <h2 class="text-primary">🔍 Kiểm Tra Bất Thường</h2>
+        <p class="section-subheader">Phát hiện giá xe bất thường so với thị trường</p>
     </div>
     """, unsafe_allow_html=True)
     
     with st.form("anomaly_form"):
         st.markdown("""
-        <div class="custom-container">
+        <div class="custom-form">
         """, unsafe_allow_html=True)
         
         col1, col2 = st.columns(2)
         
         with col1:
-            st.markdown("**🚗 Thông tin xe**")
+            st.markdown('<p class="text-secondary">🚗 Thông tin xe</p>', unsafe_allow_html=True)
             brand = st.selectbox("Thương hiệu", options=sorted(sample_df['Thương hiệu'].dropna().unique()))
             model_name = st.text_input("Dòng xe", placeholder="Nhập dòng xe cụ thể")
             age = st.slider("Tuổi xe (năm)", 0, 50, 3)
@@ -784,7 +780,7 @@ elif st.session_state.current_page == "anomaly":
             km = st.number_input("Số Km đã đi", 0, 500000, 20000)
         
         with col2:
-            st.markdown("**💰 Thông tin giá**")
+            st.markdown('<p class="text-secondary">💰 Thông tin giá</p>', unsafe_allow_html=True)
             actual_price = st.number_input("Giá thực tế (Triệu VNĐ)", 0.0, 1000.0, 50.0, step=1.0)
             loai_xe = st.selectbox("Loại xe", options=sorted(sample_df['Loại xe'].dropna().unique()))
             dung_tich = st.text_input("Dung tích xe", value="125")
@@ -799,4 +795,5 @@ elif st.session_state.current_page == "anomaly":
         
         if not brand_data.empty:
             # Calculate percentiles
-            p10 = brand_data['Gia_trieu'].quantile(0
+            p10 = brand_data['Gia_trieu'].quantile(0.10)
+            p25 = brand_data
