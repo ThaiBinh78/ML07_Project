@@ -19,16 +19,14 @@ BASE_DIR = Path(".")
 PENDING_PATH = BASE_DIR / "pending_listings.csv"
 LOG_PATH = BASE_DIR / "prediction_logs.csv"
 CURRENT_YEAR = datetime.now().year
-
 st.set_page_config(
     page_title="MotorPrice Pro - Dự đoán giá xe máy cũ",
     page_icon="🏍️",
     layout="wide",
     initial_sidebar_state="expanded"
 )
-
 # ----------------------
-# CUSTOM CSS - ĐÃ THÊM AUDIO PLAYER
+# CUSTOM CSS
 # ----------------------
 st.markdown("""
 <style>
@@ -37,35 +35,6 @@ st.markdown("""
         background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
     }
    
-    /* Audio Player Styling */
-    .audio-player-container {
-        position: fixed;
-        top: 10px;
-        right: 10px;
-        z-index: 9999;
-        background: rgba(255, 255, 255, 0.95);
-        padding: 10px 15px;
-        border-radius: 25px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        border: 2px solid #667eea;
-        backdrop-filter: blur(10px);
-        max-width: 300px;
-    }
-    
-    .audio-player-container audio {
-        width: 100%;
-        height: 40px;
-        border-radius: 20px;
-    }
-    
-    .audio-label {
-        font-size: 12px;
-        font-weight: bold;
-        color: #667eea;
-        margin-bottom: 5px;
-        text-align: center;
-    }
-
     /* Sidebar styling */
     .css-1d391kg {
         background: linear-gradient(180deg, #2c3e50 0%, #3498db 100%);
@@ -151,424 +120,14 @@ st.markdown("""
         border-radius: 15px;
         box-shadow: 0 5px 15px rgba(0,0,0,0.08);
         border: 1px solid #e0e6ed;
+        color: #2c3e50 !important; /* Dark text for light background */
+    }
+   
+    .stMetric > div > div > div > p { /* Label */
         color: #2c3e50 !important;
     }
    
-    .stMetric > div > div > div > p {
-        color: #2c3e50 !important;
-    }
-   
-    .stMetric > div > div > div > small {
-        color: #2c3e50 !important;
-    }
-   
-    /* Dataframe styling */
-    .dataframe {
-        border-radius: 15px;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-    }
-   
-    /* Form styling */
-    .stForm {
-        background: white;
-        padding: 30px;
-        border-radius: 20px;
-        box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-    }
-   
-    /* Sidebar menu items */
-    .sidebar-menu-item {
-        padding: 15px 20px;
-        margin: 8px 0;
-        border-radius: 12px;
-        background: rgba(255,255,255,0.1);
-        color: white;
-        font-weight: 500;
-        transition: all 0.3s ease;
-        cursor: pointer;
-        border: none;
-        width: 100%;
-        text-align: left;
-    }
-   
-    .sidebar-menu-item:hover {
-        background: rgba(255,255,255,0.2);
-        transform: translateX(5px);
-    }
-   
-    .sidebar-menu-item.active {
-        background: rgba(255,255,255,0.25);
-        border-left: 4px solid #e74c3c;
-    }
-   
-    /* Price display card */
-    .price-card {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        padding: 30px;
-        border-radius: 20px;
-        text-align: center;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        margin: 20px 0;
-    }
-   
-    .price-card.normal {
-        background: linear-gradient(135deg, #00b09b 0%, #96c93d 100%);
-    }
-   
-    .price-card.warning {
-        background: linear-gradient(135deg, #f46b45 0%, #eea849 100%);
-    }
-   
-    .price-card.danger {
-        background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%);
-    }
-   
-    .price-card h2 {
-        font-size: 1.8rem;
-        margin: 0 0 15px 0;
-        font-weight: 600;
-    }
-   
-    .price-card h1 {
-        font-size: 2.8rem;
-        margin: 10px 0;
-        font-weight: 800;
-    }
-   
-    .price-card p {
-        font-size: 1.2rem;
-        margin: 0;
-        opacity: 0.95;
-    }
-
-    /* Custom container for team page */
-    .custom-container {
-        background: white;
-        padding: 30px;
-        border-radius: 20px;
-        box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-    }
-
-    /* Dark mode adjustments */
-    @media (prefers-color-scheme: dark) {
-        .stApp {
-            background: linear-gradient(135deg, #1a1a1a 0%, #2c3e50 100%);
-        }
-        
-        .audio-player-container {
-            background: rgba(44, 62, 80, 0.95);
-            border: 2px solid #3498db;
-        }
-        
-        .audio-label {
-            color: #3498db;
-        }
-
-        .main-header {
-            background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%);
-            color: #ffffff;
-        }
-
-        .feature-card {
-            background: #2c3e50;
-            color: #ffffff;
-            border-left: 5px solid #3498db;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-        }
-
-        .feature-card h3 {
-            color: #ffffff;
-        }
-
-        .feature-card p {
-            color: #bdc3c7;
-        }
-
-        .stMetric {
-            background: #34495e;
-            color: #ffffff !important;
-            border: 1px solid #2c3e50;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        }
-
-        .stMetric > div > div > div > p {
-            color: #ffffff !important;
-        }
-
-        .stMetric > div > div > div > small {
-            color: #ffffff !important;
-        }
-
-        .stForm {
-            background: #34495e;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-        }
-
-        /* Dataframe in dark mode */
-        .dataframe {
-            background: #2c3e50;
-            color: #ffffff;
-        }
-
-        /* Adjust other elements as needed */
-        [data-testid="stMarkdownContainer"] h2, h3, h4 {
-            color: #ffffff !important;
-        }
-
-        [data-testid="stMarkdownContainer"] p {
-            color: #bdc3c7 !important;
-        }
-
-        .custom-container {
-            background: #34495e !important;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-        }
-
-        /* Override inline styles for dark mode */
-        div[style*="background: #f8f9fa"] {
-            background: #2c3e50 !important;
-        }
-
-        h3[style*="color: #2c3e50"], h4[style*="color: #2c3e50"] {
-            color: #ffffff !important;
-        }
-
-        p[style*="color: #5a6c7d"] {
-            color: #bdc3c7 !important;
-        }
-
-        div[style*="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%)"] {
-            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%) !important;
-        }
-
-        div[style*="background: linear-gradient(135deg, #00b09b 0%, #96c93d 100%)"] {
-            background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%) !important;
-        }
-
-        div[style*="background: #667eea"] {
-            background: #3498db !important;
-        }
-
-        /* Timeline text */
-        div[style*="text-align: center; flex: 1;"] p {
-            color: #ffffff !important;
-        }
-    }
-</style>
-""", unsafe_allow_html=True)
-
-# ----------------------
-# AUDIO PLAYER - FIXED POSITION
-# ----------------------
-audio_url = "https://raw.githubusercontent.com/ThaiBinh78/ML07_Project/main/Chill_Guy.mp3"
-
-st.markdown(f"""
-<div class="audio-player-container">
-    <div class="audio-label">🎵 Background Music</div>
-    <audio controls loop>
-        <source src="{audio_url}" type="audio/mpeg">
-        Trình duyệt của bạn không hỗ trợ audio element.
-    </audio>
-</div>
-""", unsafe_allow_html=True)
-
-# ----------------------
-# Helpers
-# ----------------------
-@st.cache_resource
-def load_models_and_sample(rf_path, iso_path, sample_path):
-    try:
-        model = joblib.load(rf_path)
-        iso = joblib.load(iso_path)
-        sample = pd.read_csv(sample_path)
-        # sanitize sample numeric columns
-        for col in ["Gia_trieu", "Giá", "Khoảng giá min", "Khoảng giá max"]:
-            if col in sample.columns:
-                sample[col] = pd.to_numeric(sample[col], errors="coerce")
-        return model, iso, sample
-    except Exception as e:
-        st.error(f"Lỗi khi load model: {e}")
-        return None, None, pd.DataFrame()
-
-def ensure_cols_for_upload(df):
-    required = [
-        "Thương_hiệu","Dòng_xe","Loại_xe","Dung_tích_xe",
-        "Năm_đăng_ký","Số_Km_đã_đi","Giá","Khoảng_giá_min","Khoảng_giá_max",
-        "Tiêu_đề","Mô_tả_chi_tiết","Địa_chỉ"
-    ]
-    missing = [c for c in required if c not
-AttributeError: This app has encountered an error. The original error message is redacted to prevent data leaks. Full error details have been recorded in the logs (if you're on Streamlit Cloud, click on 'Manage app' in the lower right of your app).
-Traceback:
-File "/mount/src/ml07_project/teststreamlit.py", line 527, in <module>
-    if st.session_state.current_page == "home":
-File "/home/adminuser/venv/lib/python3.10/site-packages/streamlit/runtime/state/session_state_proxy.py", line 132, in __getattr__
-    raise AttributeError(_missing_attr_error_message(key))
-Lỗi này xảy ra vì st.session_state.current_page chưa được khởi tạo. Tôi sẽ sửa lại phần khởi tạo session state:
-
-python
-import streamlit as st
-from pathlib import Path
-from datetime import datetime
-import pandas as pd
-import numpy as np
-import joblib
-import matplotlib.pyplot as plt
-import io
-import requests
-from PIL import Image
-
-# ----------------------
-# CONFIG
-# ----------------------
-MODEL_PATH = "rf_pipeline.pkl"
-ISO_PATH = "isolation_forest.pkl"
-SAMPLE_PATH = "sample_data.csv"
-FI_CSV = "feature_importances.csv"
-BASE_DIR = Path(".")
-PENDING_PATH = BASE_DIR / "pending_listings.csv"
-LOG_PATH = BASE_DIR / "prediction_logs.csv"
-CURRENT_YEAR = datetime.now().year
-
-st.set_page_config(
-    page_title="MotorPrice Pro - Dự đoán giá xe máy cũ",
-    page_icon="🏍️",
-    layout="wide",
-    initial_sidebar_state="expanded"
-)
-
-# ----------------------
-# CUSTOM CSS - ĐÃ THÊM AUDIO PLAYER
-# ----------------------
-st.markdown("""
-<style>
-    /* Main background */
-    .stApp {
-        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-    }
-   
-    /* Audio Player Styling */
-    .audio-player-container {
-        position: fixed;
-        top: 10px;
-        right: 10px;
-        z-index: 9999;
-        background: rgba(255, 255, 255, 0.95);
-        padding: 10px 15px;
-        border-radius: 25px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        border: 2px solid #667eea;
-        backdrop-filter: blur(10px);
-        max-width: 300px;
-    }
-    
-    .audio-player-container audio {
-        width: 100%;
-        height: 40px;
-        border-radius: 20px;
-    }
-    
-    .audio-label {
-        font-size: 12px;
-        font-weight: bold;
-        color: #667eea;
-        margin-bottom: 5px;
-        text-align: center;
-    }
-
-    /* Sidebar styling */
-    .css-1d391kg {
-        background: linear-gradient(180deg, #2c3e50 0%, #3498db 100%);
-    }
-   
-    /* Header styling */
-    .main-header {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        padding: 40px 30px;
-        border-radius: 20px;
-        color: white;
-        text-align: center;
-        margin-bottom: 30px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        border: none;
-    }
-   
-    .main-header h1 {
-        font-size: 3rem;
-        font-weight: 800;
-        margin: 0;
-        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-    }
-   
-    .main-header p {
-        font-size: 1.4rem;
-        opacity: 0.95;
-        margin: 15px 0 0 0;
-        font-weight: 300;
-    }
-   
-    /* Card styling */
-    .feature-card {
-        background: white;
-        padding: 30px 25px;
-        border-radius: 20px;
-        box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-        border-left: 5px solid #667eea;
-        height: 100%;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-   
-    .feature-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 15px 35px rgba(0,0,0,0.15);
-    }
-   
-    .feature-card h3 {
-        color: #2c3e50;
-        font-size: 1.4rem;
-        font-weight: 700;
-        margin-bottom: 15px;
-    }
-   
-    .feature-card p {
-        color: #7f8c8d;
-        font-size: 1rem;
-        line-height: 1.6;
-    }
-   
-    /* Button styling */
-    .stButton>button {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        border: none;
-        border-radius: 12px;
-        padding: 12px 25px;
-        font-weight: 600;
-        font-size: 1rem;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
-    }
-   
-    .stButton>button:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
-    }
-   
-    /* Metric cards */
-    .stMetric {
-        background: white;
-        padding: 20px;
-        border-radius: 15px;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-        border: 1px solid #e0e6ed;
-        color: #2c3e50 !important;
-    }
-   
-    .stMetric > div > div > div > p {
-        color: #2c3e50 !important;
-    }
-   
-    .stMetric > div > div > div > small {
+    .stMetric > div > div > div > small { /* Delta if present */
         color: #2c3e50 !important;
     }
    
@@ -652,27 +211,10 @@ st.markdown("""
         opacity: 0.95;
     }
 
-    /* Custom container for team page */
-    .custom-container {
-        background: white;
-        padding: 30px;
-        border-radius: 20px;
-        box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-    }
-
     /* Dark mode adjustments */
     @media (prefers-color-scheme: dark) {
         .stApp {
             background: linear-gradient(135deg, #1a1a1a 0%, #2c3e50 100%);
-        }
-        
-        .audio-player-container {
-            background: rgba(44, 62, 80, 0.95);
-            border: 2px solid #3498db;
-        }
-        
-        .audio-label {
-            color: #3498db;
         }
 
         .main-header {
@@ -729,60 +271,9 @@ st.markdown("""
         [data-testid="stMarkdownContainer"] p {
             color: #bdc3c7 !important;
         }
-
-        .custom-container {
-            background: #34495e !important;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-        }
-
-        /* Override inline styles for dark mode */
-        div[style*="background: #f8f9fa"] {
-            background: #2c3e50 !important;
-        }
-
-        h3[style*="color: #2c3e50"], h4[style*="color: #2c3e50"] {
-            color: #ffffff !important;
-        }
-
-        p[style*="color: #5a6c7d"] {
-            color: #bdc3c7 !important;
-        }
-
-        div[style*="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%)"] {
-            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%) !important;
-        }
-
-        div[style*="background: linear-gradient(135deg, #00b09b 0%, #96c93d 100%)"] {
-            background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%) !important;
-        }
-
-        div[style*="background: #667eea"] {
-            background: #3498db !important;
-        }
-
-        /* Timeline text */
-        div[style*="text-align: center; flex: 1;"] p {
-            color: #ffffff !important;
-        }
     }
 </style>
 """, unsafe_allow_html=True)
-
-# ----------------------
-# AUDIO PLAYER - FIXED POSITION
-# ----------------------
-audio_url = "https://raw.githubusercontent.com/ThaiBinh78/ML07_Project/main/Chill_Guy.mp3"
-
-st.markdown(f"""
-<div class="audio-player-container">
-    <div class="audio-label">🎵 Background Music</div>
-    <audio controls loop>
-        <source src="{audio_url}" type="audio/mpeg">
-        Trình duyệt của bạn không hỗ trợ audio element.
-    </audio>
-</div>
-""", unsafe_allow_html=True)
-
 # ----------------------
 # Helpers
 # ----------------------
@@ -894,18 +385,17 @@ except Exception as e:
     st.error("Không thể load model/sample. Kiểm tra đường dẫn:")
     st.write(str(e))
     st.stop()
-    
-    # ----------------------
-    # SIDEBAR - Professional Navigation
-    # ----------------------
-    with st.sidebar:
-        st.markdown("""
-        <div style="text-align: center; padding: 20px 0;">
-            <h1 style="color: white; font-size: 1.8rem; margin-bottom: 0;">🏍️ MotorPrice Pro</h1>
-            <p style="color: rgba(255,255,255,0.8); font-size: 0.9rem;">AI-Powered Motorcycle Valuation</p>
-        </div>
-        <hr style="border-color: rgba(255,255,255,0.2);">
-        """, unsafe_allow_html=True)
+# ----------------------
+# SIDEBAR - Professional Navigation
+# ----------------------
+with st.sidebar:
+    st.markdown("""
+    <div style="text-align: center; padding: 20px 0;">
+        <h1 style="color: white; font-size: 1.8rem; margin-bottom: 0;">🏍️ MotorPrice Pro</h1>
+        <p style="color: rgba(255,255,255,0.8); font-size: 0.9rem;">AI-Powered Motorcycle Valuation</p>
+    </div>
+    <hr style="border-color: rgba(255,255,255,0.2);">
+    """, unsafe_allow_html=True)
    
     # Navigation menu
     menu_options = {
@@ -1638,7 +1128,7 @@ elif st.session_state.current_page == "team":
     col1, col2 = st.columns([2, 1])
     
     with col1:
-        st.html("""
+        st.markdown("""
         <div class="custom-container">
             <h3 style="color: #2c3e50; margin-top: 0;">📋 Thông Tin Dự Án</h3>
             
@@ -1670,18 +1160,18 @@ elif st.session_state.current_page == "team":
                 </div>
             </div>
         </div>
-        """)
-
+        """, unsafe_allow_html=True)
+    
     with col2:
-        st.html("""
+        st.markdown("""
         <div class="custom-container">
             <h3 style="color: #2c3e50; margin-top: 0;">🔗 Liên Kết</h3>
             
             <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin: 15px 0;">
                 <p><strong>🐙 GitHub Repo:</strong></p>
                 <p>
-                      <a href="https://github.com/ThaiBinh78/ML07_Project" target="_blank" 
-                       style="color: #667eea; text-decoration: none; font-size: 13px;">
+                    <a href="https://github.com/ThaiBinh78/ML07_Project" target="_blank" 
+                       style="color: #667eea; text-decoration: none;">
                        https://github.com/ThaiBinh78/ML07_Project
                     </a>
                 </p>
@@ -1701,8 +1191,8 @@ elif st.session_state.current_page == "team":
                 <p>• 5+ ML Models</p>
             </div>
         </div>
-        """)
-        
+        """, unsafe_allow_html=True)
+    
     # Timeline dự án
     st.markdown("""
     <div class="custom-container">
@@ -1750,17 +1240,10 @@ elif st.session_state.current_page == "team":
 # ----------------------
 # FOOTER
 # ----------------------
-st.markdown("""
-<div style="text-align: center; color: #7f8c8d; padding: 40px 0 20px 0;">
-    <hr style="border-color: #e0e6ed; margin-bottom: 20px;">
-    <p>MotorPrice Pro - Hệ thống dự đoán giá xe máy cũ sử dụng AI | Phiên bản 1.0</p>
-</div>
-""", unsafe_allow_html=True)
-
-
-
-
-
-
-
+    st.markdown("""
+    <div style="text-align: center; color: #7f8c8d; padding: 40px 0 20px 0;">
+        <hr style="border-color: #e0e6ed; margin-bottom: 20px;">
+        <p>MotorPrice Pro - Hệ thống dự đoán giá xe máy cũ sử dụng AI | Phiên bản 1.0</p>
+    </div>
+    """, unsafe_allow_html=True)
 
