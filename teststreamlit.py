@@ -260,7 +260,7 @@ def page_home():
     # ----------------------
     st.markdown("""
     <div style="
-        background: linear-gradient(to right, #4fc3f7, #186C91);
+        background: linear-gradient(to right, #4fc3f7, #77BCBD);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
@@ -947,6 +947,7 @@ if selected in pages_map:
         st.write(traceback.format_exc())
 else:
     page_home()
+
 
 
 
