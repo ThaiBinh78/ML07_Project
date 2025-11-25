@@ -693,7 +693,7 @@ elif st.session_state.current_page == "prediction":
            
             # Display input parameters
             st.markdown("""
-            <div style="background: #16417C; padding: 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.08); margin: 20px 0;">
+            <div style="background: #1D57A6; padding: 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.08); margin: 20px 0;">
                 <h3 style="color: #2c3e50; margin-top: 0;">📋 Thông số đầu vào</h3>
             """, unsafe_allow_html=True)
            
@@ -714,7 +714,7 @@ elif st.session_state.current_page == "prediction":
            
             # Explanation
             st.markdown(f"""
-            <div style="background: #16417C; padding: 20px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.08);">
+            <div style="background: #1D57A6; padding: 20px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.08);">
                 <h4 style="color: #2c3e50; margin-top: 0;">📝 Giải thích</h4>
                 <p style="color: #7f8c8d; font-size: 1rem;">{explanation}</p>
             </div>
@@ -1383,6 +1383,7 @@ st.markdown("""
     ĐỒ ÁN TỐT NGHIỆP DATA SCIENCE - MACHINE LEARNING<br>
 </div>
 """, unsafe_allow_html=True)
+
 
 
 
