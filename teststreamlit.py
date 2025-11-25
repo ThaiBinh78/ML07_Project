@@ -1095,6 +1095,42 @@ elif st.session_state.current_page == "team":
     </div>
     """, unsafe_allow_html=True)
     
+    # Thêm CSS cho ảnh hình tròn
+    st.markdown("""
+    <style>
+    .circle-image {
+        width: 180px;
+        height: 180px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 4px solid #667eea;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        display: block;
+        margin: 0 auto 20px auto;
+    }
+    .circle-placeholder {
+        width: 180px;
+        height: 180px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 3rem;
+        margin: 0 auto 20px auto;
+        border: 4px solid #667eea;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    .member-name {
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: #2c3e50;
+        margin-bottom: 10px;
+        text-align: center;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+    
     # Tạo 2 cột cho 2 thành viên
     col1, col2 = st.columns(2)
     
@@ -1104,23 +1140,27 @@ elif st.session_state.current_page == "team":
             <h3 style="color: #2c3e50; margin-bottom: 20px;">THÀNH VIÊN 1</h3>
         """, unsafe_allow_html=True)
         
-        # Hiển thị hình ảnh thành viên 1
+        # Hiển thị hình ảnh thành viên 1 dạng hình tròn
         try:
-            # Thay thế "member1.jpg" bằng tên file hình thực tế của bạn
-            st.image("TB.jpg", width=200, caption="Nguyen Thai Binh")
+            st.markdown("""
+            <div style="text-align: center;">
+                <img src="TB.jpg" class="circle-image" alt="Nguyen Thai Binh">
+                <div class="member-name">Nguyen Thai Binh</div>
+            </div>
+            """, unsafe_allow_html=True)
         except:
             # Fallback nếu không có hình
             st.markdown("""
-            <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
-                    width: 200px; height: 200px; border-radius: 50%; margin: 0 auto 20px auto;
-                    display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem;">
-                👨‍💻
+            <div style="text-align: center;">
+                <div class="circle-placeholder" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                    👨‍💻
+                </div>
+                <div class="member-name">Nguyen Thai Binh</div>
             </div>
             """, unsafe_allow_html=True)
         
         st.markdown("""
             <div style="text-align: left; padding: 0 20px;">
-                <p><strong>🎯 Họ tên:</strong> Nguyen Thai Binh</p>
                 <p><strong>📧 Email:</strong> thaibinh782k1@gmail.com</p>
                 <p><strong>📚 Vai trò:</strong> Data Scientist & Developer</p>
                 <p><strong>🔧 Công việc:</strong> 
@@ -1138,22 +1178,27 @@ elif st.session_state.current_page == "team":
             <h3 style="color: #2c3e50; margin-bottom: 20px;">THÀNH VIÊN 2</h3>
         """, unsafe_allow_html=True)
         
-        # Hiển thị hình ảnh thành viên 2
+        # Hiển thị hình ảnh thành viên 2 dạng hình tròn
         try:
-            st.image("DT.jpg", width=200, caption="Nguyen Duy Thanh")
+            st.markdown("""
+            <div style="text-align: center;">
+                <img src="DT.jpg" class="circle-image" alt="Nguyen Duy Thanh">
+                <div class="member-name">Nguyen Duy Thanh</div>
+            </div>
+            """, unsafe_allow_html=True)
         except:
             # Fallback nếu không có hình 
             st.markdown("""
-            <div style="background: linear-gradient(135deg, #00b09b 0%, #96c93d 100%); 
-                    width: 200px; height: 200px; border-radius: 50%; margin: 0 auto 20px auto;
-                    display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem;">
-                👨‍💻
+            <div style="text-align: center;">
+                <div class="circle-placeholder" style="background: linear-gradient(135deg, #00b09b 0%, #96c93d 100%);">
+                    👨‍💻
+                </div>
+                <div class="member-name">Nguyen Duy Thanh</div>
             </div>
             """, unsafe_allow_html=True)
         
         st.markdown("""
             <div style="text-align: left; padding: 0 20px;">
-                <p><strong>🎯 Họ tên:</strong> Nguyen Duy Thanh</p>
                 <p><strong>📧 Email:</strong> duythanh200620@gmail.com</p>
                 <p><strong>📚 Vai trò:</strong> Data Analyst & Developer</p>
                 <p><strong>🔧 Công việc:</strong> 
@@ -1288,5 +1333,6 @@ st.markdown("""
     <p>MotorPrice Pro - Hệ thống dự đoán giá xe máy cũ sử dụng AI | Phiên bản 1.0</p>
 </div>
 """, unsafe_allow_html=True)
+
 
 
