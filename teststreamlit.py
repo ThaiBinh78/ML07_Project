@@ -1098,17 +1098,15 @@ elif st.session_state.current_page == "team":
     # Thêm CSS cho ảnh hình tròn
     st.markdown("""
     <style>
-    .circle-image-container {
+    .circle-image {
         width: 180px;
         height: 180px;
         border-radius: 50%;
-        overflow: hidden;
+        object-fit: cover;
         border: 4px solid #667eea;
         box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         margin: 0 auto 20px auto;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        display: block;
     }
     .circle-placeholder {
         width: 180px;
@@ -1130,6 +1128,10 @@ elif st.session_state.current_page == "team":
         margin-bottom: 10px;
         text-align: center;
     }
+    .member-container {
+        text-align: center;
+        margin-bottom: 30px;
+    }
     </style>
     """, unsafe_allow_html=True)
     
@@ -1143,24 +1145,22 @@ elif st.session_state.current_page == "team":
         """, unsafe_allow_html=True)
         
         # Hiển thị hình ảnh thành viên 1 dạng hình tròn
-        col_img1, col_img2, col_img3 = st.columns([1, 2, 1])
-        with col_img2:
-            try:
-                # Sử dụng st.image với CSS custom
-                st.markdown('<div class="circle-image-container">', unsafe_allow_html=True)
-                st.image("TB.jpg", width=180, use_column_width=True)
-                st.markdown('</div>', unsafe_allow_html=True)
-                st.markdown('<div class="member-name">Nguyen Thai Binh</div>', unsafe_allow_html=True)
-            except Exception as e:
-                # Fallback nếu không có hình
-                st.markdown("""
-                <div style="text-align: center;">
-                    <div class="circle-placeholder" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
-                        👨‍💻
-                    </div>
-                    <div class="member-name">Nguyen Thai Binh</div>
+        try:
+            # Sử dụng st.image trực tiếp với CSS class
+            st.markdown('<div class="member-container">', unsafe_allow_html=True)
+            st.image("TB.jpg", width=180, use_column_width="auto", output_format="auto")
+            st.markdown('<div class="member-name">Nguyen Thai Binh</div>', unsafe_allow_html=True)
+            st.markdown('</div>', unsafe_allow_html=True)
+        except Exception as e:
+            # Fallback nếu không có hình
+            st.markdown("""
+            <div class="member-container">
+                <div class="circle-placeholder" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                    👨‍💻
                 </div>
-                """, unsafe_allow_html=True)
+                <div class="member-name">Nguyen Thai Binh</div>
+            </div>
+            """, unsafe_allow_html=True)
         
         st.markdown("""
             <div style="text-align: left; padding: 0 20px;">
@@ -1182,24 +1182,20 @@ elif st.session_state.current_page == "team":
         """, unsafe_allow_html=True)
         
         # Hiển thị hình ảnh thành viên 2 dạng hình tròn
-        col_img1, col_img2, col_img3 = st.columns([1, 2, 1])
-        with col_img2:
-            try:
-                # Sử dụng st.image với CSS custom
-                st.markdown('<div class="circle-image-container">', unsafe_allow_html=True)
-                st.image("DT.jpg", width=180, use_column_width=True)
-                st.markdown('</div>', unsafe_allow_html=True)
-                st.markdown('<div class="member-name">Nguyen Duy Thanh</div>', unsafe_allow_html=True)
-            except Exception as e:
-                # Fallback nếu không có hình 
-                st.markdown("""
-                <div style="text-align: center;">
-                    <div class="circle-placeholder" style="background: linear-gradient(135deg, #00b09b 0%, #96c93d 100%);">
-                        👨‍💻
-                    </div>
-                    <div class="member-name">Nguyen Duy Thanh</div>
+        try:
+            st.markdown('<div class="member-container">', unsafe_allow_html=True)
+            st.image("DT.jpg", width=180, use_column_width="auto", output_format="auto")
+            st.markdown('<div class="member-name">Nguyen Duy Thanh</div>', unsafe_allow_html=True)
+            st.markdown('</div>', unsafe_allow_html=True)
+        except Exception as e:
+            st.markdown("""
+            <div class="member-container">
+                <div class="circle-placeholder" style="background: linear-gradient(135deg, #00b09b 0%, #96c93d 100%);">
+                    👨‍💻
                 </div>
-                """, unsafe_allow_html=True)
+                <div class="member-name">Nguyen Duy Thanh</div>
+            </div>
+            """, unsafe_allow_html=True)
         
         st.markdown("""
             <div style="text-align: left; padding: 0 20px;">
@@ -1266,6 +1262,7 @@ st.markdown("""
     <p>MotorPrice Pro - Hệ thống dự đoán giá xe máy cũ sử dụng AI | Phiên bản 1.0</p>
 </div>
 """, unsafe_allow_html=True)
+
 
 
 
