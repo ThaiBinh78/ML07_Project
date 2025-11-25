@@ -887,7 +887,7 @@ elif st.session_state.current_page == "anomaly":
            
             # Market statistics
             st.markdown("""
-            <div style="background: #13386B; padding: 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.08); margin: 20px 0;">
+            <div style="background: #630ACC; padding: 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.08); margin: 20px 0;">
                 <h3 style="color: #2c3e50; margin-top: 0;">📊 Thống kê thị trường</h3>
             """, unsafe_allow_html=True)
             
@@ -998,7 +998,7 @@ elif st.session_state.current_page == "anomaly":
            
             # Recommendations
             st.markdown("""
-            <div style="background: #13386B; padding: 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.08);">
+            <div style="background: #1D56A3; padding: 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.08);">
                 <h3 style="color: #2c3e50; margin-top: 0;">💡 Khuyến nghị</h3>
             """, unsafe_allow_html=True)
            
@@ -1383,6 +1383,7 @@ st.markdown("""
     ĐỒ ÁN TỐT NGHIỆP DATA SCIENCE - MACHINE LEARNING<br>
 </div>
 """, unsafe_allow_html=True)
+
 
 
 
