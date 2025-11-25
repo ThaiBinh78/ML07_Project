@@ -76,7 +76,7 @@ st.markdown("""
    
     /* Header styling */
     .main-header {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
         padding: 40px 30px;
         border-radius: 20px;
         color: white;
@@ -1201,7 +1201,7 @@ elif st.session_state.current_page == "team":
             # Fallback nếu không có hình
             st.markdown("""
             <div class="member-container">
-                <div class="circle-placeholder" style="background: linear-gradient(135deg, #667eea 40%, #764ba2 60%);">
+                <div class="circle-placeholder" style="background: linear-gradient(135deg, #667eea 0%, #774CA3 100%);">
                     👨‍💻
                 </div>
                 <div class="member-name">Nguyen Thai Binh</div>
@@ -1302,6 +1302,7 @@ st.markdown("""
     ĐỒ ÁN TỐT NGHIỆP DATA SCIENCE - MACHINE LEARNING<br>
 </div>
 """, unsafe_allow_html=True)
+
 
 
 
