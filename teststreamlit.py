@@ -476,7 +476,7 @@ with st.sidebar:
     st.markdown("""
     <div style="text-align: center; padding: 20px 0;">
         <h1 style="color: white; font-size: 1.8rem; margin-bottom: 0;">🏍️ MotorPrice Pro</h1>
-        <p style="color: rgba(255,255,255,0.8); font-size: 0.9rem;">AI-Powered Motorcycle Valuation</p>
+        <p style="color: rgba(255,255,255,0.8); font-size: 0.9rem;">Motorcycle Valuation</p>
     </div>
     <hr style="border-color: rgba(255,255,255,0.2);">
     """, unsafe_allow_html=True)
@@ -603,7 +603,7 @@ elif st.session_state.current_page == "prediction":
     if mode == "Nhập thông tin thủ công":
         with st.form("predict_form", clear_on_submit=False):
             st.markdown("""
-            <div style="background: white; padding: 30px; border-radius: 20px; box-shadow: 0 8px 25px rgba(0,0,0,0.1);">
+            <div style="background: blue; padding: 30px; border-radius: 20px; box-shadow: 0 8px 25px rgba(0,0,0,0.1);">
             """, unsafe_allow_html=True)
            
             st.subheader("🚗 Thông Tin Xe")
@@ -1296,6 +1296,7 @@ st.markdown("""
     ĐỒ ÁN TỐT NGHIỆP DATA SCIENCE - MACHINE LEARNING<br>
 </div>
 """, unsafe_allow_html=True)
+
 
 
 
