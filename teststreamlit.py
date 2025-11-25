@@ -271,12 +271,12 @@ def page_home():
     </style>
     """, unsafe_allow_html=True)
     
-    st.markdown('<h1 class="gradient-title">Ứng dụng dự đoán giá xe máy cũ</h1>', unsafe_allow_html=True)
+    st.markdown('<h1 class="gradient-title">ỨNG DỤNG DỰ ĐOÁN GIÁ XE MÁY CŨ</h1>', unsafe_allow_html=True)
 
     # ----------------------
     # 4 PLOTS ĐẦU TRANG
     # ----------------------
-    st.markdown(" Thống kê mô tả thị trường xe máy Việt Nam")
+    st.markdown("# Thống kê mô tả thị trường xe máy Việt Nam")
     if sample_df is None or sample_df.empty:
         st.warning("Chưa có dữ liệu mẫu để hiển thị plot.")
     else:
@@ -945,6 +945,7 @@ if selected in pages_map:
         st.write(traceback.format_exc())
 else:
     page_home()
+
 
 
 
