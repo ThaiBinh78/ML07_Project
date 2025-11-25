@@ -684,7 +684,7 @@ def page_anom():
         valid_models = sorted(df_brand["model_lower"].unique())
 
         if model_name not in valid_models:
-            st.error(f"❌ Dòng xe **{model_raw}** không tồn tại cho thương hiệu {brand_raw}.")
+            st.error(f"❌ Không tìm thấy dòng xe **{model_raw}** trong thương hiệu {brand_raw}.")
             st.info("Gợi ý (20 dòng xe đầu): " + ", ".join(valid_models[:20]))
             return
 
@@ -874,6 +874,7 @@ if selected in pages_map:
         st.write(traceback.format_exc())
 else:
     page_home()
+
 
 
 
