@@ -259,13 +259,15 @@ def page_home():
     # TITLE GRADIENT
     # ----------------------
     st.markdown("""
-    ## <span style="
+    <h2 style="
         font-weight:700;
         background: linear-gradient(to right, #4fc3f7, #29b6f6);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
-    ">Ứng dụng dự đoán giá xe máy cũ</span>
+        display: inline-block;
+    ">Ứng dụng dự đoán giá xe máy cũ</h2>
     """, unsafe_allow_html=True)
+
 
     # ----------------------
     # 4 PLOTS ĐẦU TRANG
@@ -457,6 +459,7 @@ Hệ thống được thiết kế như một **trợ lý chuyên gia về giá 
 
 
     """)
+    show_footer()
 
 
 def page_predict():
@@ -641,8 +644,10 @@ def page_predict():
 
                 except Exception as e:
                     st.error("Lỗi dự đoán hàng loạt: " + str(e))
+    show_footer()
 
 def page_anom():
+    show_footer()
     st.image("batthuong.jpg")
     st.title("Kiểm tra bất thường")
 
@@ -720,6 +725,7 @@ def page_admin_login():
             st.experimental_rerun()
         else:
             st.error("Sai mật khẩu. Vui lòng thử lại.")
+    show_footer()
 
 def page_admin():
     if not st.session_state.admin_auth:
@@ -759,6 +765,7 @@ def page_admin():
         st.session_state.admin_auth = False
         st.session_state.page = "home"
         st.experimental_rerun()
+    show_footer()
 
 def page_logs():
     st.title("Nhật ký hệ thống")
@@ -767,6 +774,7 @@ def page_logs():
         st.dataframe(logs.sort_values("timestamp", ascending=False).head(500))
     else:
         st.info("Chưa có logs.")
+    show_footer()
 
 # advanced report 
 def page_report():
@@ -829,7 +837,7 @@ def page_report():
     sns.heatmap(corr, annot=True, fmt=".2f", cmap="YlGnBu", ax=ax5)  # màu tươi, dễ nhìn
     st.pyplot(fig5)
     st.info("Nhận xét: Km càng nhiều thì giá càng giảm, năm đăng ký càng mới thì giá càng cao.")
-
+    show_footer()
 
 
 def page_team():
@@ -842,6 +850,7 @@ def page_team():
     st.markdown(" Email: duythanh200620@gmail.com")
     st.markdown("- Repo: https://github.com/ThaiBinh78/ML07_Project")
     st.markdown("- Ngày báo cáo: 22/11/2025")
+    show_footer()
 # ----------------------
 # Router: display page based on session_state.page
 # ----------------------
@@ -867,6 +876,7 @@ if selected in pages_map:
         st.write(traceback.format_exc())
 else:
     page_home()
+
 
 
 
