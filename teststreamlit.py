@@ -254,13 +254,13 @@ def page_home():
     # NHẠC NỀN
     # ----------------------
     st.markdown("""
-    <div style="text-align:center; margin-bottom:20px;">
-        <iframe width="400" height="80"
-            src="https://www.youtube.com/embed/JO334h_PhuU?autoplay=0&loop=1&playlist=JO334h_PhuU"
-            title="Nhạc nền" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen>
-        </iframe>
-    </div>
-    """, unsafe_allow_html=True)
+<div style="text-align:center; margin-bottom:20px;">
+    <audio controls>
+        <source src="https://github.com/ThaiBinh78/ML07_Project/blob/main/Chill_Guy.mp3" type="audio/mpeg">
+        Trình duyệt của bạn không hỗ trợ audio.
+    </audio>
+</div>
+""", unsafe_allow_html=True)
 
     # ----------------------
     # TITLE
@@ -271,77 +271,34 @@ def page_home():
     # FEATURE BOX
     # ----------------------
     st.markdown("""
-    <style>
-    .feature-box {
-        background: linear-gradient(to right, #f5f9ff, #ffffff);
-        border: 1px solid #d3e3ff;
-        padding: 28px;
-        border-radius: 14px;
-        margin-top: 25px;
-        margin-bottom: 10px;
-        color: #003366;
-        box-shadow: 0 2px 6px rgba(0,0,0,0.06);
-    }
-    .feature-title {
-        font-size: 24px;
-        font-weight: 700;
-        color: #0a4da3;
-        margin-bottom: 15px;
-    }
-    .feature-subtitle {
-        font-size: 20px;
-        font-weight: 600;
-        color: #0a4da3;
-        margin-top: 18px;
-    }
-    .feature-text {
-        font-size: 16px;
-        line-height: 1.55;
-        color: #003366;
-    }
-    .feature-list li {
-        padding: 4px 0;
-    }
-    </style>
+<div style="background: linear-gradient(to right, #f5f9ff, #ffffff); 
+            border:1px solid #d3e3ff; padding:28px; border-radius:14px; margin-top:25px; color:#003366; box-shadow:0 2px 6px rgba(0,0,0,0.06);">
 
-    <div class="feature-box">
-        <div class="feature-title">Ứng dụng hỗ trợ những gì?</div>
+<h3 style="color:#0a4da3;">Ứng dụng hỗ trợ những gì?</h3>
 
-        <div class="feature-subtitle">1. Dự đoán giá xe nhanh chóng</div>
-        <div class="feature-text">
-            Bạn chỉ cần nhập vài thông tin như thương hiệu, dòng xe, năm đăng ký, số km đã đi...
-            <br>→ Hệ thống sẽ phân tích dữ liệu thị trường và gợi ý mức giá hợp lý nhất.
-        </div>
-        <ul class="feature-list">
-            <li>✔️ Biết được giá trị thật của chiếc xe</li>
-            <li>✔️ Tránh bị ép giá khi mua</li>
-            <li>✔️ Tránh đăng tin quá cao hoặc quá thấp khi bán</li>
-        </ul>
+<b>1. Dự đoán giá xe nhanh chóng</b><br>
+Bạn chỉ cần nhập vài thông tin như thương hiệu, dòng xe, năm đăng ký, số km đã đi...
+- ✔️ Biết được giá trị thật của chiếc xe
+- ✔️ Tránh bị ép giá khi mua
+- ✔️ Tránh đăng tin quá cao hoặc quá thấp khi bán
 
-        <div class="feature-subtitle">2. Phát hiện bất thường về giá</div>
-        <div class="feature-text">
-            Hệ thống sẽ đánh giá xem mức giá bạn nhập có hợp lý không, có thấp bất thường (nguy cơ lừa đảo),
-            hoặc cao hơn nhiều so với thị trường.
-        </div>
-        <ul class="feature-list">
-            <li>✔️ Nhận biết rủi ro</li>
-            <li>✔️ Kiểm tra độ tin cậy của tin đăng</li>
-            <li>✔️ Tránh mất thời gian và công sức</li>
-        </ul>
+<b>2. Phát hiện bất thường về giá</b><br>
+Hệ thống đánh giá xem mức giá nhập có hợp lý không, có thấp bất thường hoặc cao hơn thị trường.
+- ✔️ Nhận biết rủi ro
+- ✔️ Kiểm tra độ tin cậy tin đăng
+- ✔️ Tránh mất thời gian
 
-        <div class="feature-subtitle">3. Dashboard thị trường xe máy Việt Nam</div>
-        <div class="feature-text">
-            Trang tổng hợp trực quan giúp bạn hiểu tổng thể thị trường:
-        </div>
-        <ul class="feature-list">
-            <li>✔️ Phân bố giá theo thương hiệu</li>
-            <li>✔️ Tuổi xe và mức độ phổ biến</li>
-            <li>✔️ Phân bố số km đã đi</li>
-            <li>✔️ Giá trung bình theo từng loại xe</li>
-            <li>✔️ Top thương hiệu được rao bán nhiều nhất</li>
-        </ul>
-    </div>
-    """, unsafe_allow_html=True)
+<b>3. Dashboard thị trường xe máy Việt Nam</b><br>
+Trang tổng hợp trực quan giúp bạn hiểu tổng thể thị trường:
+- ✔️ Phân bố giá theo thương hiệu
+- ✔️ Tuổi xe và mức độ phổ biến
+- ✔️ Phân bố số km đã đi
+- ✔️ Giá trung bình theo loại xe
+- ✔️ Top thương hiệu được rao bán nhiều nhất
+
+</div>
+""", unsafe_allow_html=True)
+
 
 # ----------------------
 # FOOTER
@@ -369,40 +326,40 @@ def page_footer():
 
 
 
-# ==============================
-# 4 PLOTS TRONG 1 FIGURE (2x2)
-# ==============================
-st.markdown("###  Thống kê mô tả thị trường xe máy Việt Nam")
-df = sample_df.copy()
-# Chuẩn bị data
-df["Tuổi xe"] = CURRENT_YEAR - df["Năm đăng ký"]
-price_col = "Gia_trieu" if "Gia_trieu" in df.columns else "Giá"
-top_brands = df["Thương hiệu"].value_counts().head(10)
-
-# Tạo figure 2x2
-fig, axes = plt.subplots(2, 2, figsize=(14, 10))
-(ax1, ax2), (ax3, ax4) = axes
-
-# 1. Phân bố tuổi xe
-sns.histplot(df["Tuổi xe"], bins=20, kde=True, color="#ffb74d", ax=ax1)
-ax1.set_title("Phân bố tuổi xe")
-
-# 2. Top thương hiệu
-sns.barplot(x=top_brands.values, y=top_brands.index, palette="Blues_r", ax=ax2)
-ax2.set_title("Top 10 thương hiệu phổ biến")
-
-# 3. Phân bố giá
-sns.histplot(df[price_col], bins=40, kde=True, color="#4db6ac", ax=ax3)
-ax3.set_title("Phân bố giá thị trường (Triệu)")
-
-# 4. Số Km đã đi
-sns.histplot(df["Số Km đã đi"], bins=40, kde=False, color="#ff8a65", ax=ax4)
-ax4.set_title("Phân bố số Km đã đi")
-
-
-# Hiển thị
-plt.tight_layout()
-st.pyplot(fig)
+    # ==============================
+    # 4 PLOTS TRONG 1 FIGURE (2x2)
+    # ==============================
+    st.markdown("###  Thống kê mô tả thị trường xe máy Việt Nam")
+    df = sample_df.copy()
+    # Chuẩn bị data
+    df["Tuổi xe"] = CURRENT_YEAR - df["Năm đăng ký"]
+    price_col = "Gia_trieu" if "Gia_trieu" in df.columns else "Giá"
+    top_brands = df["Thương hiệu"].value_counts().head(10)
+    
+    # Tạo figure 2x2
+    fig, axes = plt.subplots(2, 2, figsize=(14, 10))
+    (ax1, ax2), (ax3, ax4) = axes
+    
+    # 1. Phân bố tuổi xe
+    sns.histplot(df["Tuổi xe"], bins=20, kde=True, color="#ffb74d", ax=ax1)
+    ax1.set_title("Phân bố tuổi xe")
+    
+    # 2. Top thương hiệu
+    sns.barplot(x=top_brands.values, y=top_brands.index, palette="Blues_r", ax=ax2)
+    ax2.set_title("Top 10 thương hiệu phổ biến")
+    
+    # 3. Phân bố giá
+    sns.histplot(df[price_col], bins=40, kde=True, color="#4db6ac", ax=ax3)
+    ax3.set_title("Phân bố giá thị trường (Triệu)")
+    
+    # 4. Số Km đã đi
+    sns.histplot(df["Số Km đã đi"], bins=40, kde=False, color="#ff8a65", ax=ax4)
+    ax4.set_title("Phân bố số Km đã đi")
+    
+    
+    # Hiển thị
+    plt.tight_layout()
+    st.pyplot(fig)
 
 
 
@@ -905,6 +862,7 @@ if selected in pages_map:
         st.write(traceback.format_exc())
 else:
     page_home()
+
 
 
 
