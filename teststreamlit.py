@@ -516,7 +516,7 @@ if st.session_state.current_page == "home":
     <div style="text-align: center; margin-bottom: 40px;">
         <h2 style="color: #2c3e50; font-size: 2.2rem; margin-bottom: 15px;">Chào mừng đến với MotorPrice Pro</h2>
         <p style="color: #7f8c8d; font-size: 1.2rem; max-width: 800px; margin: 0 auto;">
-            Công nghệ AI tiên tiến giúp bạn dự đoán giá xe máy cũ chính xác và phát hiện các giao dịch bất thường
+            Công nghệ tiên tiến giúp bạn dự đoán giá xe máy cũ chính xác và phát hiện các giao dịch bất thường
         </p>
     </div>
     """, unsafe_allow_html=True)
@@ -528,7 +528,7 @@ if st.session_state.current_page == "home":
         st.markdown("""
         <div class="feature-card">
             <h3>📊 Dự Đoán Giá Thông Minh</h3>
-            <p>Sử dụng machine learning và AI để dự đoán giá xe chính xác dựa trên đặc điểm và tình trạng xe</p>
+            <p>Sử dụng machine learning để dự đoán giá xe chính xác dựa trên đặc điểm và tình trạng xe</p>
         </div>
         """, unsafe_allow_html=True)
    
@@ -622,7 +622,6 @@ elif st.session_state.current_page == "prediction":
                 dungtich = st.text_input("Dung tích xe", value="125", placeholder="Ví dụ: 125, 150, etc.")
                 age = st.slider("Tuổi xe (năm)", 0, 50, 3)
                 year_reg = int(CURRENT_YEAR - age)
-                st.info(f"**Năm đăng ký:** {year_reg}")
                 km = st.number_input("Số Km đã đi", min_value=0, max_value=500000, value=20000, step=1000)
                 price_input = st.number_input("Giá thực (Triệu VNĐ) — tùy chọn", min_value=0.0, value=0.0, step=1.0)
            
@@ -1297,6 +1296,7 @@ st.markdown("""
     ĐỒ ÁN TỐT NGHIỆP DATA SCIENCE - MACHINE LEARNING<br>
 </div>
 """, unsafe_allow_html=True)
+
 
 
 
