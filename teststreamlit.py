@@ -920,7 +920,7 @@ elif st.session_state.current_page == "anomaly":
                 with st.container():
                     st.markdown(f"""
                     <div class="custom-metric">
-                        <h3 style="color: #7B0CFF; margin: 0 0 10px 0; font-size: 1.1rem;">📊 Giá trung vị (Median)</h3>
+                        <h3 style="color: #1887F5; margin: 0 0 10px 0; font-size: 1.1rem;">📊 Giá trung vị (Median)</h3>
                         <p style="font-size: 1.5rem; font-weight: bold; color: #2c3e50; margin: 0;">{median_price:.1f} Triệu</p>
                         <p style="color: #7f8c8d; font-size: 0.9rem; margin: 10px 0 0 0;">Giá trung bình của nhóm xe, 50% xe rẻ hơn và 50% xe đắt hơn mức này.</p>
                     </div>
@@ -1383,6 +1383,7 @@ st.markdown("""
     ĐỒ ÁN TỐT NGHIỆP DATA SCIENCE - MACHINE LEARNING<br>
 </div>
 """, unsafe_allow_html=True)
+
 
 
 
