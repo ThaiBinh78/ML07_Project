@@ -983,7 +983,7 @@ elif st.session_state.current_page == "anomaly":
             # Thêm phần giải thích ngắn
             st.markdown("---")
             st.markdown("""
-            <div style="background: #5E0DB5; padding: 20px; border-radius: 10px; margin-top: 20px;">
+            <div style="background: #7510E0; padding: 20px; border-radius: 10px; margin-top: 20px;">
                 <h4 style="color: #435F7A; margin-top: 0;">📖 Giải thích về phân vị giá:</h4>
                 <p style="color: #5a6c7d; margin: 5px 0;">
                     • <strong>Phân vị 25% (P25):</strong> 25% xe có giá thấp hơn mức này<br>
@@ -1383,6 +1383,7 @@ st.markdown("""
     ĐỒ ÁN TỐT NGHIỆP DATA SCIENCE - MACHINE LEARNING<br>
 </div>
 """, unsafe_allow_html=True)
+
 
 
 
