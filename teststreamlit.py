@@ -247,43 +247,7 @@ st.markdown(f"""
 
 
 def page_home():
-    # ----------------------
-    # HEADER + NAVIGATION
-    # ----------------------
-    st.markdown("""
-    <style>
-    .header-container {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 10px 0;
-        border-bottom: 1px solid #ddd;
-    }
-    .tabs-container button {
-        background-color: #f5f9ff;
-        border: none;
-        padding: 10px 20px;
-        margin-right: 5px;
-        border-radius: 6px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: 0.2s;
-    }
-    .tabs-container button:hover {
-        background-color: #d3e3ff;
-    }
-    </style>
-
-    <div class="header-container">
-        <img src="chotot.jpg" width="150">
-        <div class="tabs-container">
-            <button onclick="window.location.href='#home'">Home</button>
-            <button onclick="window.location.href='#report'">Báo cáo</button>
-            <button onclick="window.location.href='#about'">Thông tin</button>
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
-
+    st.image("chotot.jpg")
     # ----------------------
     # TITLE
     # ----------------------
@@ -334,27 +298,27 @@ def page_home():
     <b>1. Dự đoán giá xe nhanh chóng</b><br>
     Bạn chỉ cần nhập vài thông tin như thương hiệu, dòng xe, năm đăng ký, số km đã đi...
     <ul>
-        <li>✔️ Biết được giá trị thật của chiếc xe</li>
-        <li>✔️ Tránh bị ép giá khi mua</li>
-        <li>✔️ Tránh đăng tin quá cao hoặc quá thấp khi bán</li>
+        <li> Biết được giá trị thật của chiếc xe</li>
+        <li> Tránh bị ép giá khi mua</li>
+        <li> Tránh đăng tin quá cao hoặc quá thấp khi bán</li>
     </ul>
 
     <b>2. Phát hiện bất thường về giá</b><br>
     Hệ thống đánh giá xem mức giá nhập có hợp lý không, có thấp bất thường hoặc cao hơn thị trường.
     <ul>
-        <li>✔️ Nhận biết rủi ro</li>
-        <li>✔️ Kiểm tra độ tin cậy tin đăng</li>
-        <li>✔️ Tránh mất thời gian</li>
+        <li> Nhận biết rủi ro</li>
+        <li> Kiểm tra độ tin cậy tin đăng</li>
+        <li> Tránh mất thời gian</li>
     </ul>
 
     <b>3. Dashboard thị trường xe máy Việt Nam</b><br>
     Trang tổng hợp trực quan giúp bạn hiểu tổng thể thị trường:
     <ul>
-        <li>✔️ Phân bố giá theo thương hiệu</li>
-        <li>✔️ Tuổi xe và mức độ phổ biến</li>
-        <li>✔️ Phân bố số km đã đi</li>
-        <li>✔️ Giá trung bình theo loại xe</li>
-        <li>✔️ Top thương hiệu được rao bán nhiều nhất</li>
+        <li> Phân bố giá theo thương hiệu</li>
+        <li> Tuổi xe và mức độ phổ biến</li>
+        <li> Phân bố số km đã đi</li>
+        <li> Giá trung bình theo loại xe</li>
+        <li> Top thương hiệu được rao bán nhiều nhất</li>
     </ul>
 
     </div>
@@ -885,6 +849,7 @@ if selected in pages_map:
         st.write(traceback.format_exc())
 else:
     page_home()
+
 
 
 
