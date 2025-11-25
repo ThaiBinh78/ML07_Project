@@ -1285,15 +1285,6 @@ elif st.session_state.current_page == "team":
         </div>
     </div>
     """, unsafe_allow_html=True)
-    
-    st.markdown("---")
-    st.markdown("""
-    <div style="text-align: center; color: #5a6c7d; padding: 20px;">
-        <p><strong>MotorPrice Pro</strong> - Hệ thống dự đoán giá xe máy cũ thông minh</p>
-        <p>© 2024 All rights reserved | Powered by AI Technology</p>
-        <p>Developed with ❤️ by Nguyen Thai Binh & Nguyen Duy Thanh</p>
-    </div>
-    """, unsafe_allow_html=True)
 
 
 # ----------------------
@@ -1306,6 +1297,7 @@ st.markdown("""
     ĐỒ ÁN TỐT NGHIỆP DATA SCIENCE - MACHINE LEARNING<br>
 </div>
 """, unsafe_allow_html=True)
+
 
 
 
