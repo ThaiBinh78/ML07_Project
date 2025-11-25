@@ -294,6 +294,7 @@ def page_home():
 # ====== SECTION: Tính năng nổi bật (IFB2025 style) ======
 st.markdown("""
 <style>
+/* Box chính */
 .feature-box {
     background: linear-gradient(to right, #f5f9ff, #ffffff);
     border: 1px solid #d3e3ff;
@@ -305,6 +306,7 @@ st.markdown("""
     box-shadow: 0 2px 6px rgba(0,0,0,0.06);
 }
 
+/* Tiêu đề chính */
 .feature-title {
     font-size: 24px;
     font-weight: 700;
@@ -312,6 +314,7 @@ st.markdown("""
     margin-bottom: 15px;
 }
 
+/* Tiêu đề phụ */
 .feature-subtitle {
     font-size: 20px;
     font-weight: 600;
@@ -319,21 +322,23 @@ st.markdown("""
     margin-top: 18px;
 }
 
+/* Nội dung mô tả */
 .feature-text {
     font-size: 16px;
     line-height: 1.55;
     color: #003366;
 }
 
+/* List */
 .feature-list li {
     padding: 4px 0;
 }
 </style>
 
 <div class="feature-box">
-    <div class="feature-title"> Ứng dụng hỗ trợ những gì?</div>
+    <div class="feature-title">Ứng dụng hỗ trợ những gì?</div>
 
-    <div class="feature-subtitle"> 1. Dự đoán giá xe nhanh chóng</div>
+    <div class="feature-subtitle">1. Dự đoán giá xe nhanh chóng</div>
     <div class="feature-text">
         Bạn chỉ cần nhập vài thông tin như thương hiệu, dòng xe, năm đăng ký, số km đã đi...
         <br>→ Hệ thống sẽ phân tích dữ liệu thị trường và gợi ý mức giá hợp lý nhất.
@@ -344,7 +349,7 @@ st.markdown("""
         <li>✔️ Tránh đăng tin quá cao hoặc quá thấp khi bán</li>
     </ul>
 
-    <div class="feature-subtitle"> 2. Phát hiện bất thường về giá</div>
+    <div class="feature-subtitle">2. Phát hiện bất thường về giá</div>
     <div class="feature-text">
         Hệ thống sẽ đánh giá xem mức giá bạn nhập có hợp lý không, có thấp bất thường (nguy cơ lừa đảo),
         hoặc cao hơn nhiều so với thị trường.
@@ -355,7 +360,7 @@ st.markdown("""
         <li>✔️ Tránh mất thời gian và công sức</li>
     </ul>
 
-    <div class="feature-subtitle"> 3. Dashboard thị trường xe máy Việt Nam</div>
+    <div class="feature-subtitle">3. Dashboard thị trường xe máy Việt Nam</div>
     <div class="feature-text">
         Trang tổng hợp trực quan giúp bạn hiểu tổng thể thị trường:
     </div>
@@ -366,11 +371,11 @@ st.markdown("""
         <li>✔️ Giá trung bình theo từng loại xe</li>
         <li>✔️ Top thương hiệu được rao bán nhiều nhất</li>
     </ul>
-
 </div>
 """, unsafe_allow_html=True)
 
-    # ==============================
+
+# ==============================
 # 4 PLOTS TRONG 1 FIGURE (2x2)
 # ==============================
 st.markdown("###  Thống kê mô tả thị trường xe máy Việt Nam")
@@ -927,6 +932,7 @@ if selected in pages_map:
         st.write(traceback.format_exc())
 else:
     page_home()
+
 
 
 
