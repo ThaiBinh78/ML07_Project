@@ -211,14 +211,6 @@ st.markdown("""
         opacity: 0.95;
     }
 
-    /* Custom container for team page */
-    .custom-container {
-        background: white;
-        padding: 30px;
-        border-radius: 20px;
-        box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-    }
-
     /* Dark mode adjustments */
     @media (prefers-color-scheme: dark) {
         .stApp {
@@ -278,41 +270,6 @@ st.markdown("""
 
         [data-testid="stMarkdownContainer"] p {
             color: #bdc3c7 !important;
-        }
-
-        .custom-container {
-            background: #34495e !important;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-        }
-
-        /* Override inline styles for dark mode */
-        div[style*="background: #f8f9fa"] {
-            background: #2c3e50 !important;
-        }
-
-        h3[style*="color: #2c3e50"], h4[style*="color: #2c3e50"] {
-            color: #ffffff !important;
-        }
-
-        p[style*="color: #5a6c7d"] {
-            color: #bdc3c7 !important;
-        }
-
-        div[style*="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%)"] {
-            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%) !important;
-        }
-
-        div[style*="background: linear-gradient(135deg, #00b09b 0%, #96c93d 100%)"] {
-            background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%) !important;
-        }
-
-        div[style*="background: #667eea"] {
-            background: #3498db !important;
-        }
-
-        /* Timeline text */
-        div[style*="text-align: center; flex: 1;"] p {
-            color: #ffffff !important;
         }
     }
 </style>
@@ -1088,198 +1045,217 @@ elif st.session_state.current_page == "logs":
 # PAGE: TEAM INFO
 # ----------------------
 elif st.session_state.current_page == "team":
-    st.markdown("""
-    <div style="text-align: center; margin-bottom: 30px;">
-        <h2 style="color: #2c3e50; font-size: 2.2rem;">👨‍💻 Nhóm Thực Hiện</h2>
-        <p style="color: #5a6c7d; font-size: 1.1rem;">Thông tin về nhóm phát triển dự án</p>
-    </div>
-    """, unsafe_allow_html=True)
-    
-    # Thêm CSS cho ảnh hình tròn
+    # Dùng CSS để tự động thay đổi màu theo theme của Streamlit
     st.markdown("""
     <style>
-    .circle-image {
-        width: 180px;
-        height: 180px;
-        border-radius: 50%;
-        object-fit: cover;
-        border: 4px solid #667eea;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        display: block;
-        margin: 0 auto 20px auto;
-    }
-    .circle-placeholder {
-        width: 180px;
-        height: 180px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: white;
-        font-size: 3rem;
-        margin: 0 auto 20px auto;
-        border: 4px solid #667eea;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    }
-    .member-name {
-        font-size: 1.3rem;
-        font-weight: 700;
-        color: #2c3e50;
-        margin-bottom: 10px;
-        text-align: center;
-    }
+        .team-title {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .member-card {
+            background-color: var(--background-color);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+        }
+        .member-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+        .info-box {
+            background-color: var(--secondary-background-color);
+            padding: 20px;
+            border-radius: 12px;
+            margin: 15px 0;
+            border-left: 5px solid #667eea;
+        }
+        .timeline-circle {
+            background: #667eea;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        .timeline-line {
+            flex: 1;
+            height: 4px;
+            background: #667eea;
+            margin: 25px 0;
+        }
+        /* Đảm bảo chữ luôn đọc được ở cả light/dark mode */
+        .team-text, .team-text p, .team-text h3, .team-text h4, .team-text strong {
+            color: var(--text-color) !important;
+        }
+        .team-text a {
+            color: #667eea !important;
+            text-decoration: none;
+        }
+        .team-text a:hover {
+            text-decoration: underline !important;
+        }
     </style>
     """, unsafe_allow_html=True)
-    
-    # Tạo 2 cột cho 2 thành viên
+
+    st.markdown("""
+    <div class="team-title">
+        <h2 class="team-text">Nhóm Thực Hiện</h2>
+        <p class="team-text">Thông tin về nhóm phát triển dự án</p>
+    </div>
+    """, unsafe_allow_html=True)
+
     col1, col2 = st.columns(2)
-    
+
     with col1:
         st.markdown("""
-        <div class="custom-container" style="text-align: center;">
-            <h3 style="color: #2c3e50; margin-bottom: 20px;">THÀNH VIÊN 1</h3>
+        <div class="member-card">
+            <h3 class="team-text" style="text-align: center; margin-bottom: 20px;">THÀNH VIÊN 1</h3>
         """, unsafe_allow_html=True)
-        
-        # Hiển thị hình ảnh thành viên 1 dạng hình tròn
+
         try:
-            st.markdown("""
-            <div style="text-align: center;">
-                <img src="TB.jpg" class="circle-image" alt="Nguyen Thai Binh">
-                <div class="member-name">Nguyen Thai Binh</div>
-            </div>
-            """, unsafe_allow_html=True)
+            st.image("TB.jpg", width=200, caption="Nguyen Thai Binh")
         except:
-            # Fallback nếu không có hình
             st.markdown("""
-            <div style="text-align: center;">
-                <div class="circle-placeholder" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
-                    👨‍💻
-                </div>
-                <div class="member-name">Nguyen Thai Binh</div>
+            <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                    width: 200px; height: 200px; border-radius: 50%; margin: 20px auto;
+                    display: flex; align-items: center; justify-content: center; color: white; font-size: 3.5rem;">
+                Developer
             </div>
             """, unsafe_allow_html=True)
-        
+
         st.markdown("""
-            <div style="text-align: left; padding: 0 20px;">
-                <p><strong>📧 Email:</strong> thaibinh782k1@gmail.com</p>
-                <p><strong>📚 Vai trò:</strong> Data Scientist & Developer</p>
-                <p><strong>🔧 Công việc:</strong> 
-                    <br>• Phát triển model ML
-                    <br>• Xử lý dữ liệu
-                    <br>• Triển khai hệ thống
+            <div class="team-text" style="text-align: left; padding: 0 20px;">
+                <p><strong>Họ tên:</strong> Nguyen Thai Binh</p>
+                <p><strong>Email:</strong> thaibinh782k1@gmail.com</p>
+                <p><strong>Vai trò:</strong> Data Scientist & Developer</p>
+                <p><strong>Công việc:</strong><br>
+                    • Phát triển model ML<br>
+                    • Xử lý dữ liệu<br>
+                    • Triển khai hệ thống
                 </p>
             </div>
         </div>
         """, unsafe_allow_html=True)
-    
+
     with col2:
         st.markdown("""
-        <div class="custom-container" style="text-align: center;">
-            <h3 style="color: #2c3e50; margin-bottom: 20px;">THÀNH VIÊN 2</h3>
+        <div class="member-card">
+            <h3 class="team-text" style="text-align: center; margin-bottom: 20px;">THÀNH VIÊN 2</h3>
         """, unsafe_allow_html=True)
-        
-        # Hiển thị hình ảnh thành viên 2 dạng hình tròn
+
         try:
-            st.markdown("""
-            <div style="text-align: center;">
-                <img src="DT.jpg" class="circle-image" alt="Nguyen Duy Thanh">
-                <div class="member-name">Nguyen Duy Thanh</div>
-            </div>
-            """, unsafe_allow_html=True)
+            st.image("DT.jpg", width=200, caption="Nguyen Duy Thanh")
         except:
-            # Fallback nếu không có hình 
             st.markdown("""
-            <div style="text-align: center;">
-                <div class="circle-placeholder" style="background: linear-gradient(135deg, #00b09b 0%, #96c93d 100%);">
-                    👨‍💻
-                </div>
-                <div class="member-name">Nguyen Duy Thanh</div>
+            <div style="background: linear-gradient(135deg, #00b09b 0%, #96c93d 100%);
+                    width: 200px; height: 200px; border-radius: 50%; margin: 20px auto;
+                    display: flex; align-items: center; justify-content: center; color: white; font-size: 3.5rem;">
+                Developer
             </div>
             """, unsafe_allow_html=True)
-        
+
         st.markdown("""
-            <div style="text-align: left; padding: 0 20px;">
-                <p><strong>📧 Email:</strong> duythanh200620@gmail.com</p>
-                <p><strong>📚 Vai trò:</strong> Data Analyst & Developer</p>
-                <p><strong>🔧 Công việc:</strong> 
-                    <br>• Phân tích dữ liệu
-                    <br>• Phát triển giao diện
-                    <br>• Testing & Deployment
+            <div class="team-text" style="text-align: left; padding: 0 20px;">
+                <p><strong>Họ tên:</strong> Nguyen Duy Thanh</p>
+                <p><strong>Email:</strong> duythanh200620@gmail.com</p>
+                <p><strong>Vai trò:</strong> Data Analyst & Developer</p>
+                <p><strong>Công việc:</strong><br>
+                    • Phân tích dữ liệu<br>
+                    • Phát triển giao diện<br>
+                    • Testing & Deployment
                 </p>
             </div>
         </div>
         """, unsafe_allow_html=True)
-    
-    # Thông tin chung của nhóm
-    st.markdown("---")
-    
-    col1, col2 = st.columns([2, 1])
-    
-    with col1:
-        st.html("""
-        <div class="custom-container">
-            <h3 style="color: #2c3e50; margin-top: 0;">📋 Thông Tin Dự Án</h3>
-            
-            <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin: 15px 0;">
-                <h4 style="color: #2c3e50; margin-top: 0;">🎯 Mục Tiêu Dự Án</h4>
-                <p>Phát triển hệ thống dự đoán giá xe máy cũ sử dụng Machine Learning và AI, 
-                cung cấp công cụ đánh giá giá cả chính xác và phát hiện các giao dịch bất thường.</p>
-            </div>
-            
-            <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin: 15px 0;">
-                <h4 style="color: #2c3e50; margin-top: 0;">🛠 Công Nghệ Sử Dụng</h4>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-                    <div>
-                        <p><strong>Backend:</strong></p>
-                        <p>• Python</p>
-                        <p>• Scikit-learn</p>
-                        <p>• Pandas, NumPy</p>
+        st.markdown("---")
+        col1, col2 = st.columns([2, 1])
+        
+        with col1:
+            st.markdown("""
+            <div style="padding: 10px;">
+                <h3 style="color: var(--text-color); margin-bottom: 20px;">Thông Tin Dự Án</h3>
+                
+                <div style="background: var(--background-card, #f8f9fa); 
+                            color: var(--text-color); 
+                            padding: 20px; border-radius: 12px; margin: 15px 0; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+                    <h4 style="color: var(--text-color); margin: 0 0 12px 0; font-size: 1.3rem;">Mục Tiêu Dự Án</h4>
+                    <p style="margin: 0; line-height: 1.6;">
+                        Phát triển hệ thống dự đoán giá xe máy cũ sử dụng Machine Learning và AI,<br>
+                        cung cấp công cụ đánh giá giá cả chính xác và phát hiện các giao dịch bất thường.
+                    </p>
+                </div>
+                
+                <div style="background: var(--background-card, #f8f9fa); 
+                            color: var(--text-color); 
+                            padding: 20px; border-radius: 12px; margin: 15px 0; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+                    <h4 style="color: var(--text-color); margin: 0 0 15px 0; font-size: 1.3rem;">Công Nghệ Sử Dụng</h4>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; font-size: 0.95rem;">
+                        <div>
+                            <p style="margin: 0 0 8px 0; font-weight: 600; color: var(--text-color);">Backend:</p>
+                            <ul style="margin: 0; padding-left: 20px; line-height: 1.7;">
+                                <li>Python</li>
+                                <li>Scikit-learn</li>
+                                <li>Pandas, NumPy</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p style="margin: 0 0 8px 0; font-weight: 600; color: var(--text-color);">Frontend:</p>
+                            <ul style="margin: 0; padding-left: 20px; line-height: 1.7;">
+                                <li>Streamlit</li>
+                                <li>HTML/CSS</li>
+                                <li>Matplotlib, Plotly</li>
+                            </ul>
+                        </div>
                     </div>
-                    <div>
-                        <p><strong>Frontend:</strong></p>
-                        <p>• Streamlit</p>
-                        <p>• HTML/CSS</p>
-                        <p>• Matplotlib</p>
+                    <div style="margin-top: 18px; padding-top: 15px; border-top: 1px solid rgba(0,0,0,0.1); font-size: 0.95rem;">
+                        <p style="margin: 8px 0;"><strong>ML Models:</strong> Random Forest, Isolation Forest, XGBoost</p>
+                        <p style="margin: 8px 0;"><strong>Deployment:</strong> Streamlit Community Cloud</p>
                     </div>
                 </div>
-                <div style="margin-top: 10px;">
-                    <p><strong>ML Models:</strong> Random Forest, Isolation Forest</p>
-                    <p><strong>Deployment:</strong> Streamlit Cloud</p>
+            </div>
+            """, unsafe_allow_html=True)
+        
+        with col2:
+            st.markdown("""
+            <div style="padding: 10px;">
+                <h3 style="color: var(--text-color); margin-bottom: 20px;">Liên Kết</h3>
+                
+                <div style="background: var(--background-card, #f8f9fa); 
+                            color: var(--text-color); 
+                            padding: 20px; border-radius: 12px; margin: 15px 0; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+                    <p style="margin: 0 0 5px 0; font-weight: 600;">GitHub Repository:</p>
+                    <p style="margin: 0 0 15px 0; word-break: break-all;">
+                        <a href="https://github.com/ThaiBinh78/ML07_Project" target="_blank" 
+                           style="color: #667eea; text-decoration: none; font-weight: 500;">
+                           github.com/ThaiBinh78/ML07_Project
+                        </a>
+                    </p>
+                    <p style="margin: 12px 0 5px 0;"><strong>Ngày báo cáo:</strong></p>
+                    <p style="margin: 0;">22/11/2024</p>
+                    <p style="margin: 12px 0 5px 0;"><strong>Phiên bản:</strong></p>
+                    <p style="margin: 0;">MotorPrice Pro v1.0</p>
+                </div>
+                
+                <div style="background: var(--background-card, #f8f9fa); 
+                            color: var(--text-color); 
+                            padding: 20px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+                    <h4 style="color: var(--text-color); margin: 0 0 15px 0; font-size: 1.2rem;">Thống Kê</h4>
+                    <ul style="margin: 0; padding-left: 20px; line-height: 1.8; font-size: 0.95rem;">
+                        <li>2 Thành viên</li>
+                        <li>4+ Tuần phát triển</li>
+                        <li>1000+ Dòng code</li>
+                        <li>5+ Mô hình ML được thử nghiệm</li>
+                    </ul>
                 </div>
             </div>
-        </div>
-        """)
-    
-    with col2:
-        st.html("""
-        <div class="custom-container">
-            <h3 style="color: #2c3e50; margin-top: 0;">🔗 Liên Kết</h3>
-            
-            <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin: 15px 0;">
-                <p><strong>🐙 GitHub Repo:</strong></p>
-                <p>
-                    <a href="https://github.com/ThaiBinh78/ML07_Project" target="_blank" 
-                        style="color: #667eea; text-decoration: none; font-size: 13px; word-break: break-all;">
-                        https://github.com/ThaiBinh78/ML07_Project
-                    </a>
-                </p>
-                
-                <p><strong>📅 Ngày báo cáo:</strong></p>
-                <p>22/11/2024</p>
-                
-                <p><strong>📊 Phiên bản:</strong></p>
-                <p>MotorPrice Pro v1.0</p>
-            </div>
-            
-            <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin: 15px 0;">
-                <h4 style="color: #2c3e50; margin-top: 0;">📈 Thống Kê</h4>
-                <p>• 2 Thành viên</p>
-                <p>• 4+ Tuần phát triển</p>
-                <p>• 1000+ Dòng code</p>
-                <p>• 5+ ML Models</p>
-            </div>
-        </div>
-        """)
+            """, unsafe_allow_html=True)
+        
     # Timeline dự án
     st.markdown("""
     <div class="custom-container">
@@ -1327,12 +1303,16 @@ elif st.session_state.current_page == "team":
 # ----------------------
 # FOOTER
 # ----------------------
-st.markdown("""
-<div style="text-align: center; color: #7f8c8d; padding: 40px 0 20px 0;">
-    <hr style="border-color: #e0e6ed; margin-bottom: 20px;">
-    <p>MotorPrice Pro - Hệ thống dự đoán giá xe máy cũ sử dụng AI | Phiên bản 1.0</p>
-</div>
-""", unsafe_allow_html=True)
+    st.markdown("""
+    <div style="text-align: center; color: #7f8c8d; padding: 40px 0 20px 0;">
+        <hr style="border-color: #e0e6ed; margin-bottom: 20px;">
+        <p>MotorPrice Pro - Hệ thống dự đoán giá xe máy cũ sử dụng AI | Phiên bản 1.0</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+
+
+
 
 
 
