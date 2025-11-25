@@ -533,44 +533,23 @@ def page_predict():
                 if abs(resid) / (pred + 1e-6) < 0.15:
                     verdict = "Bình thường"
                     explanation = "Giá hợp lý, trong vùng an toàn."
-                    color = "green"
                 elif resid < 0:
                     verdict = "Giá thấp bất thường"
                     explanation = "Thấp hơn nhiều so với dự đoán — kiểm tra giấy tờ / tình trạng."
-                    color = "red"
                 else:
                     verdict = "Giá cao bất thường"
                     explanation = "Cao hơn thị trường — cân nhắc kiểm tra kỹ."
-                    color = "red"
             else:
                 verdict = "Không có giá thực"
                 explanation = "Hệ thống chỉ dự đoán, không thể so sánh."
-                color = "blue"
 
             # ---- OUTPUT ----
+            # Hiển thị kết quả theo format giống ảnh
             st.markdown("# Kết Quả Dự Đoán")
             
             # Định dạng giá ước tính với dấu chấm phân cách hàng nghìn
-            pred_vnd = f"{pred * 1000000:,.0f}".replace(",", ".")
-            
-            # Hiển thị giá ước tính trong khung với màu sắc
-            st.markdown(
-                f"""
-                <div style="
-                    border: 2px solid {color};
-                    border-radius: 10px;
-                    padding: 20px;
-                    text-align: center;
-                    background-color: {color}10;
-                    margin: 10px 0;
-                ">
-                    <h3 style="color: {color}; margin: 0;">Giá Ước Tính Thị Trường</h3>
-                    <h1 style="color: {color}; margin: 10px 0;">{pred_vnd} VND</h1>
-                    <p style="color: {color}; margin: 0; font-weight: bold;">{verdict}</p>
-                </div>
-                """, 
-                unsafe_allow_html=True
-            )
+            pred_vnd = f"{pred * 1000000:,.0f}".replace(",", ".") + " VND"
+            st.markdown(f"**Giá Ước Tính Thị Trường**  \n{pred_vnd}")
             
             # Hiển thị thông số đầu vào dạng bảng
             st.markdown("**Thông số đầu vào:**")
@@ -580,10 +559,10 @@ def page_predict():
                 "brand": brand,
                 "model": model_name or "unknown",
                 "reg_year": int(year_reg),
-                "mileage": f"{km:,}".replace(",", "."),
+                "mileage": int(km),
                 "condition": "Đã sử dụng",
                 "type": loai,
-                "engine_capacity": dungtich + " cc",
+                "engine_capacity": dungtich,
                 "origin": xuatxu
             }
             
@@ -591,13 +570,12 @@ def page_predict():
             df_display = pd.DataFrame(list(input_params.items()), columns=["Thuộc tính", "Giá trị"])
             st.table(df_display)
             
-            # Hiển thị giải thích chi tiết
-            st.markdown("**Giải thích:**")
-            st.write(explanation)
+            # Hiển thị kết luận và giải thích
+            st.write(f"**Kết luận:** {verdict}")
+            st.write(f"**Giải thích:** {explanation}")
 
             if brand_median:
-                median_vnd = f"{brand_median * 1000000:,.0f}".replace(",", ".")
-                st.write(f"- **Trung bình giá thương hiệu:** {median_vnd} VND")
+                st.write(f"- Trung bình giá thương hiệu: {human_trieu(brand_median)}")
 
             # ---- SAVE ADMIN ----
             if save_flag:
@@ -704,27 +682,19 @@ def page_anom():
     df_lower["model_lower"] = df_lower["Dòng xe"].str.lower().str.strip()
 
     with st.form("anom"):
-        col1, col2 = st.columns(2)
-        
-        with col1:
-            brand_raw = st.text_input("Thương hiệu").strip()
-            model_raw = st.text_input("Dòng xe").strip()
-            age = st.slider("Tuổi xe (năm)", 0, 50, 3)
-            year_reg = CURRENT_YEAR - age
-            km = st.number_input("Số Km đã đi", 0, 500000, 20000)
-            
-        with col2:
-            xuatxu = st.text_input("Xuất xứ", value="unknown")
-            gia = st.number_input("Giá thực (Triệu)", 0.0)
-            loai_xe = st.selectbox("Loại xe", options=sorted(sample_df['Loại xe'].dropna().unique()))
-            dung_tich = st.text_input("Dung tích xe", value="125")
-        
-        submitted = st.form_submit_button("🔍 Kiểm tra bất thường")
-
-    if submitted:
+        brand_raw = st.text_input("Thương hiệu").strip()
+        model_raw = st.text_input("Dòng xe").strip()
         brand = brand_raw.lower()
         model_name = model_raw.lower()
 
+        age = st.slider("Tuổi xe (năm)", 0, 50, 3)
+        year_reg = CURRENT_YEAR - age
+        km = st.number_input("Số Km đã đi", 0, 500000, 20000)
+        xuatxu = st.text_input("Xuất xứ", value="unknown")
+        gia = st.number_input("Giá thực (Triệu)", 0.0)
+        submitted = st.form_submit_button("Check")
+
+    if submitted:
         # ----------------------
         # Validate thương hiệu
         # ----------------------
@@ -753,127 +723,72 @@ def page_anom():
             df_model = df_brand  # fallback theo thương hiệu
 
         p10 = df_model["Gia_trieu"].quantile(0.10)
-        p25 = df_model["Gia_trieu"].quantile(0.25)
-        p75 = df_model["Gia_trieu"].quantile(0.75)
         p90 = df_model["Gia_trieu"].quantile(0.90)
-        median_price = df_model["Gia_trieu"].median()
 
         if gia < p10:
             verdict = "Giá thấp bất thường"
-            reason = "Thấp hơn 90% mẫu. Có thể xe bị lỗi / giấy tờ không rõ ràng / sai đơn vị."
-            color = "red"
-            icon = "⚠️"
+            reason = "Thấp hơn 10% mẫu. Có thể xe bị lỗi / giấy tờ không rõ ràng / sai đơn vị."
         elif gia > p90:
             verdict = "Giá cao bất thường"
             reason = "Cao hơn 90% mẫu. Nên kiểm tra thực tế hoặc thương lượng."
-            color = "red"
-            icon = "⚠️"
-        elif gia < p25:
-            verdict = "Giá hơi thấp"
-            reason = "Thấp hơn 75% mẫu. Có thể là cơ hội tốt nhưng cần kiểm tra kỹ."
-            color = "orange"
-            icon = "ℹ️"
-        elif gia > p75:
-            verdict = "Giá hơi cao"
-            reason = "Cao hơn 75% mẫu. Có thể chấp nhận được nhưng nên thương lượng."
-            color = "orange"
-            icon = "ℹ️"
         else:
-            verdict = "Giá bình thường"
+            verdict = "Bình thường"
             reason = "Giá nằm trong vùng an toàn so với thị trường."
-            color = "green"
-            icon = "✅"
 
-        # Hiển thị kết quả với định dạng đẹp
-        st.markdown("# Kết Quả Kiểm Tra")
-        
-        # Hiển thị khung kết luận
-        st.markdown(
-            f"""
-            <div style="
-                border: 2px solid {color};
-                border-radius: 10px;
-                padding: 20px;
-                text-align: center;
-                background-color: {color}10;
-                margin: 10px 0;
-            ">
-                <h2 style="color: {color}; margin: 0;">{icon} {verdict}</h2>
-                <p style="color: {color}; margin: 10px 0; font-size: 16px;">{reason}</p>
-            </div>
-            """, 
-            unsafe_allow_html=True
-        )
-        
-        # Hiển thị thông tin thống kê
-        st.markdown("###  Thống kê thị trường")
-        
-        col1, col2, col3 = st.columns(3)
-        
-        with col1:
-            st.metric(
-                "Giá trung vị", 
-                f"{median_price * 1000000:,.0f}".replace(',', '.') + " VND"
-            )
-            st.metric(
-                "Phân vị 25%", 
-                f"{p25 * 1000000:,.0f}".replace(',', '.') + " VND"
-            )
-        
-        with col2:
-            st.metric(
-                "Phân vị 75%", 
-                f"{p75 * 1000000:,.0f}".replace(',', '.') + " VND"
-            )
-            st.metric(
-                "Giá của bạn", 
-                f"{gia * 1000000:,.0f}".replace(',', '.') + " VND",
-                delta=f"{((gia - median_price) / median_price * 100):+.1f}%" if median_price > 0 else "N/A"
-            )
-        
-        with col3:
-            st.metric(
-                "Phân vị 10%", 
-                f"{p10 * 1000000:,.0f}".replace(',', '.') + " VND"
-            )
-            st.metric(
-                "Phân vị 90%", 
-                f"{p90 * 1000000:,.0f}".replace(',', '.') + " VND"
-            )
-        
-        # Hiển thị thông tin xe
-        st.markdown("###  Thông tin xe kiểm tra")
-        info_data = {
-            "Thương hiệu": brand_raw,
-            "Dòng xe": model_raw,
-            "Năm đăng ký": year_reg,
-            "Số Km đã đi": f"{km:,}".replace(",", "."),
-            "Loại xe": loai_xe,
-            "Dung tích": dung_tich + " cc",
-            "Xuất xứ": xuatxu
-        }
-        
-        info_df = pd.DataFrame(list(info_data.items()), columns=["Thông số", "Giá trị"])
-        st.table(info_df)
-        
-        # Khuyến nghị
-        st.markdown("###  Khuyến nghị")
-        if color == "red":
-            st.warning("**CẢNH BÁO**: Giá xe có dấu hiệu bất thường rõ rệt. Nên:")
-            st.write("- Kiểm tra kỹ lịch sử xe và giấy tờ")
-            st.write("- Xem xét kỹ tình trạng thực tế")
-            st.write("- Tham khảo ý kiến chuyên gia nếu cần")
-        elif color == "orange":
-            st.info("**LƯU Ý**: Giá xe có chút khác biệt so với thị trường. Cân nhắc:")
-            st.write("- Thương lượng giá nếu cần thiết")
-            st.write("- Kiểm tra lại các thông số kỹ thuật")
-            st.write("- So sánh với các xe tương tự trên thị trường")
+        st.success(f"**Kết luận:** {verdict}")
+        st.write("**Giải thích:**", reason)
+    show_footer()
+
+def page_admin_login():
+    st.title("Đăng nhập quản trị")
+    pwd = st.text_input("Vui lòng nhập mật khẩu: (gợi ý 123@)", type="password")
+    if st.button("Đăng nhập"):
+        if pwd == ADMIN_PASSWORD:
+            st.session_state.admin_auth = True
+            st.session_state.page = "admin"
+            st.experimental_rerun()
         else:
-            st.success("**TỐT**: Giá xe nằm trong phạm vi hợp lý. Có thể:")
-            st.write("- Tiếp tục đánh giá các yếu tố khác")
-            st.write("- Kiểm tra tình trạng thực tế xe")
-            st.write("- Xem xét mua nếu các yếu tố khác đều tốt")
-    
+            st.error("Sai mật khẩu. Vui lòng thử lại.")
+    show_footer()
+
+def page_admin():
+    if not st.session_state.admin_auth:
+        st.warning("Bạn chưa đăng nhập admin.")
+        st.session_state.page = "admin_login"
+        return
+    st.title("Chế độ quản trị viên")
+    st.markdown("Chọn tab quản trị")
+    tab = st.selectbox("Chức năng", ["Submissions", "Nhật ký hệ thống", "Đăng xuất"])
+    if tab == "Submissions":
+        if PENDING_PATH.exists():
+            df = pd.read_csv(PENDING_PATH)
+        else:
+            df = pd.DataFrame()
+        st.write("Submissions:", len(df))
+        st.dataframe(df)
+        if not df.empty:
+            ids = st.multiselect("Chọn id để thao tác", df["id"].tolist())
+            if st.button("Approve selected"):
+                df.loc[df['id'].isin(ids), "status"] = "approved"
+                df.to_csv(PENDING_PATH, index=False)
+                st.success("Đã approve")
+            if st.button("Reject selected"):
+                df.loc[df['id'].isin(ids), "status"] = "rejected"
+                df.to_csv(PENDING_PATH, index=False)
+                st.warning("Đã reject")
+    elif tab == "Nhật ký hệ thống":
+        if LOG_PATH.exists():
+            logs = pd.read_csv(LOG_PATH)
+            st.write("Total logs:", len(logs))
+            st.dataframe(logs.sort_values("timestamp", ascending=False).head(500))
+            st.download_button("Export logs CSV", data=logs.to_csv(index=False).encode('utf-8'), file_name="logs.csv", mime="text/csv")
+        else:
+            st.info("Chưa có logs.")
+        page_problem()
+    elif tab == "Đăng xuất":
+        st.session_state.admin_auth = False
+        st.session_state.page = "home"
+        st.experimental_rerun()
     show_footer()
 
 def page_logs():
@@ -985,7 +900,6 @@ if selected in pages_map:
         st.write(traceback.format_exc())
 else:
     page_home()
-
 
 
 
