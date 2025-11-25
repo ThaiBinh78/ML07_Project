@@ -890,34 +890,64 @@ elif st.session_state.current_page == "anomaly":
             <div style="background: #13386B; padding: 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.08); margin: 20px 0;">
                 <h3 style="color: #2c3e50; margin-top: 0;">📊 Thống kê thị trường</h3>
             """, unsafe_allow_html=True)
-           
+            
+            st.markdown("""
+            <style>
+                .custom-metric {
+                    background: white;
+                    padding: 20px;
+                    border-radius: 15px;
+                    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+                    border-left: 4px solid #667eea;
+                    margin-bottom: 20px;
+                }
+                .price-highlight {
+                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                    color: white;
+                    padding: 25px;
+                    border-radius: 15px;
+                    text-align: center;
+                    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+                }
+            </style>
+            """, unsafe_allow_html=True)
+            
             col1, col2, col3 = st.columns(3)
             
             # ---------- Cột 1 ----------
             with col1:
-                st.metric("Giá trung vị (Median)", f"{median_price:.1f} Triệu")
-                st.caption("Giá trung bình của nhóm xe, 50% xe rẻ hơn và 50% xe đắt hơn mức này.")
+                with st.container():
+                    st.markdown(f"""
+                    <div class="custom-metric">
+                        <h3 style="color: #2c3e50; margin: 0 0 10px 0; font-size: 1.1rem;">📊 Giá trung vị (Median)</h3>
+                        <p style="font-size: 1.5rem; font-weight: bold; color: #2c3e50; margin: 0;">{median_price:.1f} Triệu</p>
+                        <p style="color: #7f8c8d; font-size: 0.9rem; margin: 10px 0 0 0;">Giá trung bình của nhóm xe, 50% xe rẻ hơn và 50% xe đắt hơn mức này.</p>
+                    </div>
+                    """, unsafe_allow_html=True)
                 
-                st.metric("Phân vị 25% (P25)", f"{p25:.1f} Triệu")
-                st.caption("25% xe rẻ nhất nằm dưới mức giá này.")
+                with st.container():
+                    st.markdown(f"""
+                    <div class="custom-metric">
+                        <h3 style="color: #2c3e50; margin: 0 0 10px 0; font-size: 1.1rem;">📉 Phân vị 25% (P25)</h3>
+                        <p style="font-size: 1.5rem; font-weight: bold; color: #2c3e50; margin: 0;">{p25:.1f} Triệu</p>
+                        <p style="color: #7f8c8d; font-size: 0.9rem; margin: 10px 0 0 0;">25% xe rẻ nhất nằm dưới mức giá này.</p>
+                    </div>
+                    """, unsafe_allow_html=True)
             
             # ---------- Cột 2 ----------
             with col2:
-                st.metric("Phân vị 75% (P75)", f"{p75:.1f} Triệu")
-                st.caption("75% xe rẻ hơn mức giá này, chỉ 25% xe đắt hơn.")
+                with st.container():
+                    st.markdown(f"""
+                    <div class="custom-metric">
+                        <h3 style="color: #2c3e50; margin: 0 0 10px 0; font-size: 1.1rem;">📈 Phân vị 75% (P75)</h3>
+                        <p style="font-size: 1.5rem; font-weight: bold; color: #2c3e50; margin: 0;">{p75:.1f} Triệu</p>
+                        <p style="color: #7f8c8d; font-size: 0.9rem; margin: 10px 0 0 0;">75% xe rẻ hơn mức giá này, chỉ 25% xe đắt hơn.</p>
+                    </div>
+                    """, unsafe_allow_html=True)
                 
-                st.metric("Giá của bạn", f"{actual_price:.1f} Triệu",
-                          delta=f"{((actual_price - median_price) / median_price * 100):+.1f}%" if median_price > 0 else "N/A")
-                st.caption("So sánh giá xe của bạn với giá trung vị.")
-            
-            # ---------- Cột 3 ----------
-            with col3:
-                st.metric("Phân vị 10% (P10)", f"{p10:.1f} Triệu")
-                st.caption("Nhóm xe rẻ nhất thị trường, chỉ 10% xe rẻ hơn mức giá này.")
-                
-                st.metric("Phân vị 90% (P90)", f"{p90:.1f} Triệu")
-                st.caption("Giới hạn của nhóm xe rất đắt, chỉ còn 10% xe cao hơn mức giá này.")
-            
+                # Highlight giá của người dùng
+                delta_value = ((actual_price - median_price) / median_price * 100) if median_price > 0 else 0
+                delta_color = "normal" if abs(delta_value) < 15 else "in
                        
             st.markdown("</div>", unsafe_allow_html=True)
            
@@ -1308,6 +1338,7 @@ st.markdown("""
     ĐỒ ÁN TỐT NGHIỆP DATA SCIENCE - MACHINE LEARNING<br>
 </div>
 """, unsafe_allow_html=True)
+
 
 
 
