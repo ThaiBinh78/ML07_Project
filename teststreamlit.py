@@ -212,6 +212,33 @@ def add_pending(entry: dict):
     df.to_csv(PENDING_PATH, index=False)
     return entry["id"]
 
+# ===== Audio Player cố định góc phải trên =====
+audio_url = "https://raw.githubusercontent.com/ThaiBinh78/ML07_Project/main/Chill_Guy.mp3"
+
+st.markdown(f"""
+<style>
+#fixed-audio {{
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    width: 250px;
+    z-index: 9999;
+    background: rgba(255,255,255,0.8);
+    padding: 5px 10px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}}
+</style>
+
+<div id="fixed-audio">
+    <audio controls>
+        <source src="{audio_url}" type="audio/mpeg">
+        Trình duyệt không hỗ trợ audio.
+    </audio>
+</div>
+""", unsafe_allow_html=True)
+
+
 def page_home():
     # ----------------------
     # HEADER + NAVIGATION
@@ -249,34 +276,6 @@ def page_home():
         </div>
     </div>
     """, unsafe_allow_html=True)
-
-    # ----------------------
-    # NHẠC NỀN
-    # ----------------------
-    st.markdown("""
-<style>
-.audio-topright {
-    position: fixed;
-    top: 10px;
-    right: 20px;
-    z-index: 9999;
-    background: #f0f4f8;
-    border: 1px solid #cfd9e6;
-    border-radius: 12px;
-    padding: 5px 10px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-}
-</style>
-
-<div class="audio-topright">
-    <audio controls>
-        <source src="https://raw.githubusercontent.com/ThaiBinh78/ML07_Project/main/Chill_Guy.mp3" type="audio/mpeg">
-        Trình duyệt của bạn không hỗ trợ audio.
-    </audio>
-</div>
-""", unsafe_allow_html=True)
-
-
     # ----------------------
     # TITLE
     # ----------------------
@@ -877,6 +876,7 @@ if selected in pages_map:
         st.write(traceback.format_exc())
 else:
     page_home()
+
 
 
 
