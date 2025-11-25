@@ -1303,10 +1303,10 @@ st.markdown("""
 <div style="text-align: center; color: #7f8c8d; padding: 40px 0 20px 0;">
     <hr style="border-color: #e0e6ed; margin-bottom: 20px;">
     <b>MotorPrice Pro - Hệ thống dự đoán giá xe máy cũ | Phiên bản 1.0 |</b>
-    <b> DATA SCIENCE AND MACHINE LEARNING COURSE</b><br>
     ĐỒ ÁN TỐT NGHIỆP DATA SCIENCE - MACHINE LEARNING<br>
 </div>
 """, unsafe_allow_html=True)
+
 
 
 
