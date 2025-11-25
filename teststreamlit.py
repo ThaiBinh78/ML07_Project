@@ -265,6 +265,21 @@ def page_home():
         unsafe_allow_html=True
     )
     st.markdown('<img src="https://raw.githubusercontent.com/ThaiBinh78/ML07_Project/main/chotot.jpg" class="full-width-image">', unsafe_allow_html=True)
+
+      st.markdown("""
+    <style>
+        .gradient-title {
+            background: linear-gradient(to right, #4fc3f7, #186C91);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+            text-align: center;
+        }
+    </style>
+    """, unsafe_allow_html=True)
+    
+    st.markdown('<h1 class="gradient-title">Ứng dụng dự đoán giá xe máy cũ</h1>', unsafe_allow_html=True)
     # ----------------------
     # 4 PLOTS ĐẦU TRANG
     # ----------------------
@@ -337,10 +352,6 @@ def page_home():
     </div>
     """, unsafe_allow_html=True)
 
-    # ----------------------
-    # FOOTER
-    # ----------------------
-    show_footer()
 
 
 # ==============================
@@ -937,6 +948,7 @@ if selected in pages_map:
         st.write(traceback.format_exc())
 else:
     page_home()
+
 
 
 
