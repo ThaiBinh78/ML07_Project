@@ -602,15 +602,6 @@ elif st.session_state.current_page == "prediction":
    
     if mode == "Nhập thông tin thủ công":
         with st.form("predict_form", clear_on_submit=False):
-            st.markdown("""
-            <div style="
-                background: #1F1F1F;
-                padding: 30px;
-                border-radius: 20px;
-                color: #f3f4f6;
-                box-shadow: 0 8px 35px rgba(0,0,0,0.5);
-            ">
-            """, unsafe_allow_html=True)
            
             st.subheader("🚗 Thông Tin Xe")
             col1, col2 = st.columns([2, 1])
@@ -1298,6 +1289,7 @@ st.markdown("""
     ĐỒ ÁN TỐT NGHIỆP DATA SCIENCE - MACHINE LEARNING<br>
 </div>
 """, unsafe_allow_html=True)
+
 
 
 
