@@ -219,14 +219,20 @@ st.markdown(f"""
 <style>
 #fixed-audio {{
     position: fixed;
-    top: 10px;
-    right: 10px;
-    width: 250px;
+    top: 60px;          /* hạ xuống để nút play dễ bấm */
+    right: 20px;        /* cách mép phải 20px */
+    width: 280px;       /* rộng hơn để nút play hiển thị */
     z-index: 9999;
-    background: rgba(255,255,255,0.8);
-    padding: 5px 10px;
-    border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    background: rgba(255,255,255,0.9);
+    padding: 8px 12px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    display: flex;
+    align-items: center;
+}}
+#fixed-audio audio {{
+    width: 100%;
+    height: 30px;       /* cao hơn để dễ nhấn */
 }}
 </style>
 
@@ -237,6 +243,7 @@ st.markdown(f"""
     </audio>
 </div>
 """, unsafe_allow_html=True)
+
 
 
 def page_home():
@@ -276,48 +283,86 @@ def page_home():
         </div>
     </div>
     """, unsafe_allow_html=True)
+
     # ----------------------
     # TITLE
     # ----------------------
     st.markdown("## <span style='color:#003366; font-weight:700;'>Ứng dụng dự đoán giá xe máy cũ</span>", unsafe_allow_html=True)
 
     # ----------------------
+    # 4 PLOTS ĐẦU TRANG
+    # ----------------------
+    if sample_df.empty:
+        st.warning("Chưa có dữ liệu mẫu để hiển thị plot.")
+    else:
+        df = sample_df.copy()
+        df["Tuổi xe"] = CURRENT_YEAR - df["Năm đăng ký"]
+        price_col = "Gia_trieu" if "Gia_trieu" in df.columns else "Giá"
+        top_brands = df["Thương hiệu"].value_counts().head(10)
+
+        fig, axes = plt.subplots(2, 2, figsize=(14, 10))
+        (ax1, ax2), (ax3, ax4) = axes
+
+        # 1. Phân bố tuổi xe
+        sns.histplot(df["Tuổi xe"], bins=20, kde=True, color="#ffb74d", ax=ax1)
+        ax1.set_title("Phân bố tuổi xe")
+
+        # 2. Top thương hiệu
+        sns.barplot(x=top_brands.values, y=top_brands.index, palette="Blues_r", ax=ax2)
+        ax2.set_title("Top 10 thương hiệu phổ biến")
+
+        # 3. Phân bố giá
+        sns.histplot(df[price_col], bins=40, kde=True, color="#4db6ac", ax=ax3)
+        ax3.set_title("Phân bố giá thị trường (Triệu)")
+
+        # 4. Số Km đã đi
+        sns.histplot(df["Số Km đã đi"], bins=40, kde=False, color="#ff8a65", ax=ax4)
+        ax4.set_title("Phân bố số Km đã đi")
+
+        plt.tight_layout()
+        st.pyplot(fig)
+
+    # ----------------------
     # FEATURE BOX
     # ----------------------
     st.markdown("""
-<div style="background: linear-gradient(to right, #f5f9ff, #ffffff); 
-            border:1px solid #d3e3ff; padding:28px; border-radius:14px; margin-top:25px; color:#003366; box-shadow:0 2px 6px rgba(0,0,0,0.06);">
+    <div style="background: linear-gradient(to right, #f5f9ff, #ffffff); 
+                border:1px solid #d3e3ff; padding:28px; border-radius:14px; margin-top:25px; color:#003366; box-shadow:0 2px 6px rgba(0,0,0,0.06);">
 
-<h3 style="color:#0a4da3;">Ứng dụng hỗ trợ những gì?</h3>
+    <h3 style="color:#0a4da3;">Ứng dụng hỗ trợ những gì?</h3>
 
-<b>1. Dự đoán giá xe nhanh chóng</b><br>
-Bạn chỉ cần nhập vài thông tin như thương hiệu, dòng xe, năm đăng ký, số km đã đi...
-✔️ Biết được giá trị thật của chiếc xe
-✔️ Tránh bị ép giá khi mua
-✔️ Tránh đăng tin quá cao hoặc quá thấp khi bán
+    <b>1. Dự đoán giá xe nhanh chóng</b><br>
+    Bạn chỉ cần nhập vài thông tin như thương hiệu, dòng xe, năm đăng ký, số km đã đi...
+    <ul>
+        <li>✔️ Biết được giá trị thật của chiếc xe</li>
+        <li>✔️ Tránh bị ép giá khi mua</li>
+        <li>✔️ Tránh đăng tin quá cao hoặc quá thấp khi bán</li>
+    </ul>
 
-<b>2. Phát hiện bất thường về giá</b><br>
-Hệ thống đánh giá xem mức giá nhập có hợp lý không, có thấp bất thường hoặc cao hơn thị trường.
-✔️ Nhận biết rủi ro
-✔️ Kiểm tra độ tin cậy tin đăng
-✔️ Tránh mất thời gian
+    <b>2. Phát hiện bất thường về giá</b><br>
+    Hệ thống đánh giá xem mức giá nhập có hợp lý không, có thấp bất thường hoặc cao hơn thị trường.
+    <ul>
+        <li>✔️ Nhận biết rủi ro</li>
+        <li>✔️ Kiểm tra độ tin cậy tin đăng</li>
+        <li>✔️ Tránh mất thời gian</li>
+    </ul>
 
-<b>3. Dashboard thị trường xe máy Việt Nam</b><br>
-Trang tổng hợp trực quan giúp bạn hiểu tổng thể thị trường:
-✔️ Phân bố giá theo thương hiệu
-✔️ Tuổi xe và mức độ phổ biến
-✔️ Phân bố số km đã đi
-✔️ Giá trung bình theo loại xe
-✔️ Top thương hiệu được rao bán nhiều nhất
+    <b>3. Dashboard thị trường xe máy Việt Nam</b><br>
+    Trang tổng hợp trực quan giúp bạn hiểu tổng thể thị trường:
+    <ul>
+        <li>✔️ Phân bố giá theo thương hiệu</li>
+        <li>✔️ Tuổi xe và mức độ phổ biến</li>
+        <li>✔️ Phân bố số km đã đi</li>
+        <li>✔️ Giá trung bình theo loại xe</li>
+        <li>✔️ Top thương hiệu được rao bán nhiều nhất</li>
+    </ul>
 
-</div>
-""", unsafe_allow_html=True)
+    </div>
+    """, unsafe_allow_html=True)
 
-
-# ----------------------
-# FOOTER
-# ----------------------
-def page_footer():
+    # ----------------------
+    # FOOTER
+    # ----------------------
     st.markdown("""
     <style>
     .footer {
@@ -338,42 +383,6 @@ def page_footer():
     </div>
     """, unsafe_allow_html=True)
 
-
-
-    # ==============================
-    # 4 PLOTS TRONG 1 FIGURE (2x2)
-    # ==============================
-    st.markdown("###  Thống kê mô tả thị trường xe máy Việt Nam")
-    df = sample_df.copy()
-    # Chuẩn bị data
-    df["Tuổi xe"] = CURRENT_YEAR - df["Năm đăng ký"]
-    price_col = "Gia_trieu" if "Gia_trieu" in df.columns else "Giá"
-    top_brands = df["Thương hiệu"].value_counts().head(10)
-    
-    # Tạo figure 2x2
-    fig, axes = plt.subplots(2, 2, figsize=(14, 10))
-    (ax1, ax2), (ax3, ax4) = axes
-    
-    # 1. Phân bố tuổi xe
-    sns.histplot(df["Tuổi xe"], bins=20, kde=True, color="#ffb74d", ax=ax1)
-    ax1.set_title("Phân bố tuổi xe")
-    
-    # 2. Top thương hiệu
-    sns.barplot(x=top_brands.values, y=top_brands.index, palette="Blues_r", ax=ax2)
-    ax2.set_title("Top 10 thương hiệu phổ biến")
-    
-    # 3. Phân bố giá
-    sns.histplot(df[price_col], bins=40, kde=True, color="#4db6ac", ax=ax3)
-    ax3.set_title("Phân bố giá thị trường (Triệu)")
-    
-    # 4. Số Km đã đi
-    sns.histplot(df["Số Km đã đi"], bins=40, kde=False, color="#ff8a65", ax=ax4)
-    ax4.set_title("Phân bố số Km đã đi")
-    
-    
-    # Hiển thị
-    plt.tight_layout()
-    st.pyplot(fig)
 
 
 
@@ -876,6 +885,7 @@ if selected in pages_map:
         st.write(traceback.format_exc())
 else:
     page_home()
+
 
 
 
