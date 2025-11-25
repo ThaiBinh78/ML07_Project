@@ -26,7 +26,7 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 # ----------------------
-# CUSTOM CSS
+# CUSTOM CSS 
 # ----------------------
 st.markdown("""
 <style>
@@ -35,6 +35,35 @@ st.markdown("""
         background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
     }
    
+    /* Audio Player Styling */
+    .audio-player-container {
+        position: fixed;
+        top: 10px;
+        right: 10px;
+        z-index: 9999;
+        background: rgba(255, 255, 255, 0.95);
+        padding: 10px 15px;
+        border-radius: 25px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        border: 2px solid #667eea;
+        backdrop-filter: blur(10px);
+        max-width: 300px;
+    }
+    
+    .audio-player-container audio {
+        width: 100%;
+        height: 40px;
+        border-radius: 20px;
+    }
+    
+    .audio-label {
+        font-size: 12px;
+        font-weight: bold;
+        color: #667eea;
+        margin-bottom: 5px;
+        text-align: center;
+    }
+
     /* Sidebar styling */
     .css-1d391kg {
         background: linear-gradient(180deg, #2c3e50 0%, #3498db 100%);
@@ -120,14 +149,14 @@ st.markdown("""
         border-radius: 15px;
         box-shadow: 0 5px 15px rgba(0,0,0,0.08);
         border: 1px solid #e0e6ed;
-        color: #2c3e50 !important; /* Dark text for light background */
-    }
-   
-    .stMetric > div > div > div > p { /* Label */
         color: #2c3e50 !important;
     }
    
-    .stMetric > div > div > div > small { /* Delta if present */
+    .stMetric > div > div > div > p {
+        color: #2c3e50 !important;
+    }
+   
+    .stMetric > div > div > div > small {
         color: #2c3e50 !important;
     }
    
@@ -224,6 +253,15 @@ st.markdown("""
         .stApp {
             background: linear-gradient(135deg, #1a1a1a 0%, #2c3e50 100%);
         }
+        
+        .audio-player-container {
+            background: rgba(44, 62, 80, 0.95);
+            border: 2px solid #3498db;
+        }
+        
+        .audio-label {
+            color: #3498db;
+        }
 
         .main-header {
             background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%);
@@ -318,34 +356,17 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-===== Audio Player cố định góc phải trên =====
+# ----------------------
+# AUDIO PLAYER
+# ----------------------
 audio_url = "https://raw.githubusercontent.com/ThaiBinh78/ML07_Project/main/Chill_Guy.mp3"
-    
+
 st.markdown(f"""
-<style>
-#fixed-audio {{
-    position: fixed;
-    top: 60px;         
-    right: 20px;       
-    width: 280px;       
-    z-index: 9999;
-    background: rgba(255,255,255,0.9);
-    padding: 8px 12px;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
-    display: flex;
-    align-items: center;
-}}
-#fixed-audio audio {{
-    width: 100%;
-    height: 30px;      
-}}
-</style>
-    
-<div id="fixed-audio">
-    <audio controls>
+<div class="audio-player-container">
+    <div class="audio-label">🎵 Background Music</div>
+    <audio controls loop>
         <source src="{audio_url}" type="audio/mpeg">
-        Trình duyệt không hỗ trợ audio.
+        Trình duyệt của bạn không hỗ trợ audio element.
     </audio>
 </div>
 """, unsafe_allow_html=True)
@@ -1322,6 +1343,7 @@ st.markdown("""
     <p>MotorPrice Pro - Hệ thống dự đoán giá xe máy cũ sử dụng AI | Phiên bản 1.0</p>
 </div>
 """, unsafe_allow_html=True)
+
 
 
 
