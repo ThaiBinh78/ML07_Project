@@ -32,13 +32,13 @@ st.set_page_config(
 )
 
 # ----------------------
-# CUSTOM CSS
+# CUSTOM CSS - FIXED COLOR ISSUES
 # ----------------------
 st.markdown("""
 <style>
-    /* Main background */
+    /* Main background - Lighter for better contrast */
     .stApp {
-        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
     }
     
     /* Sidebar styling */
@@ -63,6 +63,7 @@ st.markdown("""
         font-weight: 800;
         margin: 0;
         text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        color: white;
     }
     
     .main-header p {
@@ -70,9 +71,10 @@ st.markdown("""
         opacity: 0.95;
         margin: 15px 0 0 0;
         font-weight: 300;
+        color: white;
     }
     
-    /* Card styling */
+    /* Card styling - Fixed text colors */
     .feature-card {
         background: white;
         padding: 30px 25px;
@@ -89,14 +91,14 @@ st.markdown("""
     }
     
     .feature-card h3 {
-        color: #2c3e50;
+        color: #2c3e50 !important;
         font-size: 1.4rem;
         font-weight: 700;
         margin-bottom: 15px;
     }
     
     .feature-card p {
-        color: #7f8c8d;
+        color: #5a6c7d !important;
         font-size: 1rem;
         line-height: 1.6;
     }
@@ -104,7 +106,7 @@ st.markdown("""
     /* Button styling */
     .stButton>button {
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
+        color: white !important;
         border: none;
         border-radius: 12px;
         padding: 12px 25px;
@@ -117,9 +119,10 @@ st.markdown("""
     .stButton>button:hover {
         transform: translateY(-2px);
         box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        color: white !important;
     }
     
-    /* Metric cards */
+    /* Metric cards - Fixed text colors */
     .stMetric {
         background: white;
         padding: 20px;
@@ -128,10 +131,21 @@ st.markdown("""
         border: 1px solid #e0e6ed;
     }
     
+    .stMetric label {
+        color: #2c3e50 !important;
+        font-weight: 600;
+    }
+    
+    .stMetric div {
+        color: #2c3e50 !important;
+        font-weight: 700;
+    }
+    
     /* Dataframe styling */
     .dataframe {
         border-radius: 15px;
         box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        background: white;
     }
     
     /* Form styling */
@@ -142,13 +156,22 @@ st.markdown("""
         box-shadow: 0 8px 25px rgba(0,0,0,0.1);
     }
     
+    /* Fix Streamlit default text colors */
+    .stMarkdown h1, .stMarkdown h2, .stMarkdown h3, .stMarkdown h4, .stMarkdown h5, .stMarkdown h6 {
+        color: #2c3e50 !important;
+    }
+    
+    .stMarkdown p {
+        color: #5a6c7d !important;
+    }
+    
     /* Sidebar menu items */
     .sidebar-menu-item {
         padding: 15px 20px;
         margin: 8px 0;
         border-radius: 12px;
         background: rgba(255,255,255,0.1);
-        color: white;
+        color: white !important;
         font-weight: 500;
         transition: all 0.3s ease;
         cursor: pointer;
@@ -160,17 +183,13 @@ st.markdown("""
     .sidebar-menu-item:hover {
         background: rgba(255,255,255,0.2);
         transform: translateX(5px);
-    }
-    
-    .sidebar-menu-item.active {
-        background: rgba(255,255,255,0.25);
-        border-left: 4px solid #e74c3c;
+        color: white !important;
     }
     
     /* Price display card */
     .price-card {
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
+        color: white !important;
         padding: 30px;
         border-radius: 20px;
         text-align: center;
@@ -180,38 +199,109 @@ st.markdown("""
     
     .price-card.normal {
         background: linear-gradient(135deg, #00b09b 0%, #96c93d 100%);
+        color: white !important;
     }
     
     .price-card.warning {
         background: linear-gradient(135deg, #f46b45 0%, #eea849 100%);
+        color: white !important;
     }
     
     .price-card.danger {
         background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%);
+        color: white !important;
     }
     
     .price-card h2 {
         font-size: 1.8rem;
         margin: 0 0 15px 0;
         font-weight: 600;
+        color: white !important;
     }
     
     .price-card h1 {
         font-size: 2.8rem;
         margin: 10px 0;
         font-weight: 800;
+        color: white !important;
     }
     
     .price-card p {
         font-size: 1.2rem;
         margin: 0;
         opacity: 0.95;
+        color: white !important;
+    }
+    
+    /* Fix input labels and text */
+    .stTextInput label, .stNumberInput label, .stSelectbox label, .stSlider label, .stTextArea label {
+        color: #2c3e50 !important;
+        font-weight: 600;
+    }
+    
+    .stRadio label {
+        color: #2c3e50 !important;
+        font-weight: 600;
+    }
+    
+    /* Fix dataframe text colors */
+    .dataframe th {
+        color: #2c3e50 !important;
+        background-color: #f8f9fa !important;
+    }
+    
+    .dataframe td {
+        color: #5a6c7d !important;
+    }
+    
+    /* Tab styling */
+    .stTabs [data-baseweb="tab-list"] {
+        gap: 8px;
+    }
+    
+    .stTabs [data-baseweb="tab"] {
+        height: 50px;
+        white-space: pre-wrap;
+        background-color: #f8f9fa;
+        border-radius: 10px 10px 0px 0px;
+        gap: 8px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        color: #5a6c7d !important;
+    }
+    
+    .stTabs [aria-selected="true"] {
+        background-color: #667eea !important;
+        color: white !important;
+    }
+    
+    /* Success, Warning, Error messages */
+    .stAlert {
+        border-radius: 12px;
+    }
+    
+    /* Custom container for better text visibility */
+    .custom-container {
+        background: white;
+        padding: 25px;
+        border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        margin: 15px 0;
+    }
+    
+    .custom-container h3, .custom-container h4 {
+        color: #2c3e50 !important;
+        margin-top: 0;
+    }
+    
+    .custom-container p {
+        color: #5a6c7d !important;
     }
 </style>
 """, unsafe_allow_html=True)
 
 # ----------------------
-# Helpers
+# Helpers (giữ nguyên)
 # ----------------------
 @st.cache_resource
 def load_models_and_sample(rf_path, iso_path, sample_path):
@@ -337,7 +427,7 @@ with st.sidebar:
         <h1 style="color: white; font-size: 1.8rem; margin-bottom: 0;">🏍️ MotorPrice Pro</h1>
         <p style="color: rgba(255,255,255,0.8); font-size: 0.9rem;">AI-Powered Motorcycle Valuation</p>
     </div>
-    <hr style="border-color: rgba(255,255,255,0.2);">
+    <hr style="border-color: rgba(255,255,255,0.2); margin-bottom: 20px;">
     """, unsafe_allow_html=True)
     
     # Navigation menu
@@ -376,7 +466,7 @@ if st.session_state.current_page == "home":
     st.markdown("""
     <div style="text-align: center; margin-bottom: 40px;">
         <h2 style="color: #2c3e50; font-size: 2.2rem; margin-bottom: 15px;">Chào mừng đến với MotorPrice Pro</h2>
-        <p style="color: #7f8c8d; font-size: 1.2rem; max-width: 800px; margin: 0 auto;">
+        <p style="color: #5a6c7d; font-size: 1.2rem; max-width: 800px; margin: 0 auto;">
             Công nghệ AI tiên tiến giúp bạn dự đoán giá xe máy cũ chính xác và phát hiện các giao dịch bất thường
         </p>
     </div>
@@ -452,7 +542,7 @@ elif st.session_state.current_page == "prediction":
     st.markdown("""
     <div style="text-align: center; margin-bottom: 30px;">
         <h2 style="color: #2c3e50; font-size: 2.2rem;">📊 Dự Đoán Giá Xe</h2>
-        <p style="color: #7f8c8d; font-size: 1.1rem;">Chọn phương thức nhập liệu phù hợp với nhu cầu của bạn</p>
+        <p style="color: #5a6c7d; font-size: 1.1rem;">Chọn phương thức nhập liệu phù hợp với nhu cầu của bạn</p>
     </div>
     """, unsafe_allow_html=True)
     
@@ -468,7 +558,7 @@ elif st.session_state.current_page == "prediction":
             <div style="background: white; padding: 30px; border-radius: 20px; box-shadow: 0 8px 25px rgba(0,0,0,0.1);">
             """, unsafe_allow_html=True)
             
-            st.subheader("🚗 Thông Tin Xe")
+            st.markdown("### 🚗 Thông Tin Xe")
             col1, col2 = st.columns([2, 1])
             
             with col1:
@@ -553,8 +643,8 @@ elif st.session_state.current_page == "prediction":
             
             # Display input parameters
             st.markdown("""
-            <div style="background: white; padding: 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.08); margin: 20px 0;">
-                <h3 style="color: #2c3e50; margin-top: 0;">📋 Thông số đầu vào</h3>
+            <div class="custom-container">
+                <h3>📋 Thông số đầu vào</h3>
             """, unsafe_allow_html=True)
             
             input_params = {
@@ -574,9 +664,9 @@ elif st.session_state.current_page == "prediction":
             
             # Explanation
             st.markdown(f"""
-            <div style="background: white; padding: 20px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.08);">
-                <h4 style="color: #2c3e50; margin-top: 0;">📝 Giải thích</h4>
-                <p style="color: #7f8c8d; font-size: 1rem;">{explanation}</p>
+            <div class="custom-container">
+                <h4>📝 Giải thích</h4>
+                <p>{explanation}</p>
             </div>
             """, unsafe_allow_html=True)
             
@@ -601,7 +691,7 @@ elif st.session_state.current_page == "prediction":
     
     else:  # Batch prediction mode
         st.markdown("""
-        <div style="background: white; padding: 30px; border-radius: 20px; box-shadow: 0 8px 25px rgba(0,0,0,0.1);">
+        <div class="custom-container">
             <h3>📁 Upload File Dự Đoán Hàng Loạt</h3>
             <p>File cần có các cột: Thương_hiệu, Dòng_xe, Loại_xe, Dung_tích_xe, Năm_đăng_ký, Số_Km_đã_đi, Giá (tùy chọn)</p>
         </div>
@@ -674,13 +764,13 @@ elif st.session_state.current_page == "anomaly":
     st.markdown("""
     <div style="text-align: center; margin-bottom: 30px;">
         <h2 style="color: #2c3e50; font-size: 2.2rem;">🔍 Kiểm Tra Bất Thường</h2>
-        <p style="color: #7f8c8d; font-size: 1.1rem;">Phát hiện giá xe bất thường so với thị trường</p>
+        <p style="color: #5a6c7d; font-size: 1.1rem;">Phát hiện giá xe bất thường so với thị trường</p>
     </div>
     """, unsafe_allow_html=True)
     
     with st.form("anomaly_form"):
         st.markdown("""
-        <div style="background: white; padding: 30px; border-radius: 20px; box-shadow: 0 8px 25px rgba(0,0,0,0.1);">
+        <div class="custom-container">
         """, unsafe_allow_html=True)
         
         col1, col2 = st.columns(2)
@@ -709,346 +799,4 @@ elif st.session_state.current_page == "anomaly":
         
         if not brand_data.empty:
             # Calculate percentiles
-            p10 = brand_data['Gia_trieu'].quantile(0.10)
-            p25 = brand_data['Gia_trieu'].quantile(0.25)
-            p75 = brand_data['Gia_trieu'].quantile(0.75)
-            p90 = brand_data['Gia_trieu'].quantile(0.90)
-            median_price = brand_data['Gia_trieu'].median()
-            
-            # Determine anomaly level
-            if actual_price < p10:
-                verdict = "Giá thấp bất thường"
-                reason = "Thấp hơn 90% mẫu. Có thể xe bị lỗi / giấy tờ không rõ ràng."
-                color = "danger"
-                icon = "⚠️"
-            elif actual_price > p90:
-                verdict = "Giá cao bất thường"
-                reason = "Cao hơn 90% mẫu. Nên kiểm tra thực tế hoặc thương lượng."
-                color = "danger"
-                icon = "⚠️"
-            elif actual_price < p25:
-                verdict = "Giá hơi thấp"
-                reason = "Thấp hơn 75% mẫu. Có thể là cơ hội tốt nhưng cần kiểm tra kỹ."
-                color = "warning"
-                icon = "ℹ️"
-            elif actual_price > p75:
-                verdict = "Giá hơi cao"
-                reason = "Cao hơn 75% mẫu. Có thể chấp nhận được nhưng nên thương lượng."
-                color = "warning"
-                icon = "ℹ️"
-            else:
-                verdict = "Giá bình thường"
-                reason = "Giá nằm trong vùng an toàn so với thị trường."
-                color = "normal"
-                icon = "✅"
-            
-            # Display results
-            st.markdown(f"""
-            <div class="price-card {color}">
-                <h2>{icon} {verdict}</h2>
-                <p style="font-size: 1.1rem;">{reason}</p>
-            </div>
-            """, unsafe_allow_html=True)
-            
-            # Market statistics
-            st.markdown("""
-            <div style="background: white; padding: 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.08); margin: 20px 0;">
-                <h3 style="color: #2c3e50; margin-top: 0;">📊 Thống kê thị trường</h3>
-            """, unsafe_allow_html=True)
-            
-            col1, col2, col3 = st.columns(3)
-            
-            with col1:
-                st.metric("Giá trung vị", f"{median_price:.1f} Triệu")
-                st.metric("Phân vị 25%", f"{p25:.1f} Triệu")
-            
-            with col2:
-                st.metric("Phân vị 75%", f"{p75:.1f} Triệu")
-                st.metric("Giá của bạn", f"{actual_price:.1f} Triệu", 
-                         delta=f"{((actual_price - median_price) / median_price * 100):+.1f}%" if median_price > 0 else "N/A")
-            
-            with col3:
-                st.metric("Phân vị 10%", f"{p10:.1f} Triệu")
-                st.metric("Phân vị 90%", f"{p90:.1f} Triệu")
-            
-            st.markdown("</div>", unsafe_allow_html=True)
-            
-            # Recommendations
-            st.markdown("""
-            <div style="background: white; padding: 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.08);">
-                <h3 style="color: #2c3e50; margin-top: 0;">💡 Khuyến nghị</h3>
-            """, unsafe_allow_html=True)
-            
-            if color == "danger":
-                st.warning("**CẢNH BÁO**: Giá xe có dấu hiệu bất thường rõ rệt. Nên:")
-                st.write("- Kiểm tra kỹ lịch sử xe và giấy tờ")
-                st.write("- Xem xét kỹ tình trạng thực tế")
-                st.write("- Tham khảo ý kiến chuyên gia nếu cần")
-            elif color == "warning":
-                st.info("**LƯU Ý**: Giá xe có chút khác biệt so với thị trường. Cân nhắc:")
-                st.write("- Thương lượng giá nếu cần thiết")
-                st.write("- Kiểm tra lại các thông số kỹ thuật")
-                st.write("- So sánh với các xe tương tự trên thị trường")
-            else:
-                st.success("**TỐT**: Giá xe nằm trong phạm vi hợp lý. Có thể:")
-                st.write("- Tiếp tục đánh giá các yếu tố khác")
-                st.write("- Kiểm tra tình trạng thực tế xe")
-                st.write("- Xem xét mua nếu các yếu tố khác đều tốt")
-            
-            st.markdown("</div>", unsafe_allow_html=True)
-        
-        else:
-            st.error("❌ Không tìm thấy dữ liệu cho thương hiệu này.")
-
-# ----------------------
-# PAGE: REPORTS & STATISTICS
-# ----------------------
-elif st.session_state.current_page == "reports":
-    st.markdown("""
-    <div style="text-align: center; margin-bottom: 30px;">
-        <h2 style="color: #2c3e50; font-size: 2.2rem;">📈 Báo Cáo & Thống Kê</h2>
-        <p style="color: #7f8c8d; font-size: 1.1rem;">Phân tích dữ liệu và xu hướng thị trường</p>
-    </div>
-    """, unsafe_allow_html=True)
-    
-    tab1, tab2, tab3 = st.tabs(["📊 Thống Kê Tổng Quan", "📈 Phân Tích Xu Hướng", "🔍 Feature Importance"])
-    
-    with tab1:
-        st.subheader("Thống Kê Dữ Liệu Mẫu")
-        st.dataframe(sample_df.describe())
-        
-        col1, col2 = st.columns(2)
-        
-        with col1:
-            # Price distribution
-            fig, ax = plt.subplots(figsize=(10, 6))
-            sample_df['Gia_trieu'].hist(bins=30, ax=ax, alpha=0.7, color='#667eea')
-            ax.set_xlabel('Giá (Triệu VNĐ)')
-            ax.set_ylabel('Số lượng')
-            ax.set_title('Phân Phối Giá Xe')
-            ax.grid(True, alpha=0.3)
-            st.pyplot(fig)
-        
-        with col2:
-            # Top brands
-            brand_counts = sample_df['Thương hiệu'].value_counts().head(10)
-            fig, ax = plt.subplots(figsize=(10, 6))
-            brand_counts.plot(kind='barh', ax=ax, color='#764ba2', alpha=0.7)
-            ax.set_xlabel('Số lượng')
-            ax.set_title('Top 10 Thương Hiệu Phổ Biến')
-            ax.grid(True, alpha=0.3)
-            st.pyplot(fig)
-    
-    with tab2:
-        st.subheader("Phân Tích Xu Hướng Giá")
-        
-        # Year vs Price
-        if 'Năm đăng ký' in sample_df.columns:
-            year_price = sample_df.groupby('Năm đăng ký')['Gia_trieu'].mean().dropna()
-            fig, ax = plt.subplots(figsize=(12, 6))
-            year_price.plot(ax=ax, marker='o', color='#ff6b6b', linewidth=2)
-            ax.set_xlabel('Năm Đăng Ký')
-            ax.set_ylabel('Giá Trung Bình (Triệu VNĐ)')
-            ax.set_title('Xu Hướng Giá Theo Năm Đăng Ký')
-            ax.grid(True, alpha=0.3)
-            st.pyplot(fig)
-    
-    with tab3:
-        st.subheader("Feature Importance")
-        try:
-            fi_df = pd.read_csv(FI_CSV)
-            fig, ax = plt.subplots(figsize=(10, 8))
-            y_pos = np.arange(len(fi_df.head(15)))
-            ax.barh(y_pos, fi_df['importance'].head(15), color='#667eea', alpha=0.7)
-            ax.set_yticks(y_pos)
-            ax.set_yticklabels(fi_df['feature'].head(15))
-            ax.set_xlabel('Importance')
-            ax.set_title('Top 15 Features Quan Trọng Nhất')
-            ax.grid(True, alpha=0.3)
-            st.pyplot(fig)
-            
-            st.dataframe(fi_df.head(20))
-        except Exception as e:
-            st.warning(f"Không thể load feature importance: {e}")
-
-# ----------------------
-# PAGE: ADMIN
-# ----------------------
-elif st.session_state.current_page == "admin":
-    st.markdown("""
-    <div style="text-align: center; margin-bottom: 30px;">
-        <h2 style="color: #2c3e50; font-size: 2.2rem;">🛠️ Quản Trị Viên</h2>
-        <p style="color: #7f8c8d; font-size: 1.1rem;">Quản lý submissions và hệ thống</p>
-    </div>
-    """, unsafe_allow_html=True)
-    
-    admin_password = st.text_input("🔐 Mật khẩu quản trị", type="password")
-    
-    if admin_password == "admin123":  # In production, use secure password hashing
-        st.success("✅ Đăng nhập thành công!")
-        
-        tab1, tab2 = st.tabs(["📋 Submissions", "⚙️ Thông Tin Hệ Thống"])
-        
-        with tab1:
-            if PENDING_PATH.exists():
-                pending_df = pd.read_csv(PENDING_PATH)
-                st.metric("Tổng Submissions", len(pending_df))
-                st.dataframe(pending_df)
-                
-                if not pending_df.empty:
-                    selected_id = st.selectbox("Chọn ID để thao tác", pending_df['id'].tolist())
-                    col1, col2, col3 = st.columns(3)
-                    
-                    with col1:
-                        if st.button("✅ Duyệt", use_container_width=True):
-                            pending_df.loc[pending_df['id'] == selected_id, 'status'] = 'approved'
-                            pending_df.to_csv(PENDING_PATH, index=False)
-                            st.success("Đã duyệt submission!")
-                            st.rerun()
-                    
-                    with col2:
-                        if st.button("❌ Từ chối", use_container_width=True):
-                            pending_df.loc[pending_df['id'] == selected_id, 'status'] = 'rejected'
-                            pending_df.to_csv(PENDING_PATH, index=False)
-                            st.warning("Đã từ chối submission!")
-                            st.rerun()
-                    
-                    with col3:
-                        if st.button("🗑️ Xóa", use_container_width=True):
-                            pending_df = pending_df[pending_df['id'] != selected_id]
-                            pending_df.to_csv(PENDING_PATH, index=False)
-                            st.info("Đã xóa submission!")
-                            st.rerun()
-            else:
-                st.info("📭 Chưa có submissions nào.")
-        
-        with tab2:
-            st.subheader("Thông Tin Hệ Thống")
-            col1, col2 = st.columns(2)
-            
-            with col1:
-                st.metric("Model Status", "✅ Đã load" if model else "❌ Chưa load")
-                st.metric("Sample Data Size", f"{len(sample_df):,} records")
-                st.metric("Isolation Forest", "✅ Đã load" if iso else "❌ Chưa load")
-            
-            with col2:
-                if LOG_PATH.exists():
-                    logs_df = pd.read_csv(LOG_PATH)
-                    st.metric("Total Predictions", f"{len(logs_df):,}")
-                else:
-                    st.metric("Total Predictions", "0")
-                
-                if PENDING_PATH.exists():
-                    pending_df = pd.read_csv(PENDING_PATH)
-                    pending_count = len(pending_df[pending_df['status'] == 'pending'])
-                    st.metric("Pending Reviews", pending_count)
-    
-    elif admin_password != "":
-        st.error("❌ Mật khẩu không đúng!")
-
-# ----------------------
-# PAGE: LOGS
-# ----------------------
-elif st.session_state.current_page == "logs":
-    st.markdown("""
-    <div style="text-align: center; margin-bottom: 30px;">
-        <h2 style="color: #2c3e50; font-size: 2.2rem;">📋 Nhật Ký Hệ Thống</h2>
-        <p style="color: #7f8c8d; font-size: 1.1rem;">Theo dõi lịch sử dự đoán và hoạt động</p>
-    </div>
-    """, unsafe_allow_html=True)
-    
-    if LOG_PATH.exists():
-        logs_df = pd.read_csv(LOG_PATH)
-        st.metric("Tổng số bản ghi", len(logs_df))
-        
-        # Filter options
-        col1, col2 = st.columns(2)
-        with col1:
-            mode_filter = st.selectbox("Lọc theo chế độ", ["Tất cả", "single", "batch"])
-        with col2:
-            date_sort = st.selectbox("Sắp xếp theo", ["Mới nhất", "Cũ nhất"])
-        
-        # Apply filters
-        filtered_logs = logs_df.copy()
-        if mode_filter != "Tất cả":
-            filtered_logs = filtered_logs[filtered_logs['mode'] == mode_filter]
-        
-        if date_sort == "Mới nhất":
-            filtered_logs = filtered_logs.sort_values('timestamp', ascending=False)
-        else:
-            filtered_logs = filtered_logs.sort_values('timestamp', ascending=True)
-        
-        st.dataframe(filtered_logs.head(100))
-        
-        # Download button
-        csv = filtered_logs.to_csv(index=False).encode('utf-8')
-        st.download_button(
-            "💾 Export Logs CSV",
-            data=csv,
-            file_name="system_logs.csv",
-            mime="text/csv",
-            use_container_width=True
-        )
-    else:
-        st.info("📭 Chưa có logs nào được ghi lại.")
-
-# ----------------------
-# PAGE: TEAM INFO
-# ----------------------
-elif st.session_state.current_page == "team":
-    st.markdown("""
-    <div style="text-align: center; margin-bottom: 30px;">
-        <h2 style="color: #2c3e50; font-size: 2.2rem;">👨‍💻 Nhóm Thực Hiện</h2>
-        <p style="color: #7f8c8d; font-size: 1.1rem;">Thông tin về nhóm phát triển dự án</p>
-    </div>
-    """, unsafe_allow_html=True)
-    
-    col1, col2 = st.columns([1, 2])
-    
-    with col1:
-        st.markdown("""
-        <div style="text-align: center;">
-            <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
-                    width: 150px; height: 150px; border-radius: 50%; margin: 0 auto 20px auto;
-                    display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem;">
-                👨‍💻
-            </div>
-            <h3 style="color: #2c3e50; margin-bottom: 5px;">Nguyễn Thái Bình</h3>
-            <p style="color: #7f8c8d; margin: 0;">Data Scientist & Developer</p>
-        </div>
-        """, unsafe_allow_html=True)
-    
-    with col2:
-        st.markdown("""
-        <div style="background: white; padding: 30px; border-radius: 20px; box-shadow: 0 8px 25px rgba(0,0,0,0.1);">
-            <h4 style="color: #2c3e50; margin-top: 0;">📞 Thông Tin Liên Hệ</h4>
-            <p><strong>📧 Email:</strong> thaibinh782k1@gmail.com</p>
-            <p><strong>🐙 GitHub:</strong> <a href="https://github.com/ThaiBinh78/ML07_Project" target="_blank">ThaiBinh78/ML07_Project</a></p>
-            <p><strong>📅 Ngày báo cáo:</strong> 22/11/2024</p>
-            
-            <h4 style="color: #2c3e50; margin-top: 20px;">🛠 Công Nghệ Sử Dụng</h4>
-            <p>• Python, Streamlit, Scikit-learn</p>
-            <p>• Pandas, NumPy, Matplotlib</p>
-            <p>• Random Forest, Isolation Forest</p>
-            <p>• Machine Learning, Data Analysis</p>
-        </div>
-        """, unsafe_allow_html=True)
-    
-    st.markdown("---")
-    st.markdown("""
-    <div style="text-align: center; color: #7f8c8d; padding: 20px;">
-        <p><strong>MotorPrice Pro</strong> - Hệ thống dự đoán giá xe máy cũ thông minh</p>
-        <p>© 2024 All rights reserved | Powered by AI Technology</p>
-        <p>Developed with ❤️ by Nguyen Thai Binh</p>
-    </div>
-    """, unsafe_allow_html=True)
-
-# ----------------------
-# FOOTER
-# ----------------------
-st.markdown("""
-<div style="text-align: center; color: #7f8c8d; padding: 40px 0 20px 0;">
-    <hr style="border-color: #e0e6ed; margin-bottom: 20px;">
-    <p>MotorPrice Pro - Hệ thống dự đoán giá xe máy cũ sử dụng AI | Phiên bản 1.0</p>
-</div>
-""", unsafe_allow_html=True)
+            p10 = brand_data['Gia_trieu'].quantile(0
