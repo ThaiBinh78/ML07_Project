@@ -261,7 +261,7 @@ def page_home():
     st.markdown("""
     <h2 style="
         font-weight:700;
-        background: linear-gradient(to right, #4fc3f7, #29b6f6);
+        background: linear-gradient(to right, #4fc3f7, #186C91);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         display: inline-block;
@@ -272,7 +272,7 @@ def page_home():
     # ----------------------
     # 4 PLOTS ĐẦU TRANG
     # ----------------------
-    st.markdown("### Thống kê mô tả thị trường xe máy Việt Nam")
+    st.markdown(" Thống kê mô tả thị trường xe máy Việt Nam")
     if sample_df is None or sample_df.empty:
         st.warning("Chưa có dữ liệu mẫu để hiển thị plot.")
     else:
@@ -941,6 +941,7 @@ if selected in pages_map:
         st.write(traceback.format_exc())
 else:
     page_home()
+
 
 
 
