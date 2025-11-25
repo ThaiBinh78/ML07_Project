@@ -1179,53 +1179,71 @@ elif st.session_state.current_page == "team":
     col1, col2 = st.columns([2, 1])
 
     with col1:
-        st.markdown("""
-        <div class="team-text">
-            <h3 style="margin-top: 0;">Thông Tin Dự Án</h3>
-            <div class="info-box">
-                <h4>Mục Tiêu Dự Án</h4>
-                <p>Phát triển hệ thống dự đoán giá xe máy cũ sử dụng Machine Learning và AI, cung cấp công cụ đánh giá giá cả chính xác và phát hiện các giao dịch bất thường.</p>
+        st.html("""
+        <div class="custom-container">
+            <h3 style="color: #2c3e50; margin-top: 0;">📋 Thông Tin Dự Án</h3>
+            
+            <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin: 15px 0;">
+                <h4 style="color: #2c3e50; margin-top: 0;">🎯 Mục Tiêu Dự Án</h4>
+                <p>Phát triển hệ thống dự đoán giá xe máy cũ sử dụng Machine Learning và AI, 
+                cung cấp công cụ đánh giá giá cả chính xác và phát hiện các giao dịch bất thường.</p>
             </div>
-            <div class="info-box">
-                <h4>Công Nghệ Sử Dụng</h4>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+            
+            <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin: 15px 0;">
+                <h4 style="color: #2c3e50; margin-top: 0;">🛠 Công Nghệ Sử Dụng</h4>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
                     <div>
                         <p><strong>Backend:</strong></p>
-                        <p>• Python • Scikit-learn • Pandas, NumPy</p>
+                        <p>• Python</p>
+                        <p>• Scikit-learn</p>
+                        <p>• Pandas, NumPy</p>
                     </div>
                     <div>
                         <p><strong>Frontend:</strong></p>
-                        <p>• Streamlit • HTML/CSS • Matplotlib</p>
+                        <p>• Streamlit</p>
+                        <p>• HTML/CSS</p>
+                        <p>• Matplotlib</p>
                     </div>
                 </div>
-                <p style="margin-top: 15px;"><strong>ML Models:</strong> Random Forest, Isolation Forest</p>
-                <p><strong>Deployment:</strong> Streamlit Cloud</p>
+                <div style="margin-top: 10px;">
+                    <p><strong>ML Models:</strong> Random Forest, Isolation Forest</p>
+                    <p><strong>Deployment:</strong> Streamlit Cloud</p>
+                </div>
             </div>
         </div>
-        """, unsafe_allow_html=True)
-
+        """)
+    
     with col2:
-        st.markdown("""
-        <div class="team-text">
-            <h3 style="margin-top: 0;">Liên Kết</h3>
-            <div class="info-box">
-                <p><strong>GitHub Repo:</strong></p>
-                <p><a href="https://github.com/ThaiBinh78/ML07_Project" target="_blank">
-                   https://github.com/ThaiBinh78/ML07_Project
-                </a></p>
-                <p><strong>Ngày báo cáo:</strong> 22/11/2024</p>
-                <p><strong>Phiên bản:</strong> MotorPrice Pro v1.0</p>
+        st.html("""
+        <div class="custom-container">
+            <h3 style="color: #2c3e50; margin-top: 0;">🔗 Liên Kết</h3>
+            
+            <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin: 15px 0;">
+                <p><strong>🐙 GitHub Repo:</strong></p>
+                <p>
+                    <a href="https://github.com/ThaiBinh78/ML07_Project" target="_blank" 
+                       style="color: #667eea; text-decoration: none;">
+                       https://github.com/ThaiBinh78/ML07_Project
+                    </a>
+                </p>
+                
+                <p><strong>📅 Ngày báo cáo:</strong></p>
+                <p>22/11/2024</p>
+                
+                <p><strong>📊 Phiên bản:</strong></p>
+                <p>MotorPrice Pro v1.0</p>
             </div>
-            <div class="info-box">
-                <h4>Thống Kê</h4>
+            
+            <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin: 15px 0;">
+                <h4 style="color: #2c3e50; margin-top: 0;">📈 Thống Kê</h4>
                 <p>• 2 Thành viên</p>
                 <p>• 4+ Tuần phát triển</p>
                 <p>• 1000+ Dòng code</p>
                 <p>• 5+ ML Models</p>
             </div>
         </div>
-        """, unsafe_allow_html=True)
-    
+        """)
+        
     # Timeline dự án
     st.markdown("""
     <div class="custom-container">
@@ -1279,6 +1297,7 @@ elif st.session_state.current_page == "team":
         <p>MotorPrice Pro - Hệ thống dự đoán giá xe máy cũ sử dụng AI | Phiên bản 1.0</p>
     </div>
     """, unsafe_allow_html=True)
+
 
 
 
