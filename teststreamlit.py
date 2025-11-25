@@ -895,7 +895,7 @@ elif st.session_state.current_page == "anomaly":
             st.markdown("""
             <style>
                 .custom-metric {
-                    background: #1887F5;
+                    background: #A364F5;
                     padding: 20px;
                     border-radius: 15px;
                     box-shadow: 0 5px 15px rgba(0,0,0,0.08);
@@ -1383,6 +1383,7 @@ st.markdown("""
     ĐỒ ÁN TỐT NGHIỆP DATA SCIENCE - MACHINE LEARNING<br>
 </div>
 """, unsafe_allow_html=True)
+
 
 
 
