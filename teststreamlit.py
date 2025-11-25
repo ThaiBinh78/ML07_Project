@@ -246,10 +246,17 @@ st.markdown(f"""
 
 
 
+# ==============================
+# HOME PAGE
+# ==============================
 def page_home():
-    st.image("chotot.jpg")
     # ----------------------
-    # TITLE
+    # HEADER IMAGE
+    # ----------------------
+    st.image("chotot.jpg")
+
+    # ----------------------
+    # TITLE GRADIENT
     # ----------------------
     st.markdown("""
     ## <span style="
@@ -260,11 +267,11 @@ def page_home():
     ">Ứng dụng dự đoán giá xe máy cũ</span>
     """, unsafe_allow_html=True)
 
-
     # ----------------------
     # 4 PLOTS ĐẦU TRANG
     # ----------------------
-    if sample_df.empty:
+    st.markdown("### Thống kê mô tả thị trường xe máy Việt Nam")
+    if sample_df is None or sample_df.empty:
         st.warning("Chưa có dữ liệu mẫu để hiển thị plot.")
     else:
         df = sample_df.copy()
@@ -331,30 +338,36 @@ def page_home():
 
     </div>
     """, unsafe_allow_html=True)
-# ----------------------
+
+    # ----------------------
+    # FOOTER
+    # ----------------------
+    show_footer()
+
+
+# ==============================
 # FOOTER
-# ----------------------
-st.markdown("""
-<style>
-.footer {
-    border-top: 1px solid #ddd;
-    margin-top: 30px;
-    padding-top: 20px;
-    color: #555;
-    font-size: 14px;
-    line-height: 1.6;
-}
-</style>
-<div class="footer">
-    <b> DATA SCIENCE AND MACHINE LEARNING COURSE</b><br>
-    ĐỒ ÁN TỐT NGHIỆP DATA SCIENCE - MACHINE LEARNING<br>
-    © DL07_K308 2025<br>
-    Email HV1: thaibinh782k1@gmail.com<br>
-    Email HV2: duythanh200620@gmail.com<br>
-</div>
-""", unsafe_allow_html=True)
-
-
+# ==============================
+def show_footer():
+    st.markdown("""
+    <style>
+    .footer {
+        border-top: 1px solid #ddd;
+        margin-top: 30px;
+        padding-top: 20px;
+        color: #555;
+        font-size: 14px;
+        line-height: 1.6;
+    }
+    </style>
+    <div class="footer">
+        <b> DATA SCIENCE AND MACHINE LEARNING COURSE</b><br>
+        ĐỒ ÁN TỐT NGHIỆP DATA SCIENCE - MACHINE LEARNING<br>
+        © DL07_K308 2025<br>
+        Email HV1: thaibinh782k1@gmail.com<br>
+        Email HV2: duythanh200620@gmail.com<br>
+    </div>
+    """, unsafe_allow_html=True)
 
 
 def page_problem():
@@ -854,6 +867,7 @@ if selected in pages_map:
         st.write(traceback.format_exc())
 else:
     page_home()
+
 
 
 
