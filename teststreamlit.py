@@ -1213,8 +1213,8 @@ elif st.session_state.current_page == "team":
             <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin: 15px 0;">
                 <p><strong>🐙 GitHub Repo:</strong></p>
                 <p>
-                    <a href="https://github.com/ThaiBinh78/ML07_Project" target="_blank" 
-                       style="color: #667eea; text-decoration: none;">
+                      <a href="https://github.com/ThaiBinh78/ML07_Project" target="_blank" 
+                       style="color: #667eea; text-decoration: none; font-size: 13px;">
                        https://github.com/ThaiBinh78/ML07_Project
                     </a>
                 </p>
@@ -1289,4 +1289,5 @@ st.markdown("""
     <p>MotorPrice Pro - Hệ thống dự đoán giá xe máy cũ sử dụng AI | Phiên bản 1.0</p>
 </div>
 """, unsafe_allow_html=True)
+
 
