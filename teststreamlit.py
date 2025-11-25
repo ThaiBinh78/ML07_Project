@@ -332,7 +332,7 @@ def page_home():
     </div>
     """, unsafe_allow_html=True)
 
-    # ----------------------
+ # ----------------------
     # FOOTER
     # ----------------------
     st.markdown("""
@@ -391,15 +391,13 @@ Người dùng cần cung cấp các thông tin cơ bản của xe:
 
 Sau khi phân tích, hệ thống trả về:
 
-- ** Giá dự đoán hợp lý (Triệu VNĐ)**
-- ** Đánh giá mức độ hợp lý của giá bạn nhập**  
+-  Giá dự đoán hợp lý (Triệu VNĐ)
+-  Đánh giá mức độ hợp lý của giá bạn nhập 
   - Bình thường  
   - Giá thấp bất thường  
   - Giá cao bất thường  
-- ** Giải thích rõ ràng theo kiểu tư vấn thực tế**, ví dụ:
-  - “Giá thấp hơn thị trường, có thể xe đã thay máy hoặc gặp vấn đề kỹ thuật.”
-  - “Giá cao hơn trung bình, kiểm tra kỹ giấy tờ và tình trạng xe.”
-- ** Gợi ý hành động**
+-  Giải thích rõ ràng kết quả dễ hiểu
+-  Gợi ý hành động
   - Cho *người mua*: nên hẹn xem xe, kiểm tra odo, tình trạng, phụ tùng.
   - Cho *người bán*: nên mô tả thêm chi tiết, cập nhật hình ảnh, điều chỉnh giá.
 
@@ -857,6 +855,7 @@ if selected in pages_map:
         st.write(traceback.format_exc())
 else:
     page_home()
+
 
 
 
