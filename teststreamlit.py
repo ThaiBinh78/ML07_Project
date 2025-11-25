@@ -1079,7 +1079,7 @@ elif st.session_state.current_page == "admin":
                     st.metric("Pending Reviews", pending_count)
    
     elif admin_password != "":
-        st.error("❌ Mật khẩu không đúng!")
+        st.error("❌ Mật khẩu không đúng! (Thử lại với password:admin123)")
 # ----------------------
 # PAGE: LOGS
 # ----------------------
@@ -1297,6 +1297,7 @@ st.markdown("""
     ĐỒ ÁN TỐT NGHIỆP DATA SCIENCE - MACHINE LEARNING<br>
 </div>
 """, unsafe_allow_html=True)
+
 
 
 
