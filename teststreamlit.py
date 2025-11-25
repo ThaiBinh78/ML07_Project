@@ -373,7 +373,7 @@ def page_footer():
 # 4 PLOTS TRONG 1 FIGURE (2x2)
 # ==============================
 st.markdown("###  Thống kê mô tả thị trường xe máy Việt Nam")
-
+df = sample_df.copy()
 # Chuẩn bị data
 df["Tuổi xe"] = CURRENT_YEAR - df["Năm đăng ký"]
 price_col = "Gia_trieu" if "Gia_trieu" in df.columns else "Giá"
@@ -926,6 +926,7 @@ if selected in pages_map:
         st.write(traceback.format_exc())
 else:
     page_home()
+
 
 
 
