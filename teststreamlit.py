@@ -251,7 +251,15 @@ def page_home():
     # ----------------------
     # TITLE
     # ----------------------
-    st.markdown("## <span style='color:#003366; font-weight:700;'>Ứng dụng dự đoán giá xe máy cũ</span>", unsafe_allow_html=True)
+    st.markdown("""
+    ## <span style="
+        font-weight:700;
+        background: linear-gradient(to right, #4fc3f7, #29b6f6);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    ">Ứng dụng dự đoán giá xe máy cũ</span>
+    """, unsafe_allow_html=True)
+
 
     # ----------------------
     # 4 PLOTS ĐẦU TRANG
@@ -849,6 +857,7 @@ if selected in pages_map:
         st.write(traceback.format_exc())
 else:
     page_home()
+
 
 
 
