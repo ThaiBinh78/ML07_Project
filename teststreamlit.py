@@ -267,10 +267,9 @@ def page_home():
         unsafe_allow_html=True
     )
     
-    # Sử dụng raw URL thay vì URL trang web
+    # CHỈ dùng st.markdown, KHÔNG dùng st.image
     st.markdown('<img src="https://raw.githubusercontent.com/ThaiBinh78/ML07_Project/main/chotot.jpg" class="custom-image">', unsafe_allow_html=True)
-
-    # ----------------------
+        # ----------------------
     # TITLE GRADIENT
     # ----------------------
     st.markdown(
@@ -961,6 +960,7 @@ if selected in pages_map:
         st.write(traceback.format_exc())
 else:
     page_home()
+
 
 
 
