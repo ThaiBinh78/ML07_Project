@@ -887,7 +887,7 @@ elif st.session_state.current_page == "anomaly":
            
             # Market statistics
             st.markdown("""
-            <div style="background: #630ACC; padding: 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.08); margin: 20px 0;">
+            <div style="background: #A364F5; padding: 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.08); margin: 20px 0;">
                 <h3 style="color: #435F7A; margin-top: 0;">📊 Thống kê thị trường</h3>
             """, unsafe_allow_html=True)
             
@@ -1383,6 +1383,7 @@ st.markdown("""
     ĐỒ ÁN TỐT NGHIỆP DATA SCIENCE - MACHINE LEARNING<br>
 </div>
 """, unsafe_allow_html=True)
+
 
 
 
