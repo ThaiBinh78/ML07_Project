@@ -265,8 +265,7 @@ def page_home():
         unsafe_allow_html=True
     )
     st.markdown('<img src="https://raw.githubusercontent.com/ThaiBinh78/ML07_Project/main/chotot.jpg" class="full-width-image">', unsafe_allow_html=True)
-
-      st.markdown("""
+    st.markdown("""
     <style>
         .gradient-title {
             background: linear-gradient(to right, #4fc3f7, #186C91);
@@ -948,6 +947,7 @@ if selected in pages_map:
         st.write(traceback.format_exc())
 else:
     page_home()
+
 
 
 
