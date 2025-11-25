@@ -1295,6 +1295,17 @@ elif st.session_state.current_page == "team":
     </div>
     """, unsafe_allow_html=True)
 
+
+# ----------------------
+# FOOTER
+# ----------------------
+st.markdown("""
+<div style="text-align: center; color: #7f8c8d; padding: 40px 0 20px 0;">
+    <hr style="border-color: #e0e6ed; margin-bottom: 20px;">
+    <p>MotorPrice Pro - Hệ thống dự đoán giá xe máy cũ | Phiên bản 1.0</p>
+</div>
+""", unsafe_allow_html=True)
+
 # ==============================
 # FOOTER
 # ==============================
@@ -1318,6 +1329,7 @@ def show_footer():
         Email HV2: duythanh200620@gmail.com<br>
     </div>
     """, unsafe_allow_html=True)
+
 
 
 
