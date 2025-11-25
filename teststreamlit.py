@@ -71,7 +71,7 @@ st.markdown("""
    
     /* Sidebar styling */
     .css-1d391kg {
-        background: linear-gradient(180deg, #2c3e50 0%, #3498db 100%);
+        background: linear-gradient(180deg, #435F7A 0%, #3498db 100%);
     }
    
     /* Header styling */
@@ -117,7 +117,7 @@ st.markdown("""
     }
    
     .feature-card h3 {
-        color: #2c3e50;
+        color: #435F7A;
         font-size: 1.4rem;
         font-weight: 700;
         margin-bottom: 15px;
@@ -154,15 +154,15 @@ st.markdown("""
         border-radius: 15px;
         box-shadow: 0 5px 15px rgba(0,0,0,0.08);
         border: 1px solid #e0e6ed;
-        color: #2c3e50 !important; /* Dark text for light background */
+        color: #435F7A !important; /* Dark text for light background */
     }
    
     .stMetric > div > div > div > p { /* Label */
-        color: #2c3e50 !important;
+        color: #435F7A !important;
     }
    
     .stMetric > div > div > div > small { /* Delta if present */
-        color: #2c3e50 !important;
+        color: #435F7A !important;
     }
    
     /* Dataframe styling */
@@ -256,16 +256,16 @@ st.markdown("""
     /* Dark mode adjustments */
     @media (prefers-color-scheme: dark) {
         .stApp {
-            background: linear-gradient(135deg, #1a1a1a 0%, #2c3e50 100%);
+            background: linear-gradient(135deg, #1a1a1a 0%, #435F7A 100%);
         }
 
         .main-header {
-            background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%);
+            background: linear-gradient(135deg, #34495e 0%, #435F7A 100%);
             color: #ffffff;
         }
 
         .feature-card {
-            background: #2c3e50;
+            background: #435F7A;
             color: #ffffff;
             border-left: 5px solid #3498db;
             box-shadow: 0 8px 25px rgba(0,0,0,0.3);
@@ -282,7 +282,7 @@ st.markdown("""
         .stMetric {
             background: #34495e;
             color: #ffffff !important;
-            border: 1px solid #2c3e50;
+            border: 1px solid #435F7A;
             box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
 
@@ -301,7 +301,7 @@ st.markdown("""
 
         /* Dataframe in dark mode */
         .dataframe {
-            background: #2c3e50;
+            background: #435F7A;
             color: #ffffff;
         }
 
@@ -321,10 +321,10 @@ st.markdown("""
 
         /* Override inline styles for dark mode */
         div[style*="background: #f8f9fa"] {
-            background: #2c3e50 !important;
+            background: #435F7A !important;
         }
 
-        h3[style*="color: #2c3e50"], h4[style*="color: #2c3e50"] {
+        h3[style*="color: #435F7A"], h4[style*="color: #435F7A"] {
             color: #ffffff !important;
         }
 
@@ -352,7 +352,7 @@ st.markdown("""
         /* Audio player in dark mode */
         #fixed-audio {
             background: rgba(52, 73, 94, 0.95);
-            border: 1px solid #2c3e50;
+            border: 1px solid #435F7A;
         }
     }
 </style>
@@ -514,7 +514,7 @@ st.markdown("""
 if st.session_state.current_page == "home":
     st.markdown("""
     <div style="text-align: center; margin-bottom: 40px;">
-        <h2 style="color: #2c3e50; font-size: 2.2rem; margin-bottom: 15px;">Chào mừng đến với MotorPrice Pro</h2>
+        <h2 style="color: #435F7A; font-size: 2.2rem; margin-bottom: 15px;">Chào mừng đến với MotorPrice Pro</h2>
         <p style="color: #7f8c8d; font-size: 1.2rem; max-width: 800px; margin: 0 auto;">
             Công nghệ tiên tiến giúp bạn dự đoán giá xe máy cũ chính xác và phát hiện các giao dịch bất thường
         </p>
@@ -552,7 +552,7 @@ if st.session_state.current_page == "home":
     st.markdown("---")
     st.markdown("""
     <div style="text-align: center; margin: 40px 0;">
-        <h2 style="color: #2c3e50; font-size: 2rem;">Thống Kê Hệ Thống</h2>
+        <h2 style="color: #435F7A; font-size: 2rem;">Thống Kê Hệ Thống</h2>
     </div>
     """, unsafe_allow_html=True)
    
@@ -589,7 +589,7 @@ if st.session_state.current_page == "home":
 elif st.session_state.current_page == "prediction":
     st.markdown("""
     <div style="text-align: center; margin-bottom: 30px;">
-        <h2 style="color: #2c3e50; font-size: 2.2rem;">📊 Dự Đoán Giá Xe</h2>
+        <h2 style="color: #435F7A; font-size: 2.2rem;">📊 Dự Đoán Giá Xe</h2>
         <p style="color: #7f8c8d; font-size: 1.1rem;">Chọn phương thức nhập liệu phù hợp với nhu cầu của bạn</p>
     </div>
     """, unsafe_allow_html=True)
@@ -694,7 +694,7 @@ elif st.session_state.current_page == "prediction":
             # Display input parameters
             st.markdown("""
             <div style="background: #1D57A6; padding: 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.08); margin: 20px 0;">
-                <h3 style="color: #2c3e50; margin-top: 0;">📋 Thông số đầu vào</h3>
+                <h3 style="color: #435F7A; margin-top: 0;">📋 Thông số đầu vào</h3>
             """, unsafe_allow_html=True)
            
             input_params = {
@@ -715,7 +715,7 @@ elif st.session_state.current_page == "prediction":
             # Explanation
             st.markdown(f"""
             <div style="background: #1D57A6; padding: 20px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.08);">
-                <h4 style="color: #2c3e50; margin-top: 0;">📝 Giải thích</h4>
+                <h4 style="color: #435F7A; margin-top: 0;">📝 Giải thích</h4>
                 <p style="color: #7f8c8d; font-size: 1rem;">{explanation}</p>
             </div>
             """, unsafe_allow_html=True)
@@ -812,7 +812,7 @@ elif st.session_state.current_page == "prediction":
 elif st.session_state.current_page == "anomaly":
     st.markdown("""
     <div style="text-align: center; margin-bottom: 30px;">
-        <h2 style="color: #2c3e50; font-size: 2.2rem;">🔍 Kiểm Tra Bất Thường</h2>
+        <h2 style="color: #435F7A; font-size: 2.2rem;">🔍 Kiểm Tra Bất Thường</h2>
         <p style="color: #7f8c8d; font-size: 1.1rem;">Phát hiện giá xe bất thường so với thị trường</p>
     </div>
     """, unsafe_allow_html=True)
@@ -888,14 +888,14 @@ elif st.session_state.current_page == "anomaly":
             # Market statistics
             st.markdown("""
             <div style="background: #630ACC; padding: 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.08); margin: 20px 0;">
-                <h3 style="color: #2c3e50; margin-top: 0;">📊 Thống kê thị trường</h3>
+                <h3 style="color: #435F7A; margin-top: 0;">📊 Thống kê thị trường</h3>
             """, unsafe_allow_html=True)
             
                         # Thêm CSS để cải thiện giao diện metrics
             st.markdown("""
             <style>
                 .custom-metric {
-                    background: #5E0DB5;
+                    background: #1887F5;
                     padding: 20px;
                     border-radius: 15px;
                     box-shadow: 0 5px 15px rgba(0,0,0,0.08);
@@ -920,8 +920,8 @@ elif st.session_state.current_page == "anomaly":
                 with st.container():
                     st.markdown(f"""
                     <div class="custom-metric">
-                        <h3 style="color: #1887F5; margin: 0 0 10px 0; font-size: 1.1rem;">📊 Giá trung vị (Median)</h3>
-                        <p style="font-size: 1.5rem; font-weight: bold; color: #2c3e50; margin: 0;">{median_price:.1f} Triệu</p>
+                        <h3 style="color: #435F7A; margin: 0 0 10px 0; font-size: 1.1rem;">📊 Giá trung vị (Median)</h3>
+                        <p style="font-size: 1.5rem; font-weight: bold; color: #435F7A; margin: 0;">{median_price:.1f} Triệu</p>
                         <p style="color: #7f8c8d; font-size: 0.9rem; margin: 10px 0 0 0;">Giá trung bình của nhóm xe, 50% xe rẻ hơn và 50% xe đắt hơn mức này.</p>
                     </div>
                     """, unsafe_allow_html=True)
@@ -929,8 +929,8 @@ elif st.session_state.current_page == "anomaly":
                 with st.container():
                     st.markdown(f"""
                     <div class="custom-metric">
-                        <h3 style="color: #2c3e50; margin: 0 0 10px 0; font-size: 1.1rem;">📉 Phân vị 25% (P25)</h3>
-                        <p style="font-size: 1.5rem; font-weight: bold; color: #2c3e50; margin: 0;">{p25:.1f} Triệu</p>
+                        <h3 style="color: #435F7A; margin: 0 0 10px 0; font-size: 1.1rem;">📉 Phân vị 25% (P25)</h3>
+                        <p style="font-size: 1.5rem; font-weight: bold; color: #435F7A; margin: 0;">{p25:.1f} Triệu</p>
                         <p style="color: #7f8c8d; font-size: 0.9rem; margin: 10px 0 0 0;">25% xe rẻ nhất nằm dưới mức giá này.</p>
                     </div>
                     """, unsafe_allow_html=True)
@@ -940,8 +940,8 @@ elif st.session_state.current_page == "anomaly":
                 with st.container():
                     st.markdown(f"""
                     <div class="custom-metric">
-                        <h3 style="color: #2c3e50; margin: 0 0 10px 0; font-size: 1.1rem;">📈 Phân vị 75% (P75)</h3> 
-                        <p style="font-size: 1.5rem; font-weight: bold; color: #2c3e50; margin: 0;">{p75:.1f} Triệu</p>
+                        <h3 style="color: #435F7A; margin: 0 0 10px 0; font-size: 1.1rem;">📈 Phân vị 75% (P75)</h3> 
+                        <p style="font-size: 1.5rem; font-weight: bold; color: #435F7A; margin: 0;">{p75:.1f} Triệu</p>
                         <p style="color: #7f8c8d; font-size: 0.9rem; margin: 10px 0 0 0;">75% xe rẻ hơn mức giá này, chỉ 25% xe đắt hơn.</p>
                     </div>
                     """, unsafe_allow_html=True)
@@ -965,8 +965,8 @@ elif st.session_state.current_page == "anomaly":
                 with st.container():
                     st.markdown(f"""
                     <div class="custom-metric">
-                        <h3 style="color: #2c3e50; margin: 0 0 10px 0; font-size: 1.1rem;">⬇️ Phân vị 10% (P10)</h3>
-                        <p style="font-size: 1.5rem; font-weight: bold; color: #2c3e50; margin: 0;">{p10:.1f} Triệu</p>
+                        <h3 style="color: #435F7A; margin: 0 0 10px 0; font-size: 1.1rem;">⬇️ Phân vị 10% (P10)</h3>
+                        <p style="font-size: 1.5rem; font-weight: bold; color: #435F7A; margin: 0;">{p10:.1f} Triệu</p>
                         <p style="color: #7f8c8d; font-size: 0.9rem; margin: 10px 0 0 0;">Nhóm xe rẻ nhất thị trường, chỉ 10% xe rẻ hơn mức giá này.</p>
                     </div>
                     """, unsafe_allow_html=True)
@@ -974,8 +974,8 @@ elif st.session_state.current_page == "anomaly":
                 with st.container():
                     st.markdown(f"""
                     <div class="custom-metric">
-                        <h3 style="color: #2c3e50; margin: 0 0 10px 0; font-size: 1.1rem;">⬆️ Phân vị 90% (P90)</h3>
-                        <p style="font-size: 1.5rem; font-weight: bold; color: #2c3e50; margin: 0;">{p90:.1f} Triệu</p>
+                        <h3 style="color: #435F7A; margin: 0 0 10px 0; font-size: 1.1rem;">⬆️ Phân vị 90% (P90)</h3>
+                        <p style="font-size: 1.5rem; font-weight: bold; color: #435F7A; margin: 0;">{p90:.1f} Triệu</p>
                         <p style="color: #7f8c8d; font-size: 0.9rem; margin: 10px 0 0 0;">Giới hạn của nhóm xe rất đắt, chỉ còn 10% xe cao hơn mức giá này.</p>
                     </div>
                     """, unsafe_allow_html=True)
@@ -984,7 +984,7 @@ elif st.session_state.current_page == "anomaly":
             st.markdown("---")
             st.markdown("""
             <div style="background: #5E0DB5; padding: 20px; border-radius: 10px; margin-top: 20px;">
-                <h4 style="color: #2c3e50; margin-top: 0;">📖 Giải thích về phân vị giá:</h4>
+                <h4 style="color: #435F7A; margin-top: 0;">📖 Giải thích về phân vị giá:</h4>
                 <p style="color: #5a6c7d; margin: 5px 0;">
                     • <strong>Phân vị 25% (P25):</strong> 25% xe có giá thấp hơn mức này<br>
                     • <strong>Phân vị 50% (Median):</strong> Giá trung bình - 50% xe rẻ hơn, 50% xe đắt hơn<br>
@@ -999,7 +999,7 @@ elif st.session_state.current_page == "anomaly":
             # Recommendations
             st.markdown("""
             <div style="background: #1D56A3; padding: 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.08);">
-                <h3 style="color: #2c3e50; margin-top: 0;">💡 Khuyến nghị</h3>
+                <h3 style="color: #435F7A; margin-top: 0;">💡 Khuyến nghị</h3>
             """, unsafe_allow_html=True)
            
             if color == "danger":
@@ -1028,7 +1028,7 @@ elif st.session_state.current_page == "anomaly":
 elif st.session_state.current_page == "reports":
     st.markdown("""
     <div style="text-align: center; margin-bottom: 30px;">
-        <h2 style="color: #2c3e50; font-size: 2.2rem;">📈 Báo Cáo & Thống Kê</h2>
+        <h2 style="color: #435F7A; font-size: 2.2rem;">📈 Báo Cáo & Thống Kê</h2>
         <p style="color: #7f8c8d; font-size: 1.1rem;">Phân tích dữ liệu và xu hướng thị trường</p>
     </div>
     """, unsafe_allow_html=True)
@@ -1098,7 +1098,7 @@ elif st.session_state.current_page == "reports":
 elif st.session_state.current_page == "admin":
     st.markdown("""
     <div style="text-align: center; margin-bottom: 30px;">
-        <h2 style="color: #2c3e50; font-size: 2.2rem;">🛠️ Quản Trị Viên</h2>
+        <h2 style="color: #435F7A; font-size: 2.2rem;">🛠️ Quản Trị Viên</h2>
         <p style="color: #7f8c8d; font-size: 1.1rem;">Quản lý submissions và hệ thống</p>
     </div>
     """, unsafe_allow_html=True)
@@ -1172,7 +1172,7 @@ elif st.session_state.current_page == "admin":
 elif st.session_state.current_page == "logs":
     st.markdown("""
     <div style="text-align: center; margin-bottom: 30px;">
-        <h2 style="color: #2c3e50; font-size: 2.2rem;">📋 Nhật Ký Hệ Thống</h2>
+        <h2 style="color: #435F7A; font-size: 2.2rem;">📋 Nhật Ký Hệ Thống</h2>
         <p style="color: #7f8c8d; font-size: 1.1rem;">Theo dõi lịch sử dự đoán và hoạt động</p>
     </div>
     """, unsafe_allow_html=True)
@@ -1217,7 +1217,7 @@ elif st.session_state.current_page == "logs":
 elif st.session_state.current_page == "team":
     st.markdown("""
     <div style="text-align: center; margin-bottom: 30px;">
-        <h2 style="color: #2c3e50; font-size: 2.2rem;">👨‍💻 Nhóm Thực Hiện</h2>
+        <h2 style="color: #435F7A; font-size: 2.2rem;">👨‍💻 Nhóm Thực Hiện</h2>
         <p style="color: #5a6c7d; font-size: 1.1rem;">Thông tin về nhóm phát triển dự án</p>
     </div>
     """, unsafe_allow_html=True)
@@ -1251,7 +1251,7 @@ elif st.session_state.current_page == "team":
     .member-name {
         font-size: 1.3rem;
         font-weight: 700;
-        color: #2c3e50;
+        color: #435F7A;
         margin-bottom: 10px;
         text-align: center;
     }
@@ -1268,7 +1268,7 @@ elif st.session_state.current_page == "team":
     with col1:
         st.markdown("""
         <div class="custom-container" style="text-align: center;">
-            <h3 style="color: #2c3e50; margin-bottom: 20px;">THÀNH VIÊN 1</h3>
+            <h3 style="color: #435F7A; margin-bottom: 20px;">THÀNH VIÊN 1</h3>
         """, unsafe_allow_html=True)
         
         # Hiển thị hình ảnh thành viên 1 dạng hình tròn
@@ -1305,7 +1305,7 @@ elif st.session_state.current_page == "team":
     with col2:
         st.markdown("""
         <div class="custom-container" style="text-align: center;">
-            <h3 style="color: #2c3e50; margin-bottom: 20px;">THÀNH VIÊN 2</h3>
+            <h3 style="color: #435F7A; margin-bottom: 20px;">THÀNH VIÊN 2</h3>
         """, unsafe_allow_html=True)
         
         # Hiển thị hình ảnh thành viên 2 dạng hình tròn
@@ -1339,7 +1339,7 @@ elif st.session_state.current_page == "team":
     # Timeline dự án
     st.markdown("""
     <div class="custom-container">
-        <h3 style="color: #2c3e50; margin-top: 0;">📅 Timeline Dự Án</h3>
+        <h3 style="color: #435F7A; margin-top: 0;">📅 Timeline Dự Án</h3>
         <div style="display: flex; justify-content: space-between; align-items: center; margin: 20px 0;">
             <div style="text-align: center; flex: 1;">
                 <div style="background: #667eea; color: white; padding: 10px; border-radius: 50%; width: 50px; height: 50px; margin: 0 auto; display: flex; align-items: center; justify-content: center;">
@@ -1383,6 +1383,7 @@ st.markdown("""
     ĐỒ ÁN TỐT NGHIỆP DATA SCIENCE - MACHINE LEARNING<br>
 </div>
 """, unsafe_allow_html=True)
+
 
 
 
