@@ -273,21 +273,22 @@ def page_home():
     # ----------------------
     # TITLE GRADIENT
     # ----------------------
-    st.markdown("""
-    <style>
-        .gradient-title {
-            background: linear-gradient(to right, #4fc3f7, #186C91);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            font-weight: 700;
-            text-align: center;
+    st.markdown(
+        """
+        <style>
+        .full-width-image {
+            width: 100% !important;
+            max-width: 1400px;
+            height: auto;
+            display: block;
+            margin: 0 auto;
         }
-    </style>
-    """, unsafe_allow_html=True)
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
     
-    st.markdown('<h1 class="gradient-title">ỨNG DỤNG DỰ ĐOÁN GIÁ XE MÁY CŨ</h1>', unsafe_allow_html=True)
-
+    st.markdown('<img src="https://raw.githubusercontent.com/ThaiBinh78/ML07_Project/main/chotot.jpg" class="full-width-image">', unsafe_allow_html=True)
     # ----------------------
     # 4 PLOTS ĐẦU TRANG
     # ----------------------
@@ -960,6 +961,7 @@ if selected in pages_map:
         st.write(traceback.format_exc())
 else:
     page_home()
+
 
 
 
