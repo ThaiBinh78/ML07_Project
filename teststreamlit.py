@@ -553,20 +553,39 @@ def page_predict():
             # Định dạng giá ước tính với dấu chấm phân cách hàng nghìn
             pred_vnd = f"{pred * 1000000:,.0f}".replace(",", ".")
             
-            # Hiển thị giá ước tính trong khung với màu sắc
+            # Xác định màu sắc chi tiết dựa trên verdict
+            if verdict == "Bình thường":
+                border_color = "#28a745"  # Xanh lá
+                bg_color = "#d4edda"      # Xanh lá nhạt
+                text_color = "#155724"    # Xanh lá đậm
+            elif verdict == "Giá thấp bất thường":
+                border_color = "#dc3545"  # Đỏ
+                bg_color = "#f8d7da"      # Đỏ nhạt
+                text_color = "#721c24"    # Đỏ đậm
+            elif verdict == "Giá cao bất thường":
+                border_color = "#ffc107"  # Vàng
+                bg_color = "#fff3cd"      # Vàng nhạt
+                text_color = "#856404"    # Vàng đậm
+            else:
+                border_color = "#17a2b8"  # Xanh dương
+                bg_color = "#d1ecf1"      # Xanh dương nhạt
+                text_color = "#0c5460"    # Xanh dương đậm
+            
+            # Hiển thị giá ước tính trong khung với màu sắc tùy chỉnh
             st.markdown(
                 f"""
                 <div style="
-                    border: 2px solid {color};
-                    border-radius: 10px;
-                    padding: 20px;
+                    border: 3px solid {border_color};
+                    border-radius: 15px;
+                    padding: 25px;
                     text-align: center;
-                    background-color: {color}10;
-                    margin: 10px 0;
+                    background-color: {bg_color};
+                    margin: 15px 0;
+                    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
                 ">
-                    <h3 style="color: {color}; margin: 0;">Giá Ước Tính Thị Trường</h3>
-                    <h1 style="color: {color}; margin: 10px 0;">{pred_vnd} VND</h1>
-                    <p style="color: {color}; margin: 0; font-weight: bold;">{verdict}</p>
+                    <h3 style="color: {text_color}; margin: 0; font-size: 24px;">Giá Ước Tính Thị Trường</h3>
+                    <h1 style="color: {text_color}; margin: 15px 0; font-size: 36px; font-weight: bold;">{pred_vnd} VND</h1>
+                    <p style="color: {text_color}; margin: 0; font-weight: bold; font-size: 18px;">{verdict}</p>
                 </div>
                 """, 
                 unsafe_allow_html=True
@@ -922,6 +941,7 @@ if selected in pages_map:
         st.write(traceback.format_exc())
 else:
     page_home()
+
 
 
 
