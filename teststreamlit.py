@@ -383,43 +383,22 @@ top_brands = df["Thương hiệu"].value_counts().head(10)
 fig, axes = plt.subplots(2, 2, figsize=(14, 10))
 (ax1, ax2), (ax3, ax4) = axes
 
-# -----------------------------
-# 1. Phân bố tuổi xe — autumn
-# -----------------------------
-sns.histplot(
-    df["Tuổi xe"], bins=20, kde=True,
-    color=None, ax=ax1, cmap="autumn"
-)
-ax1.set_title("Phân bố tuổi xe", fontsize=12)
+# 1. Phân bố tuổi xe
+sns.histplot(df["Tuổi xe"], bins=20, kde=True, color="#ffb74d", ax=ax1)
+ax1.set_title("Phân bố tuổi xe")
 
-# -----------------------------
-# 2. Top thương hiệu — winter
-# -----------------------------
-sns.barplot(
-    x=top_brands.values,
-    y=top_brands.index,
-    palette="winter",
-    ax=ax2
-)
-ax2.set_title("Top 10 thương hiệu phổ biến", fontsize=12)
+# 2. Top thương hiệu
+sns.barplot(x=top_brands.values, y=top_brands.index, palette="Blues_r", ax=ax2)
+ax2.set_title("Top 10 thương hiệu phổ biến")
 
-# -----------------------------
-# 3. Phân bố giá — spring
-# -----------------------------
-sns.histplot(
-    df[price_col], bins=40, kde=True,
-    color=None, ax=ax3, cmap="spring"
-)
-ax3.set_title("Phân bố giá thị trường (Triệu)", fontsize=12)
+# 3. Phân bố giá
+sns.histplot(df[price_col], bins=40, kde=True, color="#4db6ac", ax=ax3)
+ax3.set_title("Phân bố giá thị trường (Triệu)")
 
-# -----------------------------
-# 4. Số KM đã đi — summer
-# -----------------------------
-sns.histplot(
-    df["Số Km đã đi"], bins=40, kde=False,
-    color=None, ax=ax4, cmap="summer"
-)
-ax4.set_title("Phân bố số Km đã đi", fontsize=12)
+# 4. Số Km đã đi
+sns.histplot(df["Số Km đã đi"], bins=40, kde=False, color="#ff8a65", ax=ax4)
+ax4.set_title("Phân bố số Km đã đi")
+
 
 # Hiển thị
 plt.tight_layout()
@@ -926,6 +905,7 @@ if selected in pages_map:
         st.write(traceback.format_exc())
 else:
     page_home()
+
 
 
 
