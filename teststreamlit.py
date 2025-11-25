@@ -604,7 +604,7 @@ elif st.session_state.current_page == "prediction":
         with st.form("predict_form", clear_on_submit=False):
             st.markdown("""
             <div style="
-                background: #111827;
+                background: #1F1F1F;
                 padding: 30px;
                 border-radius: 20px;
                 color: #f3f4f6;
@@ -821,10 +821,6 @@ elif st.session_state.current_page == "anomaly":
     """, unsafe_allow_html=True)
    
     with st.form("anomaly_form"):
-        st.markdown("""
-        <div style="background: #1F1F1F; padding: 30px; border-radius: 20px; box-shadow: 0 8px 25px rgba(0,0,0,0.1);">
-        """, unsafe_allow_html=True)
-       
         col1, col2 = st.columns(2)
        
         with col1:
@@ -1302,6 +1298,7 @@ st.markdown("""
     ĐỒ ÁN TỐT NGHIỆP DATA SCIENCE - MACHINE LEARNING<br>
 </div>
 """, unsafe_allow_html=True)
+
 
 
 
