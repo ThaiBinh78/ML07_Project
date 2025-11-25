@@ -1,4 +1,3 @@
-# app_streamlit.py
 import streamlit as st
 from pathlib import Path
 from datetime import datetime
@@ -214,52 +213,210 @@ def add_pending(entry: dict):
     return entry["id"]
 
 # ----------------------
+# HEADER
+# ----------------------
+def page_header():
+    st.markdown("""
+    <style>
+    .header-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 0;
+        border-bottom: 1px solid #ddd;
+    }
+    .tabs-container button {
+        background-color: #f5f9ff;
+        border: none;
+        padding: 10px 20px;
+        margin-right: 5px;
+        border-radius: 6px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+    .tabs-container button:hover {
+        background-color: #d3e3ff;
+    }
+    </style>
+    <div class="header-container">
+        <img src="chotot.jpg" width="150">
+        <div class="tabs-container">
+            <button onclick="window.location.href='#home'">Home</button>
+            <button onclick="window.location.href='#report'">Báo cáo</button>
+            <button onclick="window.location.href='#about'">Thông tin</button>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+
+# ----------------------
+# FOOTER
+# ----------------------
+def page_footer():
+    st.markdown("""
+    <style>
+    .footer {
+        border-top: 1px solid #ddd;
+        margin-top: 30px;
+        padding-top: 20px;
+        color: #555;
+        font-size: 14px;
+        line-height: 1.6;
+    }
+    </style>
+    <div class="footer">
+        <b> DATA SCIENCE AND MACHINE LEARNING COURSE</b><br>
+        ĐỒ ÁN TỐT NGHIỆP DATA SCIENCE - MACHINE LEARNING<br>
+        © DL07_K308 2025<br>
+        Email HV1: thaibinh782k1@gmail.com<br>
+        Email HV2: duythanh200620@gmail.com<br>
+    </div>
+    """, unsafe_allow_html=True)
+
+
+# ----------------------
 # PAGES
 # ----------------------
 def page_home():
-    st.image("chotot.jpg")
     st.markdown("## <span style='color:#003366; font-weight:700;'>Ứng dụng dự đoán giá xe máy cũ</span>", unsafe_allow_html=True)
 
     st.markdown("""
-    ### 📌 Giới thiệu  
-    Bộ dữ liệu gồm **7.208 tin đăng** với **18 thuộc tính** (thương hiệu, dòng xe, số km, năm đăng ký, giá bán…)  
-    được thu thập từ **Chợ Tốt** (trước ngày **01/07/2025**).  
-    Ứng dụng hỗ trợ:
-    - Dự đoán giá xe cũ bằng Random Forest  
-    - Phát hiện bất thường bằng Isolation Forest  
-    - Dashboard thị trường xe máy Việt Nam
+# ====== SECTION: Tính năng nổi bật (IFB2025 style) ======
+st.markdown("""
+<style>
+.feature-box {
+    background: linear-gradient(to right, #f5f9ff, #ffffff);
+    border: 1px solid #d3e3ff;
+    padding: 28px;
+    border-radius: 14px;
+    margin-top: 25px;
+    margin-bottom: 10px;
+    color: #003366;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+}
+
+.feature-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #0a4da3;
+    margin-bottom: 15px;
+}
+
+.feature-subtitle {
+    font-size: 20px;
+    font-weight: 600;
+    color: #0a4da3;
+    margin-top: 18px;
+}
+
+.feature-text {
+    font-size: 16px;
+    line-height: 1.55;
+    color: #003366;
+}
+
+.feature-list li {
+    padding: 4px 0;
+}
+</style>
+
+<div class="feature-box">
+    <div class="feature-title"> Ứng dụng hỗ trợ những gì?</div>
+
+    <div class="feature-subtitle"> 1. Dự đoán giá xe nhanh chóng</div>
+    <div class="feature-text">
+        Bạn chỉ cần nhập vài thông tin như thương hiệu, dòng xe, năm đăng ký, số km đã đi...
+        <br>→ Hệ thống sẽ phân tích dữ liệu thị trường và gợi ý mức giá hợp lý nhất.
+    </div>
+    <ul class="feature-list">
+        <li>✔️ Biết được giá trị thật của chiếc xe</li>
+        <li>✔️ Tránh bị ép giá khi mua</li>
+        <li>✔️ Tránh đăng tin quá cao hoặc quá thấp khi bán</li>
+    </ul>
+
+    <div class="feature-subtitle"> 2. Phát hiện bất thường về giá</div>
+    <div class="feature-text">
+        Hệ thống sẽ đánh giá xem mức giá bạn nhập có hợp lý không, có thấp bất thường (nguy cơ lừa đảo),
+        hoặc cao hơn nhiều so với thị trường.
+    </div>
+    <ul class="feature-list">
+        <li>✔️ Nhận biết rủi ro</li>
+        <li>✔️ Kiểm tra độ tin cậy của tin đăng</li>
+        <li>✔️ Tránh mất thời gian và công sức</li>
+    </ul>
+
+    <div class="feature-subtitle"> 3. Dashboard thị trường xe máy Việt Nam</div>
+    <div class="feature-text">
+        Trang tổng hợp trực quan giúp bạn hiểu tổng thể thị trường:
+    </div>
+    <ul class="feature-list">
+        <li>✔️ Phân bố giá theo thương hiệu</li>
+        <li>✔️ Tuổi xe và mức độ phổ biến</li>
+        <li>✔️ Phân bố số km đã đi</li>
+        <li>✔️ Giá trung bình theo từng loại xe</li>
+        <li>✔️ Top thương hiệu được rao bán nhiều nhất</li>
+    </ul>
+
+</div>
+""", unsafe_allow_html=True)
     """)
 
-    st.markdown("## 📊 Thống kê mô tả nhanh")
+    # ==============================
+# 4 PLOTS TRONG 1 FIGURE (2x2)
+# ==============================
+st.markdown("###  Thống kê mô tả thị trường xe máy Việt Nam")
 
-    df = sample_df.copy()
+# Chuẩn bị data
+df["Tuổi xe"] = CURRENT_YEAR - df["Năm đăng ký"]
+price_col = "Gia_trieu" if "Gia_trieu" in df.columns else "Giá"
+top_brands = df["Thương hiệu"].value_counts().head(10)
 
-    # ---- 1. Tuổi xe ----
-    df["Tuổi xe"] = CURRENT_YEAR - df["Năm đăng ký"]
-    fig1, ax1 = plt.subplots(figsize=(5,3))
-    sns.histplot(df["Tuổi xe"], bins=20, kde=True, color="#0b57a4", ax=ax1)
-    ax1.set_title("Phân bố tuổi xe")
-    st.pyplot(fig1)
+# Tạo figure 2x2
+fig, axes = plt.subplots(2, 2, figsize=(14, 10))
+(ax1, ax2), (ax3, ax4) = axes
 
-    # ---- 2. Top thương hiệu ----
-    top_brands = df["Thương hiệu"].value_counts().head(10)
-    fig2, ax2 = plt.subplots(figsize=(5,3))
-    sns.barplot(x=top_brands.values, y=top_brands.index, palette="Blues_r", ax=ax2)
-    ax2.set_title("Top 10 thương hiệu phổ biến")
-    st.pyplot(fig2)
+# -----------------------------
+# 1. Phân bố tuổi xe — autumn
+# -----------------------------
+sns.histplot(
+    df["Tuổi xe"], bins=20, kde=True,
+    color=None, ax=ax1, cmap="autumn"
+)
+ax1.set_title("Phân bố tuổi xe", fontsize=12)
 
-    # ---- 3. Khoảng giá ----
-    price_col = "Gia_trieu" if "Gia_trieu" in df.columns else "Giá"
-    fig3, ax3 = plt.subplots(figsize=(5,3))
-    sns.histplot(df[price_col], bins=40, kde=True, color="#0b57a4", ax=ax3)
-    ax3.set_title("Phân bố giá thị trường (Triệu)")
-    st.pyplot(fig3)
+# -----------------------------
+# 2. Top thương hiệu — winter
+# -----------------------------
+sns.barplot(
+    x=top_brands.values,
+    y=top_brands.index,
+    palette="winter",
+    ax=ax2
+)
+ax2.set_title("Top 10 thương hiệu phổ biến", fontsize=12)
 
-    # ---- 4. Số km đã đi ----
-    fig4, ax4 = plt.subplots(figsize=(5,3))
-    sns.histplot(df["Số Km đã đi"], bins=40, kde=False, color="#0b57a4", ax=ax4)
-    ax4.set_title("Phân bố số Km đã đi")
-    st.pyplot(fig4)
+# -----------------------------
+# 3. Phân bố giá — spring
+# -----------------------------
+sns.histplot(
+    df[price_col], bins=40, kde=True,
+    color=None, ax=ax3, cmap="spring"
+)
+ax3.set_title("Phân bố giá thị trường (Triệu)", fontsize=12)
+
+# -----------------------------
+# 4. Số KM đã đi — summer
+# -----------------------------
+sns.histplot(
+    df["Số Km đã đi"], bins=40, kde=False,
+    color=None, ax=ax4, cmap="summer"
+)
+ax4.set_title("Phân bố số Km đã đi", fontsize=12)
+
+# Hiển thị
+plt.tight_layout()
+st.pyplot(fig)
 
 
 
@@ -267,10 +424,90 @@ def page_problem():
     st.image("xe_may.jpg")
     st.title("Bài toán nghiệp vụ")
     st.markdown("""
-- **Mục tiêu:** Dự đoán giá bán hợp lý cho xe máy cũ và phát hiện tin đăng có giá bất thường.
-- **Input:** Thương hiệu, Dòng xe, Năm đăng ký, Số Km, Loại xe, Dung tích, Xuất xứ, (Giá thực - tùy chọn).
-- **Output:** Giá dự đoán (Triệu VNĐ) + Giải thích dạng tư vấn + Gợi ý hành động.
-- **Phương pháp:** RandomForest cho regression; IsolationForest + thống kê cho anomaly detection.
+    
+### 1. Mục tiêu của hệ thống
+Ứng dụng được xây dựng nhằm giải quyết hai nhu cầu quan trọng nhất trên thị trường xe máy cũ:
+1. **Dự đoán giá bán hợp lý** cho một chiếc xe máy dựa trên thông tin thực tế của tin đăng.  
+2. **Phát hiện tin đăng bất thường** – những mức giá quá cao hoặc quá thấp so với mặt bằng thị trường.
+> Giúp cả *người mua* lẫn *người bán* có thêm thông tin để thương lượng, tránh rủi ro và đưa ra quyết định chính xác.
+
+---
+
+###  2. Dữ liệu đầu vào
+Người dùng cần cung cấp các thông tin cơ bản của xe:
+
+| Thuộc tính | Ý nghĩa |
+|-----------|---------|
+| **Thương hiệu** | Honda, Yamaha, Suzuki, Piaggio,… |
+| **Dòng xe** | SH Mode, Vision, Exciter, Sirius,… |
+| **Năm đăng ký** | Năm sản xuất hoặc đăng ký lần đầu |
+| **Số Km đã đi** | Tổng quãng đường xe đã sử dụng |
+| **Loại xe** | Tay ga, Xe số, Côn tay,… |
+| **Dung tích xe** | 110cc – 150cc – 300cc,… |
+| **Xuất xứ** | Việt Nam, Thái Lan, Nhật Bản,… |
+| **Giá thực (tuỳ chọn)** | Giá người dùng muốn kiểm tra xem có bất thường không |
+
+---
+
+###  3. Kết quả đầu ra
+
+Sau khi phân tích, hệ thống trả về:
+
+- ** Giá dự đoán hợp lý (Triệu VNĐ)**
+- ** Đánh giá mức độ hợp lý của giá bạn nhập**  
+  - Bình thường  
+  - Giá thấp bất thường  
+  - Giá cao bất thường  
+- ** Giải thích rõ ràng theo kiểu tư vấn thực tế**, ví dụ:
+  - “Giá thấp hơn thị trường, có thể xe đã thay máy hoặc gặp vấn đề kỹ thuật.”
+  - “Giá cao hơn trung bình, kiểm tra kỹ giấy tờ và tình trạng xe.”
+- ** Gợi ý hành động**
+  - Cho *người mua*: nên hẹn xem xe, kiểm tra odo, tình trạng, phụ tùng.
+  - Cho *người bán*: nên mô tả thêm chi tiết, cập nhật hình ảnh, điều chỉnh giá.
+
+---
+
+###  4. Phương pháp – Công nghệ sử dụng
+
+####  **1. Mô hình dự đoán giá — Random Forest Regression**
+- Học từ **7.000+** tin đăng thật trên thị trường.
+- Kết hợp nhiều cây quyết định để đưa ra mức giá tối ưu.
+- Tự động học theo đặc điểm:
+  - Thương hiệu
+  - Dòng xe
+  - Số Km
+  - Tuổi xe
+  - Loại xe
+  - Dung tích
+  - Xuất xứ  
+
+Giúp xử lý dữ liệu nhiễu và không tuyến tính cực kỳ hiệu quả.
+
+---
+
+####  **2. Phát hiện bất thường — Isolation Forest & Thống kê**
+- Kiểm tra giá nhập vào so sánh với:
+  - Trung vị thương hiệu
+  - Khoảng giá lịch sử (10% – 90% percentiles)
+  - Khoảng tuổi & km thực tế
+- Gắn cờ các trường hợp:
+  - Giá quá thấp → nghi ngờ gian lận, xe lỗi, odo tua
+  - Giá quá cao → mô tả chưa đúng, nâng giá, không sát thị trường
+
+---
+
+###  5. Ý nghĩa thực tế đối với người dùng
+
+-  **Người mua:** tránh bị mua đắt, tránh tin đăng đáng ngờ.  
+-  **Người bán:** định giá đúng để bán nhanh và đúng giá.  
+-  **Quản trị viên:** kiểm duyệt được những tin bất thường để giữ chất lượng dữ liệu.
+
+---
+
+###  Kết luận
+Hệ thống được thiết kế như một **trợ lý chuyên gia về giá xe cũ**, hỗ trợ toàn diện từ dự đoán – kiểm tra bất thường – đánh giá thị trường.
+
+
     """)
 
 
@@ -396,7 +633,7 @@ def page_predict():
     # 2) ---- MODE 2: BULK CSV/XLSX ----
     # ==============================================================
     else:
-        st.markdown("### 📤 Tải lên file CSV hoặc XLSX để dự đoán hàng loạt")
+        st.markdown("###  Tải lên file CSV hoặc XLSX để dự đoán hàng loạt")
 
         uploaded = st.file_uploader("Chọn file:", type=["csv", "xlsx"])
 
@@ -427,7 +664,7 @@ def page_predict():
                 st.info("Bạn cần chuẩn hoá file trước khi dự đoán.")
                 return
 
-            if st.button("🚀 Chạy dự đoán cho toàn bộ file"):
+            if st.button(" Chạy dự đoán cho toàn bộ file"):
                 try:
                     if model is None:
                         df["Giá_dự_đoán"] = sample_df["Gia_trieu"].median()
@@ -436,7 +673,7 @@ def page_predict():
 
                     st.success("Hoàn tất dự đoán!")
 
-                    st.write("### 🔎 Kết quả (20 dòng đầu):")
+                    st.write("###  Kết quả (20 dòng đầu):")
                     st.dataframe(df.head(20))
 
                     # --- ALLOW DOWNLOAD ---
@@ -458,11 +695,20 @@ def page_predict():
                     st.error("Lỗi dự đoán hàng loạt: " + str(e))
 
 def page_anom():
+    st.image("batthuong.jpg")
     st.title("Kiểm tra bất thường")
 
+    # Tạo bản copy chuẩn hoá lowercase để so sánh
+    df_lower = sample_df.copy()
+    df_lower["brand_lower"] = df_lower["Thương hiệu"].str.lower().str.strip()
+    df_lower["model_lower"] = df_lower["Dòng xe"].str.lower().str.strip()
+
     with st.form("anom"):
-        brand = st.text_input("Thương hiệu").strip()
-        model_name = st.text_input("Dòng xe").strip()
+        brand_raw = st.text_input("Thương hiệu").strip()
+        model_raw = st.text_input("Dòng xe").strip()
+        brand = brand_raw.lower()
+        model_name = model_raw.lower()
+
         age = st.slider("Tuổi xe (năm)", 0, 50, 3)
         year_reg = CURRENT_YEAR - age
         km = st.number_input("Số Km đã đi", 0, 500000, 20000)
@@ -471,40 +717,54 @@ def page_anom():
         submitted = st.form_submit_button("Check")
 
     if submitted:
-        # VALIDATION ------------------------------------
-        valid_brands = list(sample_df["Thương hiệu"].unique())
+        # ----------------------
+        # Validate thương hiệu
+        # ----------------------
+        valid_brands = sorted(df_lower["brand_lower"].unique())
 
         if brand not in valid_brands:
-            st.error("❌ Thương hiệu không tồn tại trong hệ thống. Vui lòng nhập lại.")
-            st.info("Gợi ý: " + ", ".join(valid_brands[:20]) + " ...")
+            st.error(f"❌ Thương hiệu **{brand_raw}** không tồn tại trong hệ thống.")
+            st.info("Gợi ý (20 thương hiệu đầu): " + ", ".join(valid_brands[:20]))
             return
 
-        df_brand = sample_df[sample_df["Thương hiệu"] == brand]
-        valid_models = list(df_brand["Dòng xe"].unique())
+        # Filter theo thương hiệu
+        df_brand = df_lower[df_lower["brand_lower"] == brand]
+        valid_models = sorted(df_brand["model_lower"].unique())
 
         if model_name not in valid_models:
-            st.error("❌ Dòng xe không tồn tại. Vui lòng nhập lại đúng theo danh sách.")
-            st.info("Gợi ý: " + ", ".join(valid_models[:20]) + " ...")
+            st.error(f"❌ Dòng xe **{model_raw}** không tồn tại cho thương hiệu {brand_raw}.")
+            st.info("Gợi ý (20 dòng xe đầu): " + ", ".join(valid_models[:20]))
             return
 
-        # ANOMALY ---------------------------------------
-        dfb = df_brand
-        p10 = dfb["Gia_trieu"].quantile(0.10)
-        p90 = dfb["Gia_trieu"].quantile(0.90)
+        # ----------------------
+        # ANOMALY LOGIC
+        # ----------------------
+        df_model = df_brand[df_brand["model_lower"] == model_name]
+
+        if df_model.empty:
+            df_model = df_brand  # fallback theo thương hiệu
+
+        p10 = df_model["Gia_trieu"].quantile(0.10)
+        p90 = df_model["Gia_trieu"].quantile(0.90)
 
         if gia < p10:
             verdict = "Giá thấp bất thường"
+            reason = "Thấp hơn 10% mẫu. Có thể xe bị lỗi / giấy tờ không rõ ràng / sai đơn vị."
         elif gia > p90:
             verdict = "Giá cao bất thường"
+            reason = "Cao hơn 90% mẫu. Nên kiểm tra thực tế hoặc thương lượng."
         else:
             verdict = "Bình thường"
+            reason = "Giá nằm trong vùng an toàn so với thị trường."
 
-        st.success(f"Kết luận: {verdict}")
+        st.success(f"**Kết luận:** {verdict}")
+        st.write("**Giải thích:**", reason)
+
 
 
 def page_admin_login():
     st.title("Đăng nhập quản trị")
-    pwd = st.text_input("Vui lòng nhập mật khẩu:", type="password")
+    pwd = st.text_input("Vui lòng nhập mật khẩu: (gợi ý 123@)", type="password")
     if st.button("Đăng nhập"):
         if pwd == ADMIN_PASSWORD:
             st.session_state.admin_auth = True
@@ -569,9 +829,11 @@ def page_report():
 
     st.markdown("### 1️⃣ Phân bố giá tổng thể")
     fig, ax = plt.subplots(figsize=(8,3))
-    sns.histplot(df[price_col], bins=40, kde=True, color="#0b57a4", ax=ax)
+    sns.histplot(df[price_col], bins=40, kde=True, color="#00bfa5", ax=ax)  # màu tươi sáng
+    ax.set_xlabel("Giá (triệu VND)")
+    ax.set_ylabel("Số lượng xe")
     st.pyplot(fig)
-    st.info("Nhận xét: Giá xe tập trung chủ yếu trong khoảng 10–40 triệu. Một số dòng SH/PKL tạo đỉnh ở vùng giá cao.")
+    st.info("Nhận xét: Hầu hết xe nằm trong khoảng 10–40 triệu. Một vài mẫu SH/PKL thì giá cao hơn hẳn.")
 
     st.markdown("### 2️⃣ Phân bố giá theo thương hiệu")
     top_brands = df["Thương hiệu"].value_counts().head(8).index
@@ -580,39 +842,46 @@ def page_report():
     sns.violinplot(
         x=price_col, y="Thương hiệu",
         data=subset,
-        palette=sns.light_palette("#0b57a4", n_colors=len(top_brands)),
+        palette=sns.color_palette("pastel", len(top_brands)),  # palette pastel trẻ trung
         ax=ax2
     )
+    ax2.set_xlabel("Giá (triệu VND)")
+    ax2.set_ylabel("Thương hiệu")
     st.pyplot(fig2)
-    st.info("Nhận xét: Honda và Yamaha có phân bố giá rộng; VinFast giá thấp và ổn định hơn.")
+    st.info("Nhận xét: Honda và Yamaha có nhiều mức giá khác nhau; VinFast thì giá thấp và đều hơn, dễ chọn.")
 
     st.markdown("### 3️⃣ Quan hệ Km – Giá bán")
     x = df["Số Km đã đi"]
     y = df[price_col]
     fig3, ax3 = plt.subplots(figsize=(8,4))
-    ax3.scatter(x, y, s=12, alpha=0.3)
+    ax3.scatter(x, y, s=12, alpha=0.4, color="#ff6f61")
     m, b = np.polyfit(x.dropna(), y.dropna(), 1)
     xs = np.linspace(x.min(), x.max(), 100)
-    ax3.plot(xs, m*xs + b, color="#0b57a4")
+    ax3.plot(xs, m*xs + b, color="#00bfa5", lw=2)
+    ax3.set_xlabel("Số Km đã đi")
+    ax3.set_ylabel("Giá (triệu VND)")
     st.pyplot(fig3)
-    st.info("Nhận xét: Xe chạy nhiều Km giảm giá rõ rệt; sau 50.000 Km tốc độ giảm mạnh hơn.")
+    st.info("Nhận xét: Xe chạy nhiều Km thì rẻ hơn. Sau 50.000 Km, giá giảm nhanh hơn hẳn.")
 
     st.markdown("### 4️⃣ Độ quan trọng các đặc trưng")
     if FI_CSV.exists():
         fi = pd.read_csv(FI_CSV)
         top = fi.head(15)
         fig4, ax4 = plt.subplots(figsize=(8,4))
-        ax4.barh(top["feature"][::-1], top["importance"][::-1], color="#0b57a4")
+        ax4.barh(top["feature"][::-1], top["importance"][::-1], color="#ffca28")
+        ax4.set_xlabel("Độ quan trọng")
+        ax4.set_ylabel("Đặc trưng")
         st.pyplot(fig4)
-        st.info("Nhận xét: Km, Năm đăng ký và Thương hiệu là 3 yếu tố quyết định giá mạnh nhất.")
+        st.info("Nhận xét: Km, Năm đăng ký và Thương hiệu là những thứ ảnh hưởng nhiều nhất đến giá xe.")
 
     st.markdown("### 5️⃣ Heatmap tương quan")
     num = df.select_dtypes(include=[np.number])
     corr = num.corr()
     fig5, ax5 = plt.subplots(figsize=(7,6))
-    sns.heatmap(corr, annot=False, cmap="Blues", ax=ax5)
+    sns.heatmap(corr, annot=True, fmt=".2f", cmap="YlGnBu", ax=ax5)  # màu tươi, dễ nhìn
     st.pyplot(fig5)
-    st.info("Nhận xét: Km và giá có tương quan âm rõ rệt; năm đăng ký và giá tương quan dương mạnh.")
+    st.info("Nhận xét: Km càng nhiều thì giá càng giảm, năm đăng ký càng mới thì giá càng cao.")
+
 
 
 def page_team():
@@ -650,6 +919,7 @@ if selected in pages_map:
         st.write(traceback.format_exc())
 else:
     page_home()
+
 
 
 
