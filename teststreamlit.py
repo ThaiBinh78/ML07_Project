@@ -25,6 +25,40 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="expanded"
 )
+
+# ===== Audio Player cố định góc phải trên =====
+audio_url = "https://raw.githubusercontent.com/ThaiBinh78/ML07_Project/main/Chill_Guy.mp3"
+
+st.markdown(f"""
+<style>
+#fixed-audio {{
+    position: fixed;
+    top: 60px;         
+    right: 20px;       
+    width: 280px;       
+    z-index: 9999;
+    background: rgba(255,255,255,0.95);
+    padding: 8px 12px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    display: flex;
+    align-items: center;
+    border: 1px solid #e0e6ed;
+}}
+#fixed-audio audio {{
+    width: 100%;
+    height: 30px;      
+}}
+</style>
+
+<div id="fixed-audio">
+    <audio controls autoplay loop>
+        <source src="{audio_url}" type="audio/mpeg">
+        Trình duyệt không hỗ trợ audio.
+    </audio>
+</div>
+""", unsafe_allow_html=True)
+
 # ----------------------
 # CUSTOM CSS
 # ----------------------
@@ -314,9 +348,16 @@ st.markdown("""
         div[style*="text-align: center; flex: 1;"] p {
             color: #ffffff !important;
         }
+
+        /* Audio player in dark mode */
+        #fixed-audio {
+            background: rgba(52, 73, 94, 0.95);
+            border: 1px solid #2c3e50;
+        }
     }
 </style>
 """, unsafe_allow_html=True)
+
 # ----------------------
 # Helpers
 # ----------------------
@@ -1262,6 +1303,7 @@ st.markdown("""
     <p>MotorPrice Pro - Hệ thống dự đoán giá xe máy cũ sử dụng AI | Phiên bản 1.0</p>
 </div>
 """, unsafe_allow_html=True)
+
 
 
 
