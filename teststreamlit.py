@@ -279,6 +279,15 @@ def page_footer():
 # PAGES
 # ----------------------
 def page_home():
+    page_header()
+    st.markdown("""
+    <div style="text-align:center; margin-bottom:20px;">
+    <iframe width="400" height="80"
+    src="https://www.youtube.com/embed/JO334h_PhuU?autoplay=0&loop=1&playlist=JO334h_PhuU"
+    title="Nhạc nền" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen>
+    </iframe>
+    </div>
+    """, unsafe_allow_html=True)
     st.markdown("## <span style='color:#003366; font-weight:700;'>Ứng dụng dự đoán giá xe máy cũ</span>", unsafe_allow_html=True)
 
     st.markdown("""
@@ -360,7 +369,6 @@ st.markdown("""
 
 </div>
 """, unsafe_allow_html=True)
-    """)
 
     # ==============================
 # 4 PLOTS TRONG 1 FIGURE (2x2)
@@ -919,6 +927,7 @@ if selected in pages_map:
         st.write(traceback.format_exc())
 else:
     page_home()
+
 
 
 
