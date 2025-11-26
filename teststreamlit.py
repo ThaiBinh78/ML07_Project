@@ -935,7 +935,7 @@ elif st.session_state.current_page == "prediction":
            
             # Chi tiết so sánh
             st.markdown("""
-            <div style="background: white; padding: 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.08); margin: 20px 0;">
+            <div style="background: #435F7A; padding: 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.08); margin: 20px 0;">
                 <h3 style="color: #435F7A; margin-top: 0;">📊 Phân Tích Chi Tiết</h3>
             """, unsafe_allow_html=True)
            
@@ -955,7 +955,7 @@ elif st.session_state.current_page == "prediction":
            
             # Explanation
             st.markdown(f"""
-            <div style="background: white; padding: 20px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.08);">
+            <div style="background: #435F7A; padding: 20px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.08);">
                 <h4 style="color: #435F7A; margin-top: 0;">💡 Khuyến Nghị Bán Xe</h4>
                 <p style="color: #7f8c8d; font-size: 1rem;">{explanation}</p>
                 <ul style="color: #7f8c8d;">
@@ -989,7 +989,7 @@ elif st.session_state.current_page == "prediction":
 
     else:  # Dự đoán hàng loạt
         st.markdown("""
-        <div style="background: white; padding: 30px; border-radius: 20px; box-shadow: 0 8px 25px rgba(0,0,0,0.1);">
+        <div style="background: #435F7A; padding: 30px; border-radius: 20px; box-shadow: 0 8px 25px rgba(0,0,0,0.1);">
             <h3>📁 Upload File Dự Đoán Hàng Loạt</h3>
             <p>File cần có các cột: Thương_hiệu, Dòng_xe, Loại_xe, Dung_tích_xe, Năm_đăng_ký, Số_Km_đã_đi, Giá (tùy chọn)</p>
         </div>
@@ -1718,6 +1718,7 @@ st.markdown("""
     ĐỒ ÁN TỐT NGHIỆP DATA SCIENCE - MACHINE LEARNING<br>
 </div>
 """, unsafe_allow_html=True)
+
 
 
 
