@@ -107,7 +107,10 @@ st.markdown("""
         border-radius: 20px;
         box-shadow: 0 8px 25px rgba(0,0,0,0.1);
         border-left: 5px solid #667eea;
-        height: 100%;
+        height: 200px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
         transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
    
@@ -127,6 +130,45 @@ st.markdown("""
         color: #7f8c8d;
         font-size: 1rem;
         line-height: 1.6;
+    }
+
+    /* Custom metric cards for statistics */
+    .metric-card-custom {
+        background: white;
+        padding: 25px 20px;
+        border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        border: 1px solid #e0e6ed;
+        text-align: center;
+        height: 150px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .metric-card-custom:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+    }
+
+    /* Ensure metric containers have equal height */
+    [data-testid="metric-container"] {
+        min-height: 120px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    /* Ensure columns have equal height */
+    .css-1r6slb0 {
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* Hide empty delta arrows */
+    [data-testid="metric-container"] [data-testid="stMetricDelta"]:empty {
+        display: none;
     }
    
     /* Button styling */
@@ -277,6 +319,14 @@ st.markdown("""
 
         .feature-card p {
             color: #bdc3c7;
+        }
+
+        /* Custom metric cards in dark mode */
+        .metric-card-custom {
+            background: #34495e;
+            color: #ffffff;
+            border: 1px solid #435F7A;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
 
         .stMetric {
@@ -546,66 +596,93 @@ if st.session_state.current_page == "home":
    
     # Feature Cards
     col1, col2, col3 = st.columns(3)
-   
+    
     with col1:
         st.markdown("""
-        <div class="feature-card">
+        <div class="feature-card" style="height: 200px; display: flex; flex-direction: column; justify-content: center;">
             <h3>📊 Dự Đoán Giá Thông Minh</h3>
-            <p>Sử dụng machine learning để dự đoán giá xe chính xác</p>
+            <p>Sử dụng machine learning để dự đoán giá xe chính xác dựa trên đặc điểm và tình trạng xe</p>
         </div>
         """, unsafe_allow_html=True)
-   
+    
     with col2:
         st.markdown("""
-        <div class="feature-card">
+        <div class="feature-card" style="height: 200px; display: flex; flex-direction: column; justify-content: center;">
             <h3>🔍 Phát Hiện Bất Thường</h3>
             <p>Hệ thống cảnh báo thông minh giúp phát hiện giá bất thường và nghi ngờ gian lận</p>
         </div>
         """, unsafe_allow_html=True)
-   
+    
     with col3:
         st.markdown("""
-        <div class="feature-card">
+        <div class="feature-card" style="height: 200px; display: flex; flex-direction: column; justify-content: center;">
             <h3>📈 Phân Tích Thị Trường</h3>
             <p>Theo dõi xu hướng giá và phân tích thị trường xe máy cũ toàn diện</p>
         </div>
         """, unsafe_allow_html=True)
    
-    # Statistics Section
+       # Statistics Section với custom cards
     st.markdown("---")
     st.markdown("""
     <div style="text-align: center; margin: 40px 0;">
         <h2 style="color: #435F7A; font-size: 2rem;">Thống Kê Hệ Thống</h2>
     </div>
     """, unsafe_allow_html=True)
-   
+    
     col1, col2, col3, col4 = st.columns(4)
-   
+    
     with col1:
-        st.metric("📊 Dữ Liệu Huấn Luyện", f"{len(sample_df):,}", "mẫu")
-   
+        st.markdown(f"""
+        <div class="metric-card-custom">
+            <div style="font-size: 1.2rem; margin-bottom: 10px;">📊 Dữ Liệu Huấn Luyện</div>
+            <div style="font-size: 2rem; font-weight: bold; color: #435F7A;">{len(sample_df):,}</div>
+            <div style="color: #667eea; font-size: 0.9rem;">↑ mẫu</div>
+        </div>
+        """, unsafe_allow_html=True)
+    
     with col2:
         try:
             n_trees = model.named_steps['rf'].n_estimators if model else "N/A"
-            st.metric("🌳 Số Cây Random Forest", str(n_trees))
         except:
-            st.metric("🌳 Số Cây Random Forest", "N/A")
-   
+            n_trees = "N/A"
+        
+        st.markdown(f"""
+        <div class="metric-card-custom">
+            <div style="font-size: 1.2rem; margin-bottom: 10px;">🌳 Số Cây Random Forest</div>
+            <div style="font-size: 2rem; font-weight: bold; color: #435F7A;">{n_trees}</div>
+            <div style="color: #667eea; font-size: 0.9rem;">cây</div>
+        </div>
+        """, unsafe_allow_html=True)
+    
     with col3:
         if PENDING_PATH.exists():
             pending_df = pd.read_csv(PENDING_PATH)
             pending_count = len(pending_df)
         else:
             pending_count = 0
-        st.metric("⏳ Đang Chờ Duyệt", f"{pending_count}", "submission")
-   
+        
+        st.markdown(f"""
+        <div class="metric-card-custom">
+            <div style="font-size: 1.2rem; margin-bottom: 10px;">⏳ Đang Chờ Duyệt</div>
+            <div style="font-size: 2rem; font-weight: bold; color: #435F7A;">{pending_count}</div>
+            <div style="color: #667eea; font-size: 0.9rem;">↑ submission</div>
+        </div>
+        """, unsafe_allow_html=True)
+    
     with col4:
         if LOG_PATH.exists():
             logs_df = pd.read_csv(LOG_PATH)
             log_count = len(logs_df)
         else:
             log_count = 0
-        st.metric("📝 Lượt Dự Đoán", f"{log_count:,}", "lượt")
+        
+        st.markdown(f"""
+        <div class="metric-card-custom">
+            <div style="font-size: 1.2rem; margin-bottom: 10px;">📝 Lượt Dự Đoán</div>
+            <div style="font-size: 2rem; font-weight: bold; color: #435F7A;">{log_count:,}</div>
+            <div style="color: #667eea; font-size: 0.9rem;">↑ lượt</div>
+        </div>
+        """, unsafe_allow_html=True)
 # ----------------------
 # PAGE: PREDICTION
 # ----------------------
@@ -1406,6 +1483,7 @@ st.markdown("""
     ĐỒ ÁN TỐT NGHIỆP DATA SCIENCE - MACHINE LEARNING<br>
 </div>
 """, unsafe_allow_html=True)
+
 
 
 
