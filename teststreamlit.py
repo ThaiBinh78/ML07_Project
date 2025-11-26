@@ -988,16 +988,19 @@ elif st.session_state.current_page == "prediction":
                 border_color = "#f5c6cb"
                 icon = "❌"
 
+            # Explanation - Sử dụng cùng định dạng với phần người mua
             st.markdown(f"""
-            <div style="background: {bg_color}; padding: 20px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.08); border-left: 5px solid {border_color};">
-                <h4 style="color: {text_color}; margin-top: 0;">{icon} Khuyến Nghị Bán Xe</h4>
-                <p style="color: {text_color}; font-size: 1rem; font-weight: 500;">{explanation}</p>
-                <ul style="color: {text_color};">
-                    <li>Nên chụp ảnh thật rõ ràng, đầy đủ góc</li>
-                    <li>Mô tả chi tiết tình trạng xe, lịch sử bảo dưỡng</li>
-                    <li>Sẵn sàng thương lượng trong khoảng 5-10%</li>
-                    <li>Chuẩn bị đầy đủ giấy tờ: đăng ký, bảo hiểm</li>
-                </ul>
+            <div class="price-card {card_class}">
+                <h2>💡 Khuyến Nghị Bán Xe</h2>
+                <p style="font-size: 1.2rem; margin: 15px 0;">{explanation}</p>
+                <div style="text-align: left; background: rgba(255,255,255,0.1); padding: 15px; border-radius: 10px; margin: 15px 0;">
+                    <ul style="margin: 0; padding-left: 20px;">
+                        <li style="margin: 8px 0;">Nên chụp ảnh thật rõ ràng, đầy đủ góc</li>
+                        <li style="margin: 8px 0;">Mô tả chi tiết tình trạng xe, lịch sử bảo dưỡng</li>
+                        <li style="margin: 8px 0;">Sẵn sàng thương lượng trong khoảng 5-10%</li>
+                        <li style="margin: 8px 0;">Chuẩn bị đầy đủ giấy tờ: đăng ký, bảo hiểm</li>
+                    </ul>
+                </div>
             </div>
             """, unsafe_allow_html=True)
            
@@ -1790,6 +1793,7 @@ st.markdown("""
     ĐỒ ÁN TỐT NGHIỆP DATA SCIENCE - MACHINE LEARNING<br>
 </div>
 """, unsafe_allow_html=True)
+
 
 
 
