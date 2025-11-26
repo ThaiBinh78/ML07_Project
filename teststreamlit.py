@@ -404,6 +404,21 @@ st.markdown("""
             background: rgba(52, 73, 94, 0.95);
             border: 1px solid #435F7A;
         }
+        /* Custom styling for batch prediction section */
+        .upload-section {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+        
+        .download-sample-btn {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%) !important;
+        }
+        
+        .download-sample-btn:hover {
+            background: linear-gradient(135deg, #218838 0%, #1e9e8a 100%) !important;
+        }
     }
 </style>
 """, unsafe_allow_html=True)
@@ -673,6 +688,9 @@ if st.session_state.current_page == "home":
 # ----------------------
 # PAGE: PREDICTION
 # ----------------------
+# ----------------------
+# PAGE: PREDICTION
+# ----------------------
 elif st.session_state.current_page == "prediction":
     st.markdown("""
     <div style="text-align: center; margin-bottom: 30px;">
@@ -935,7 +953,7 @@ elif st.session_state.current_page == "prediction":
            
             # Chi tiết so sánh
             st.markdown("""
-            <div style="background: #435F7A; padding: 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.08); margin: 20px 0;">
+            <div style="background: white; padding: 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.08); margin: 20px 0;">
                 <h3 style="color: #435F7A; margin-top: 0;">📊 Phân Tích Chi Tiết</h3>
             """, unsafe_allow_html=True)
            
@@ -953,13 +971,28 @@ elif st.session_state.current_page == "prediction":
            
             st.markdown("</div>", unsafe_allow_html=True)
            
-            # Explanation
-            
+            # Explanation - Cập nhật màu sắc động
+            if card_class == "normal":
+                bg_color = "#d4edda"  # Xanh nhạt
+                text_color = "#155724"
+                border_color = "#c3e6cb"
+                icon = "✅"
+            elif card_class == "warning":
+                bg_color = "#fff3cd"  # Vàng nhạt
+                text_color = "#856404"
+                border_color = "#ffeaa7"
+                icon = "⚠️"
+            else:  # danger
+                bg_color = "#f8d7da"  # Đỏ nhạt
+                text_color = "#721c24"
+                border_color = "#f5c6cb"
+                icon = "❌"
+
             st.markdown(f"""
-            <div style="background: #1D56A3; padding: 20px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.08);">
-                <h4 style="color: #435F7A; margin-top: 0;">💡 Khuyến Nghị Bán Xe</h4>
-                <p style="color: #7f8c8d; font-size: 1rem;">{explanation}</p>
-                <ul style="color: #7f8c8d;">
+            <div style="background: {bg_color}; padding: 20px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.08); border-left: 5px solid {border_color};">
+                <h4 style="color: {text_color}; margin-top: 0;">{icon} Khuyến Nghị Bán Xe</h4>
+                <p style="color: {text_color}; font-size: 1rem; font-weight: 500;">{explanation}</p>
+                <ul style="color: {text_color};">
                     <li>Nên chụp ảnh thật rõ ràng, đầy đủ góc</li>
                     <li>Mô tả chi tiết tình trạng xe, lịch sử bảo dưỡng</li>
                     <li>Sẵn sàng thương lượng trong khoảng 5-10%</li>
@@ -990,12 +1023,49 @@ elif st.session_state.current_page == "prediction":
 
     else:  # Dự đoán hàng loạt
         st.markdown("""
-        <div style="background: #435F7A; padding: 30px; border-radius: 20px; box-shadow: 0 8px 25px rgba(0,0,0,0.1);">
+        <div style="background: white; padding: 30px; border-radius: 20px; box-shadow: 0 8px 25px rgba(0,0,0,0.1);">
             <h3>📁 Upload File Dự Đoán Hàng Loạt</h3>
-            <p>File cần có các cột: Thương_hiệu, Dòng_xe, Loại_xe, Dung_tích_xe, Năm_đăng_ký, Số_Km_đã_đi, Giá (tùy chọn)</p>
+            <p>File cần có các cột: <strong>Thương_hiệu, Dòng_xe, Loại_xe, Dung_tích_xe, Năm_đăng_ký, Số_Km_đã_đi, Giá (tùy chọn)</strong></p>
         </div>
         """, unsafe_allow_html=True)
-       
+
+        # Tạo file mẫu
+        sample_data = {
+            "Thương_hiệu": ["Honda", "Yamaha", "SYM", "Piaggio", "Honda"],
+            "Dòng_xe": ["Vision", "Exciter", "Attila", "Vespa", "SH"],
+            "Loại_xe": ["Xe số", "Xe côn tay", "Xe tay ga", "Xe tay ga", "Xe tay ga"],
+            "Dung_tích_xe": ["110", "150", "125", "150", "150"],
+            "Năm_đăng_ký": [2020, 2019, 2021, 2020, 2022],
+            "Số_Km_đã_đi": [15000, 20000, 10000, 8000, 5000],
+            "Giá": [20.5, 35.0, 25.0, 80.0, 120.0]  # Giá tùy chọn
+        }
+        sample_df_csv = pd.DataFrame(sample_data)
+
+        # Chuyển đổi thành CSV
+        csv_sample = sample_df_csv.to_csv(index=False, encoding='utf-8-sig').encode('utf-8-sig')
+
+        col1, col2 = st.columns([1, 2])
+        
+        with col1:
+            # Nút tải file mẫu
+            st.download_button(
+                label="📥 Tải file mẫu (CSV)",
+                data=csv_sample,
+                file_name="mau_du_lieu_xe_may.csv",
+                mime="text/csv",
+                use_container_width=True,
+                help="Tải về file mẫu với định dạng CSV để nhập liệu. File đã bao gồm các cột cần thiết và dữ liệu mẫu."
+            )
+
+        with col2:
+            st.info("""
+            **💡 Hướng dẫn sử dụng file mẫu:**
+            - Tải file mẫu về và mở bằng Excel hoặc Google Sheets
+            - Điền thông tin xe của bạn vào các cột tương ứng
+            - Cột **Giá** là tùy chọn, có thể để trống nếu chỉ muốn dự đoán
+            - Lưu file dưới dạng CSV và upload lại hệ thống
+            """)
+
         # Giữ nguyên code dự đoán hàng loạt
         uploaded = st.file_uploader("Chọn file CSV hoặc Excel", type=["csv", "xlsx"])
        
@@ -1018,6 +1088,7 @@ elif st.session_state.current_page == "prediction":
                
                 if missing:
                     st.error(f"❌ Thiếu cột bắt buộc: {', '.join(missing)}")
+                    st.info(f"**Các cột cần có:** {', '.join(required_cols)}")
                 else:
                     if st.button("🚀 Chạy dự đoán cho toàn bộ file", use_container_width=True):
                         with st.spinner("Đang xử lý dự đoán..."):
@@ -1044,8 +1115,8 @@ elif st.session_state.current_page == "prediction":
                             st.markdown("**📊 Kết quả dự đoán (10 dòng đầu):**")
                             st.dataframe(df.head(10))
                            
-                            # Download button
-                            csv = df.to_csv(index=False).encode('utf-8')
+                            # Download button for results
+                            csv = df.to_csv(index=False, encoding='utf-8-sig').encode('utf-8-sig')
                             st.download_button(
                                 "💾 Tải về file kết quả (CSV)",
                                 data=csv,
@@ -1719,6 +1790,7 @@ st.markdown("""
     ĐỒ ÁN TỐT NGHIỆP DATA SCIENCE - MACHINE LEARNING<br>
 </div>
 """, unsafe_allow_html=True)
+
 
 
 
