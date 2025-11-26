@@ -1042,43 +1042,7 @@ elif st.session_state.current_page == "prediction":
         </div>
         """, unsafe_allow_html=True)
 
-        # Chuyển đổi thành CSV
-        csv_sample = sample_df_csv.to_csv(index=False, encoding='utf-8-sig').encode('utf-8-sig')
-        # Tạo file mẫu
-        sample_data = {
-            "Thương_hiệu": ["Honda", "Yamaha", "SYM", "Piaggio", "Honda"],
-            "Dòng_xe": ["Vision", "Exciter", "Attila", "Vespa", "SH"],
-            "Loại_xe": ["Xe số", "Xe côn tay", "Xe tay ga", "Xe tay ga", "Xe tay ga"],
-            "Dung_tích_xe": ["110", "150", "125", "150", "150"],
-            "Năm_đăng_ký": [2020, 2019, 2021, 2020, 2022],
-            "Số_Km_đã_đi": [15000, 20000, 10000, 8000, 5000],
-            "Giá": [20.5, 35.0, 25.0, 80.0, 120.0]  # Giá tùy chọn
-        }
-        sample_df_csv = pd.DataFrame(sample_data)
-
-        col1, col2 = st.columns([1, 2])
-        
-        with col1:
-            # Nút tải file mẫu
-            st.download_button(
-                label="📥 Tải file mẫu (CSV)",
-                data=csv_sample,
-                file_name="mau_du_lieu_xe_may.csv",
-                mime="text/csv",
-                use_container_width=True,
-                help="Tải về file mẫu với định dạng CSV để nhập liệu. File đã bao gồm các cột cần thiết và dữ liệu mẫu."
-            )
-
-        with col2:
-            st.info("""
-            **💡 Hướng dẫn sử dụng file mẫu:**
-            - Tải file mẫu về và mở bằng Excel hoặc Google Sheets
-            - Điền thông tin xe của bạn vào các cột tương ứng
-            - Cột **Giá** là tùy chọn, có thể để trống nếu chỉ muốn dự đoán
-            - Lưu file dưới dạng CSV và upload lại hệ thống
-            """)
-
-        # Giữ nguyên code dự đoán hàng loạt
+        # Code dự đoán hàng loạt
         uploaded = st.file_uploader("Chọn file CSV hoặc Excel", type=["csv", "xlsx"])
        
         if uploaded:
@@ -1139,6 +1103,42 @@ elif st.session_state.current_page == "prediction":
            
             except Exception as e:
                 st.error(f"❌ Lỗi khi đọc file: {str(e)}")
+
+        # Tạo file mẫu
+        sample_data = {
+            "Thương_hiệu": ["Honda", "Yamaha", "SYM", "Piaggio", "Honda"],
+            "Dòng_xe": ["Vision", "Exciter", "Attila", "Vespa", "SH"],
+            "Loại_xe": ["Xe số", "Xe côn tay", "Xe tay ga", "Xe tay ga", "Xe tay ga"],
+            "Dung_tích_xe": ["110", "150", "125", "150", "150"],
+            "Năm_đăng_ký": [2020, 2019, 2021, 2020, 2022],
+            "Số_Km_đã_đi": [15000, 20000, 10000, 8000, 5000],
+            "Giá": [20.5, 35.0, 25.0, 80.0, 120.0]  # Giá tùy chọn
+        }
+        sample_df_csv = pd.DataFrame(sample_data)
+
+        # Chuyển đổi thành CSV
+        csv_sample = sample_df_csv.to_csv(index=False, encoding='utf-8-sig').encode('utf-8-sig')
+        col1, col2 = st.columns([1, 2])
+        
+        with col1:
+            # Nút tải file mẫu
+            st.download_button(
+                label="📥 Tải file mẫu (CSV)",
+                data=csv_sample,
+                file_name="mau_du_lieu_xe_may.csv",
+                mime="text/csv",
+                use_container_width=True,
+                help="Tải về file mẫu với định dạng CSV để nhập liệu. File đã bao gồm các cột cần thiết và dữ liệu mẫu."
+            )
+
+        with col2:
+            st.info("""
+            **💡 Hướng dẫn sử dụng file mẫu:**
+            - Tải file mẫu về và mở bằng Excel hoặc Google Sheets
+            - Điền thông tin xe của bạn vào các cột tương ứng
+            - Cột **Giá** là tùy chọn, có thể để trống nếu chỉ muốn dự đoán
+            - Lưu file dưới dạng CSV và upload lại hệ thống
+            """)
 # ----------------------
 # PAGE: ANOMALY DETECTION
 # ----------------------
@@ -1802,6 +1802,7 @@ st.markdown("""
     ĐỒ ÁN TỐT NGHIỆP DATA SCIENCE - MACHINE LEARNING<br>
 </div>
 """, unsafe_allow_html=True)
+
 
 
 
