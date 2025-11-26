@@ -618,7 +618,7 @@ if st.session_state.current_page == "home":
    
     # Feature Cards
     col1, col2, col3 = st.columns(3)
-
+    
     with col1:
         st.markdown("""
         <div class="feature-card">
@@ -642,14 +642,15 @@ if st.session_state.current_page == "home":
             <p>Theo dõi xu hướng giá và phân tích thị trường xe máy cũ toàn diện</p>
         </div>
         """, unsafe_allow_html=True)
+    
     # Statistics Section
-st.markdown("---")
-st.markdown("""
-<div style="text-align: center; margin: 40px 0;">
-    <h2 style="color: #435F7A; font-size: 2rem;">Thống Kê Hệ Thống</h2>
-</div>
-""", unsafe_allow_html=True)
-
+    st.markdown("---")
+    st.markdown("""
+    <div style="text-align: center; margin: 40px 0;">
+        <h2 style="color: #435F7A; font-size: 2rem;">Thống Kê Hệ Thống</h2>
+    </div>
+    """, unsafe_allow_html=True)
+    
     col1, col2, col3, col4 = st.columns(4)
     
     with col1:
@@ -1505,6 +1506,7 @@ st.markdown("""
     ĐỒ ÁN TỐT NGHIỆP DATA SCIENCE - MACHINE LEARNING<br>
 </div>
 """, unsafe_allow_html=True)
+
 
 
 
