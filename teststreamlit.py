@@ -954,8 +954,9 @@ elif st.session_state.current_page == "prediction":
             st.markdown("</div>", unsafe_allow_html=True)
            
             # Explanation
+            
             st.markdown(f"""
-            <div style="background: #435F7A; padding: 20px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.08);">
+            <div style="background: #1D56A3; padding: 20px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.08);">
                 <h4 style="color: #435F7A; margin-top: 0;">💡 Khuyến Nghị Bán Xe</h4>
                 <p style="color: #7f8c8d; font-size: 1rem;">{explanation}</p>
                 <ul style="color: #7f8c8d;">
@@ -1718,6 +1719,7 @@ st.markdown("""
     ĐỒ ÁN TỐT NGHIỆP DATA SCIENCE - MACHINE LEARNING<br>
 </div>
 """, unsafe_allow_html=True)
+
 
 
 
