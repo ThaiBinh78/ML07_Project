@@ -510,6 +510,19 @@ def compute_anomaly_score(sample_df, brand, actual_price, pred, iso, X_trans_for
         "iso_score_raw": float(iso_score_raw),
         "score_components": {"score1": score1, "score2": score2, "score3": score3, "score4": score4}
     }
+def add_pending(entry: dict):
+    if PENDING_PATH.exists():
+        df = pd.read_csv(PENDING_PATH)
+    else:
+        df = pd.DataFrame()
+    entry_id = int(datetime.utcnow().timestamp() * 1000)
+    entry["id"] = entry_id
+    # Thêm timestamp nếu chưa có
+    if "timestamp" not in entry:
+        entry["timestamp"] = datetime.now().isoformat(sep=' ', timespec='seconds')
+    df = pd.concat([pd.DataFrame([entry]), df], ignore_index=True, sort=False)
+    df.to_csv(PENDING_PATH, index=False)
+    return entry_id
 # ----------------------
 # Load models & sample
 # ----------------------
@@ -525,7 +538,7 @@ except Exception as e:
 with st.sidebar:
     st.markdown("""
     <div style="text-align: center; padding: 20px 0;">
-        <h1 style="color: white; font-size: 1.8rem; margin-bottom: 0;">🏍️ MotorPrice Pro</h1>
+        <h1 style="color: white; font-size: 1.8rem; margin-bottom: 0;">MotorPrice Pro</h1>
         <p style="color: rgba(255,255,255,0.8); font-size: 0.9rem;">Motorcycle Valuation</p>
     </div>
     <hr style="border-color: rgba(255,255,255,0.2);">
@@ -664,26 +677,172 @@ elif st.session_state.current_page == "prediction":
     st.markdown("""
     <div style="text-align: center; margin-bottom: 30px;">
         <h2 style="color: #435F7A; font-size: 2.2rem;">📊 Dự Đoán Giá Xe</h2>
-        <p style="color: #7f8c8d; font-size: 1.1rem;">Chọn phương thức nhập liệu phù hợp với nhu cầu của bạn</p>
+        <p style="color: #7f8c8d; font-size: 1.1rem;">Chọn chế độ phù hợp với nhu cầu của bạn</p>
     </div>
     """, unsafe_allow_html=True)
    
-    mode = st.radio(
-        "**Chọn chế độ dự đoán:**",
-        ["Nhập thông tin thủ công", "Upload file CSV/XLSX (dự đoán hàng loạt)"],
+    # Thay đổi radio button thành chọn người mua/người bán
+    user_type = st.radio(
+        "**Bạn là:**",
+        ["👤 Người mua xe", "🏪 Người bán xe", "📁 Dự đoán hàng loạt (CSV/XLSX)"],
         horizontal=True
     )
    
-    if mode == "Nhập thông tin thủ công":
-        with st.form("predict_form", clear_on_submit=False):
-    
+    if user_type == "👤 Người mua xe":
+        with st.form("buyer_form", clear_on_submit=False):
             st.markdown("""
             <div style="text-align: center;">
             """, unsafe_allow_html=True)
     
-            st.subheader("🚗 Thông Tin Xe")
-    
+            st.subheader("🛒 Thông Tin Xe Bạn Muốn Mua")
             st.markdown("</div>", unsafe_allow_html=True)
+           
+            col1, col2 = st.columns(2)
+           
+            with col1:
+                st.markdown("**📝 Thông tin xe**")
+                brand = st.selectbox("Thương hiệu", options=sorted(sample_df['Thương hiệu'].dropna().unique().tolist()))
+                model_name = st.text_input("Dòng xe", placeholder="Ví dụ: SH 150i, Vision, etc.")
+                loai = st.selectbox("Loại xe", options=sorted(sample_df['Loại xe'].dropna().unique().tolist()))
+                dungtich = st.text_input("Dung tích xe", value="125", placeholder="Ví dụ: 125, 150, etc.")
+           
+            with col2:
+                st.markdown("**💰 Thông tin ngân sách**")
+                budget = st.number_input("Ngân sách của bạn (Triệu VNĐ)", min_value=0.0, value=50.0, step=1.0)
+                st.markdown("---")
+                st.markdown("**ℹ️ Thông tin bổ sung**")
+                age = st.slider("Tuổi xe mong muốn (năm)", 0, 10, 3)
+                max_km = st.number_input("Số Km tối đa chấp nhận", min_value=0, max_value=100000, value=30000, step=1000)
+           
+            submitted = st.form_submit_button("🔍 Kiểm tra ngân sách", use_container_width=True)
+       
+        if submitted:
+            # Kiểm tra xem dòng xe có trong dữ liệu không
+            brand_models = sample_df[sample_df['Thương hiệu'] == brand]
+            available_models = brand_models['Dòng xe'].dropna().unique().tolist()
+           
+            if model_name and model_name not in available_models:
+                st.error(f"❌ Hiện chúng tôi chưa có dữ liệu về dòng xe **{model_name}** của **{brand}**")
+                st.info("""
+                **Đề xuất:** 
+                - Bạn có thể gửi yêu cầu cập nhật thông tin cho dòng xe này
+                - Admin sẽ xem xét và bổ sung dữ liệu trong thời gian sớm nhất
+                """)
+               
+                if st.button("📩 Gửi yêu cầu cập nhật dữ liệu"):
+                    suggestion_entry = {
+                        "timestamp": datetime.now().isoformat(sep=' ', timespec='seconds'),
+                        "type": "data_request",
+                        "brand": brand,
+                        "model": model_name,
+                        "loai_xe": loai,
+                        "dung_tich": dungtich,
+                        "status": "pending"
+                    }
+                    pid = add_pending(suggestion_entry)
+                    st.success(f"✅ Đã gửi yêu cầu cập nhật (id={pid}). Chúng tôi sẽ thông báo khi có dữ liệu mới!")
+            else:
+                # Dự đoán giá
+                input_df = pd.DataFrame([{
+                    "Thương hiệu": brand,
+                    "Dòng xe": model_name if model_name.strip() != "" else "unknown",
+                    "Năm đăng ký": CURRENT_YEAR - age,
+                    "Số Km đã đi": max_km,
+                    "Tình trạng": "Đã sử dụng",
+                    "Loại xe": loai,
+                    "Dung tích xe": dungtich,
+                    "Xuất xứ": "unknown"
+                }])
+               
+                if model is None:
+                    pred = float(sample_df['Gia_trieu'].median())
+                else:
+                    try:
+                        pred = float(model.predict(input_df)[0])
+                    except Exception as e:
+                        st.error("Lỗi predict: " + str(e))
+                        pred = 0.0
+               
+                # Tính toán giá min, max cho thương hiệu
+                brand_data = sample_df[sample_df['Thương hiệu'] == brand]
+                if not brand_data.empty:
+                    min_price = brand_data['Gia_trieu'].min()
+                    max_price = brand_data['Gia_trieu'].max()
+                    median_price = brand_data['Gia_trieu'].median()
+                   
+                    # So sánh ngân sách với giá thị trường
+                    budget_diff_min = min_price - budget
+                    budget_diff_max = max_price - budget
+                    budget_diff_median = median_price - budget
+                   
+                    st.markdown(f"""
+                    <div class="price-card {'normal' if budget >= median_price else 'warning' if budget >= min_price else 'danger'}">
+                        <h2>💰 Phân Tích Ngân Sách</h2>
+                        <h1>{budget:.1f} Triệu VNĐ</h1>
+                        <p>{'✅ Ngân sách phù hợp' if budget >= median_price else '⚠️ Cần xem xét' if budget >= min_price else '❌ Ngân sách chưa đủ'}</p>
+                    </div>
+                    """, unsafe_allow_html=True)
+                   
+                    # Hiển thị so sánh chi tiết
+                    col1, col2, col3 = st.columns(3)
+                   
+                    with col1:
+                        st.metric("💸 Giá thấp nhất", f"{min_price:.1f} Triệu", 
+                                 f"{budget_diff_min:+.1f} Triệu" if budget_diff_min != 0 else "Đủ")
+                        st.caption("Xe cũ, tình trạng thấp")
+                       
+                    with col2:
+                        st.metric("📊 Giá trung bình", f"{median_price:.1f} Triệu", 
+                                 f"{budget_diff_median:+.1f} Triệu" if budget_diff_median != 0 else "Đủ")
+                        st.caption("Xe trung bình, phổ biến")
+                       
+                    with col3:
+                        st.metric("🚀 Giá cao nhất", f"{max_price:.1f} Triệu", 
+                                 f"{budget_diff_max:+.1f} Triệu" if budget_diff_max != 0 else "Đủ")
+                        st.caption("Xe mới, tình trạng tốt")
+                   
+                    # Khuyến nghị
+                    st.markdown("---")
+                    st.subheader("💡 Khuyến Nghị")
+                   
+                    if budget >= max_price:
+                        st.success("""
+                        **🎉 Ngân sách của bạn rất tốt!**
+                        - Bạn có thể mua được xe trong tình trạng tốt nhất
+                        - Nên tìm xe ít km, đời mới
+                        - Có thể thương lượng giá tốt
+                        """)
+                    elif budget >= median_price:
+                        st.info("""
+                        **👍 Ngân sách phù hợp!**
+                        - Bạn có thể mua được xe tình trạng trung bình đến tốt
+                        - Tập trung vào xe 3-5 năm tuổi
+                        - Kiểm tra kỹ lịch sử bảo dưỡng
+                        """)
+                    elif budget >= min_price:
+                        st.warning("""
+                        **⚠️ Ngân sách hơi thấp!**
+                        - Chỉ có thể mua xe cũ, tình trạng thấp
+                        - Cần kiểm tra kỹ giấy tờ và tình trạng xe
+                        - Xem xét tăng ngân sách hoặc chọn dòng xe khác
+                        """)
+                    else:
+                        st.error(f"""
+                        **❌ Ngân sách chưa đủ!**
+                        - Thiếu **{abs(budget_diff_min):.1f} Triệu** để mua xe rẻ nhất
+                        - Thiếu **{abs(budget_diff_median):.1f} Triệu** để mua xe trung bình  
+                        - Đề xuất: Tăng ngân sách hoặc chọn thương hiệu/dòng xe khác
+                        """)
+
+    elif user_type == "🏪 Người bán xe":
+        with st.form("seller_form", clear_on_submit=False):
+            st.markdown("""
+            <div style="text-align: center;">
+            """, unsafe_allow_html=True)
+    
+            st.subheader("🏍️ Thông Tin Xe Của Bạn")
+            st.markdown("</div>", unsafe_allow_html=True)
+           
             col1, col2 = st.columns([2, 1])
            
             with col1:
@@ -700,9 +859,7 @@ elif st.session_state.current_page == "prediction":
                 age = st.slider("Tuổi xe (năm)", 0, 50, 3)
                 year_reg = int(CURRENT_YEAR - age)
                 km = st.number_input("Số Km đã đi", min_value=0, max_value=500000, value=20000, step=1000)
-                price_input = st.number_input("Giá dự tính (Triệu VNĐ)", min_value=0.0, value=0.0, step=1.0)
-           
-            st.markdown("</div>", unsafe_allow_html=True)
+                selling_price = st.number_input("Giá muốn bán (Triệu VNĐ)", min_value=0.0, value=50.0, step=1.0)
            
             col1, col2 = st.columns([1, 1])
             with col1:
@@ -734,63 +891,79 @@ elif st.session_state.current_page == "prediction":
                     st.error("Lỗi predict: " + str(e))
                     pred = 0.0
            
-            # Anomaly detection and verdict
-            if price_input > 0:
-                resid = price_input - pred
+            # So sánh giá muốn bán với giá dự đoán
+            if selling_price > 0:
+                resid = selling_price - pred
                 if abs(resid) / (pred + 1e-6) < 0.15:
-                    verdict = "Bình thường"
-                    explanation = "Giá hợp lý, trong vùng an toàn."
+                    verdict = "Giá hợp lý"
+                    explanation = "Giá của bạn phù hợp với thị trường, dễ bán."
                     card_class = "normal"
                 elif resid < 0:
-                    verdict = "Giá thấp bất thường"
-                    explanation = "Thấp hơn nhiều so với dự đoán — kiểm tra giấy tờ / tình trạng."
-                    card_class = "danger"
-                else:
-                    verdict = "Giá cao bất thường"
-                    explanation = "Cao hơn thị trường — cân nhắc kiểm tra kỹ."
+                    verdict = "Giá thấp"
+                    explanation = "Giá của bạn thấp hơn thị trường — có thể bán nhanh nhưng lợi nhuận thấp."
                     card_class = "warning"
+                else:
+                    verdict = "Giá cao"
+                    explanation = "Giá của bạn cao hơn thị trường — có thể khó bán, cần thương lượng."
+                    card_class = "danger"
             else:
-                verdict = "Không có giá thực để so sánh"
-                explanation = "Hệ thống chỉ dự đoán, không thể so sánh với giá thực."
+                verdict = "Chưa nhập giá bán"
+                explanation = "Hệ thống chỉ dự đoán giá thị trường."
                 card_class = ""
            
-            # Display results in beautiful card
+            # Display results
             pred_vnd = f"{pred * 1000000:,.0f}".replace(",", ".")
+            selling_price_vnd = f"{selling_price * 1000000:,.0f}".replace(",", ".")
            
             st.markdown(f"""
             <div class="price-card {card_class}">
-                <h2>Giá Ước Tính Thị Trường</h2>
-                <h1>{pred_vnd} VND</h1>
+                <h2>💰 So Sánh Giá</h2>
+                <div style="display: flex; justify-content: space-around; align-items: center;">
+                    <div>
+                        <p style="margin: 0; font-size: 1rem;">Giá bạn muốn bán</p>
+                        <h3 style="margin: 10px 0; color: {'#ff6b6b' if selling_price > pred else '#51cf66'}">{selling_price_vnd} VND</h3>
+                    </div>
+                    <div style="font-size: 2rem;">🔄</div>
+                    <div>
+                        <p style="margin: 0; font-size: 1rem;">Giá thị trường</p>
+                        <h3 style="margin: 10px 0;">{pred_vnd} VND</h3>
+                    </div>
+                </div>
                 <p>{verdict}</p>
             </div>
             """, unsafe_allow_html=True)
            
-            # Display input parameters
+            # Chi tiết so sánh
             st.markdown("""
-            <div style="background: #1D57A6; padding: 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.08); margin: 20px 0;">
-                <h3 style="color: #435F7A; margin-top: 0;">📋 Thông số đầu vào</h3>
+            <div style="background: white; padding: 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.08); margin: 20px 0;">
+                <h3 style="color: #435F7A; margin-top: 0;">📊 Phân Tích Chi Tiết</h3>
             """, unsafe_allow_html=True)
            
-            input_params = {
-                "Thương hiệu": brand,
-                "Dòng xe": model_name or "unknown",
-                "Năm đăng ký": year_reg,
-                "Số Km đã đi": f"{km:,}".replace(",", "."),
-                "Tình trạng": "Đã sử dụng",
-                "Loại xe": loai,
-                "Dung tích": f"{dungtich} cc",
-                "Xuất xứ": "Việt Nam"
-            }
+            col1, col2 = st.columns(2)
+            with col1:
+                st.metric("Chênh lệch giá", f"{abs(resid):.1f} Triệu", 
+                         f"{resid:+.1f} Triệu" if selling_price > 0 else "N/A")
+                st.metric("Tỷ lệ chênh lệch", f"{abs(resid)/pred*100:.1f}%")
+               
+            with col2:
+                st.metric("Khuyến nghị", 
+                         "Nên giảm giá" if resid > 0 else "Giá tốt" if resid < 0 else "Giá phù hợp")
+                st.metric("Khả năng bán", 
+                         "Khó" if resid > 0.2*pred else "Dễ" if resid < -0.1*pred else "Trung bình")
            
-            params_df = pd.DataFrame(list(input_params.items()), columns=["Thuộc tính", "Giá trị"])
-            st.table(params_df)
             st.markdown("</div>", unsafe_allow_html=True)
            
             # Explanation
             st.markdown(f"""
-            <div style="background: #1D57A6; padding: 20px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.08);">
-                <h4 style="color: #435F7A; margin-top: 0;">📝 Giải thích</h4>
+            <div style="background: white; padding: 20px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.08);">
+                <h4 style="color: #435F7A; margin-top: 0;">💡 Khuyến Nghị Bán Xe</h4>
                 <p style="color: #7f8c8d; font-size: 1rem;">{explanation}</p>
+                <ul style="color: #7f8c8d;">
+                    <li>Nên chụp ảnh thật rõ ràng, đầy đủ góc</li>
+                    <li>Mô tả chi tiết tình trạng xe, lịch sử bảo dưỡng</li>
+                    <li>Sẵn sàng thương lượng trong khoảng 5-10%</li>
+                    <li>Chuẩn bị đầy đủ giấy tờ: đăng ký, bảo hiểm</li>
+                </ul>
             </div>
             """, unsafe_allow_html=True)
            
@@ -798,6 +971,7 @@ elif st.session_state.current_page == "prediction":
             if save_flag:
                 entry = {
                     "timestamp": datetime.now().isoformat(sep=' ', timespec='seconds'),
+                    "type": "seller_submission",
                     "Tiêu_đề": title,
                     "Mô_tả_chi_tiết": description,
                     "Thương hiệu": brand,
@@ -806,14 +980,14 @@ elif st.session_state.current_page == "prediction":
                     "Số Km đã đi": km,
                     "Loại xe": loai,
                     "Dung tích xe": dungtich,
-                    "Giá_thực": price_input,
+                    "Giá_muốn_bán": selling_price,
                     "Giá_dự_đoán": pred,
                     "verdict": verdict
                 }
                 pid = add_pending(entry)
                 st.success(f"✅ Đã lưu submission (id={pid}) để admin duyệt.")
-   
-    else: # Batch prediction mode
+
+    else:  # Dự đoán hàng loạt
         st.markdown("""
         <div style="background: white; padding: 30px; border-radius: 20px; box-shadow: 0 8px 25px rgba(0,0,0,0.1);">
             <h3>📁 Upload File Dự Đoán Hàng Loạt</h3>
@@ -821,6 +995,7 @@ elif st.session_state.current_page == "prediction":
         </div>
         """, unsafe_allow_html=True)
        
+        # Giữ nguyên code dự đoán hàng loạt
         uploaded = st.file_uploader("Chọn file CSV hoặc Excel", type=["csv", "xlsx"])
        
         if uploaded:
@@ -1182,7 +1357,7 @@ elif st.session_state.current_page == "admin":
     if admin_password == "admin123": # In production, use secure password hashing
         st.success("✅ Đăng nhập thành công!")
        
-        tab1, tab2 = st.tabs(["📋 Submissions", "⚙️ Thông Tin Hệ Thống"])
+        tab1, tab2, tab3 = st.tabs(["📋 Submissions", "📊 Cập Nhật Dữ Liệu", "⚙️ Thông Tin Hệ Thống"])
        
         with tab1:
             if PENDING_PATH.exists():
@@ -1218,6 +1393,92 @@ elif st.session_state.current_page == "admin":
                 st.info("📭 Chưa có submissions nào.")
        
         with tab2:
+            st.subheader("📊 Cập Nhật Dữ Liệu Xe")
+           
+            update_method = st.radio(
+                "Chọn phương thức cập nhật:",
+                ["📝 Nhập thủ công", "📁 Upload file CSV"]
+            )
+           
+            if update_method == "📝 Nhập thủ công":
+                with st.form("manual_update_form"):
+                    st.markdown("**Thông tin xe mới**")
+                    col1, col2 = st.columns(2)
+                   
+                    with col1:
+                        new_brand = st.text_input("Thương hiệu")
+                        new_model = st.text_input("Dòng xe")
+                        new_type = st.selectbox("Loại xe", options=sorted(sample_df['Loại xe'].dropna().unique().tolist()))
+                        new_cc = st.text_input("Dung tích xe")
+                   
+                    with col2:
+                        new_year = st.number_input("Năm đăng ký", min_value=1990, max_value=CURRENT_YEAR, value=CURRENT_YEAR-3)
+                        new_km = st.number_input("Số Km đã đi", min_value=0, value=20000)
+                        new_price = st.number_input("Giá (Triệu VNĐ)", min_value=0.0, value=50.0)
+                        new_condition = st.selectbox("Tình trạng", ["Đã sử dụng", "Mới"])
+                   
+                    if st.form_submit_button("💾 Thêm vào dữ liệu"):
+                        new_data = {
+                            "Thương hiệu": new_brand,
+                            "Dòng xe": new_model,
+                            "Loại xe": new_type,
+                            "Dung tích xe": new_cc,
+                            "Năm đăng ký": new_year,
+                            "Số Km đã đi": new_km,
+                            "Gia_trieu": new_price,
+                            "Tình trạng": new_condition,
+                            "Xuất xứ": "Việt Nam"
+                        }
+                       
+                        # Thêm vào sample_data.csv
+                        updated_df = pd.concat([sample_df, pd.DataFrame([new_data])], ignore_index=True)
+                        updated_df.to_csv(SAMPLE_PATH, index=False)
+                        st.success("✅ Đã thêm dữ liệu xe mới!")
+                        st.rerun()
+           
+            else:  # Upload CSV
+                st.markdown("""
+                **📁 Upload file CSV để cập nhật dữ liệu**
+                - File cần có các cột: Thương hiệu, Dòng xe, Loại xe, Dung tích xe, Năm đăng ký, Số Km đã đi, Gia_trieu
+                - Dữ liệu mới sẽ được thêm vào cuối file
+                """)
+               
+                uploaded_file = st.file_uploader("Chọn file CSV", type=["csv"])
+               
+                if uploaded_file:
+                    try:
+                        new_data_df = pd.read_csv(uploaded_file)
+                        required_cols = ["Thương hiệu", "Dòng xe", "Loại xe", "Dung tích xe", "Năm đăng ký", "Số Km đã đi", "Gia_trieu"]
+                       
+                        if all(col in new_data_df.columns for col in required_cols):
+                            st.success(f"✅ File hợp lệ: {len(new_data_df)} dòng dữ liệu")
+                            st.dataframe(new_data_df.head(5))
+                           
+                            if st.button("🚀 Cập nhật dữ liệu", use_container_width=True):
+                                # Merge với dữ liệu hiện có
+                                updated_df = pd.concat([sample_df, new_data_df], ignore_index=True)
+                                updated_df.to_csv(SAMPLE_PATH, index=False)
+                                st.success(f"✅ Đã cập nhật {len(new_data_df)} dòng dữ liệu mới!")
+                                st.info("🔄 Vui lòng reload trang để cập nhật model với dữ liệu mới")
+                        else:
+                            missing = [col for col in required_cols if col not in new_data_df.columns]
+                            st.error(f"❌ Thiếu cột: {', '.join(missing)}")
+                   
+                    except Exception as e:
+                        st.error(f"❌ Lỗi khi đọc file: {str(e)}")
+           
+            # Hiển thị thống kê dữ liệu hiện tại
+            st.markdown("---")
+            st.subheader("📈 Thống Kê Dữ Liệu Hiện Tại")
+            col1, col2, col3 = st.columns(3)
+            with col1:
+                st.metric("Tổng số mẫu", len(sample_df))
+            with col2:
+                st.metric("Số thương hiệu", sample_df['Thương hiệu'].nunique())
+            with col3:
+                st.metric("Số dòng xe", sample_df['Dòng xe'].nunique())
+       
+        with tab3:
             st.subheader("Thông Tin Hệ Thống")
             col1, col2 = st.columns(2)
            
@@ -1457,6 +1718,7 @@ st.markdown("""
     ĐỒ ÁN TỐT NGHIỆP DATA SCIENCE - MACHINE LEARNING<br>
 </div>
 """, unsafe_allow_html=True)
+
 
 
 
