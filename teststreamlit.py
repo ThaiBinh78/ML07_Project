@@ -1042,6 +1042,8 @@ elif st.session_state.current_page == "prediction":
         </div>
         """, unsafe_allow_html=True)
 
+        # Chuyển đổi thành CSV
+        csv_sample = sample_df_csv.to_csv(index=False, encoding='utf-8-sig').encode('utf-8-sig')
         # Tạo file mẫu
         sample_data = {
             "Thương_hiệu": ["Honda", "Yamaha", "SYM", "Piaggio", "Honda"],
@@ -1053,9 +1055,6 @@ elif st.session_state.current_page == "prediction":
             "Giá": [20.5, 35.0, 25.0, 80.0, 120.0]  # Giá tùy chọn
         }
         sample_df_csv = pd.DataFrame(sample_data)
-
-        # Chuyển đổi thành CSV
-        csv_sample = sample_df_csv.to_csv(index=False, encoding='utf-8-sig').encode('utf-8-sig')
 
         col1, col2 = st.columns([1, 2])
         
@@ -1803,6 +1802,7 @@ st.markdown("""
     ĐỒ ÁN TỐT NGHIỆP DATA SCIENCE - MACHINE LEARNING<br>
 </div>
 """, unsafe_allow_html=True)
+
 
 
 
