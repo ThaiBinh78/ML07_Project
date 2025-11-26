@@ -641,18 +641,16 @@ if st.session_state.current_page == "home":
     with col2:
         try:
             n_trees = model.named_steps['rf'].n_estimators if model else "N/A"
-            # Thêm đơn vị "cây" và mũi tên giả
-            st.metric(
-                "🌳 Số Cây Random Forest", 
-                f"{n_trees} cây",
-                " "  # Mũi tên trống để đồng bộ giao diện
-            )
         except:
-            st.metric(
-                "🌳 Số Cây Random Forest", 
-                "N/A",
-                " "
-            )
+            n_trees = "N/A"
+        
+        st.markdown(f"""
+        <div class="metric-card-custom">
+            <div style="font-size: 1.2rem; margin-bottom: 10px;">🌳 Số Cây Random Forest</div>
+            <div style="font-size: 2rem; font-weight: bold; color: #435F7A;">{n_trees}</div>
+            <div style="color: #667eea; font-size: 0.9rem;">cây</div>
+        </div>
+        """, unsafe_allow_html=True)
     
     with col3:
         if PENDING_PATH.exists():
@@ -1477,6 +1475,7 @@ st.markdown("""
     ĐỒ ÁN TỐT NGHIỆP DATA SCIENCE - MACHINE LEARNING<br>
 </div>
 """, unsafe_allow_html=True)
+
 
 
 
