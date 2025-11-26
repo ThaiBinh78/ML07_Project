@@ -632,27 +632,15 @@ if st.session_state.current_page == "home":
     col1, col2, col3, col4 = st.columns(4)
     
     with col1:
-        st.metric(
-            "📊 Dữ Liệu Huấn Luyện", 
-            f"{len(sample_df):,}", 
-            "mẫu"
-        )
+        st.metric("📊 Dữ Liệu Huấn Luyện", f"{len(sample_df):,}", "mẫu")
     
     with col2:
         try:
             n_trees = model.named_steps['rf'].n_estimators if model else "N/A"
-            # Thêm đơn vị "cây" và mũi tên giả
-            st.metric(
-                "🌳 Số Cây Random Forest", 
-                f"{n_trees} cây",
-                " "  # Mũi tên trống để đồng bộ giao diện
-            )
+            # Thêm delta trống để đồng bộ chiều cao
+            st.metric("🌳 Số Cây Random Forest", f"{n_trees}", "cây")
         except:
-            st.metric(
-                "🌳 Số Cây Random Forest", 
-                "N/A",
-                " "
-            )
+            st.metric("🌳 Số Cây Random Forest", "N/A", "cây")
     
     with col3:
         if PENDING_PATH.exists():
@@ -660,11 +648,7 @@ if st.session_state.current_page == "home":
             pending_count = len(pending_df)
         else:
             pending_count = 0
-        st.metric(
-            "⏳ Đang Chờ Duyệt", 
-            f"{pending_count}", 
-            "submission"
-        )
+        st.metric("⏳ Đang Chờ Duyệt", f"{pending_count}", "submission")
     
     with col4:
         if LOG_PATH.exists():
@@ -672,11 +656,7 @@ if st.session_state.current_page == "home":
             log_count = len(logs_df)
         else:
             log_count = 0
-        st.metric(
-            "📝 Lượt Dự Đoán", 
-            f"{log_count:,}", 
-            "lượt"
-        )
+        st.metric("📝 Lượt Dự Đoán", f"{log_count:,}", "lượt")
 # ----------------------
 # PAGE: PREDICTION
 # ----------------------
@@ -1477,6 +1457,7 @@ st.markdown("""
     ĐỒ ÁN TỐT NGHIỆP DATA SCIENCE - MACHINE LEARNING<br>
 </div>
 """, unsafe_allow_html=True)
+
 
 
 
